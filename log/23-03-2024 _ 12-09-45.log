@@ -1,0 +1,14 @@
+[ERROR] 2024-03-23 12:09:45 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:637)
+Chi tiết lỗi:
+	java.lang.IndexOutOfBoundsException: Index: 4, Size: 3
+	at java.base/java.util.ArrayList.rangeCheckForAdd(ArrayList.java:838)
+	at java.base/java.util.ArrayList.add(ArrayList.java:510)
+	at services.ManufactureService.cheTaoGiap(ManufactureService.java:164)
+	at services.ManufactureService.doCheDo(ManufactureService.java:41)
+	at network.MessageHandler.onMessage(MessageHandler.java:135)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+

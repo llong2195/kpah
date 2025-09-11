@@ -1,0 +1,8 @@
+[ERROR] 2025-09-08 22:26:26 - Lỗi command line
+	from: server.Server.lambda$activeCommandLine$1(Server.java:107)
+Chi tiết lỗi:
+	java.util.NoSuchElementException: No line found
+	at java.base/java.util.Scanner.nextLine(Scanner.java:1660)
+	at server.Server.lambda$activeCommandLine$1(Server.java:92)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:329)
+

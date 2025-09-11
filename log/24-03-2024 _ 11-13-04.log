@@ -1,0 +1,14 @@
+[ERROR] 2024-03-24 11:13:04 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:656)
+Chi tiết lỗi:
+	java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 5
+	at item.ItemEquip.isKichNguHanh(ItemEquip.java:49)
+	at services.InventoryService.sendItemBody(InventoryService.java:354)
+	at services.LoginService.sendDataWhenLogin(LoginService.java:85)
+	at services.LoginService.selectChar(LoginService.java:59)
+	at network.MessageHandler.onMessage(MessageHandler.java:564)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+

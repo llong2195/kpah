@@ -1,0 +1,11 @@
+[ERROR] 2024-03-18 14:54:33 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:584)
+Chi tiết lỗi:
+	java.lang.NullPointerException: itemGem is marked non-null but is null
+	at services.InventoryService.removeItemGem(InventoryService.java:201)
+	at network.MessageHandler.onMessage(MessageHandler.java:290)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+

@@ -1,0 +1,12 @@
+[ERROR] 2024-03-20 17:49:12 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:634)
+Chi tiết lỗi:
+	java.io.EOFException
+	at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:297)
+	at java.base/java.io.DataInputStream.readByte(DataInputStream.java:275)
+	at network.MessageHandler.onMessage(MessageHandler.java:129)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+

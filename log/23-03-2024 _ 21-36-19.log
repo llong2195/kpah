@@ -1,0 +1,12 @@
+[ERROR] 2024-03-23 21:36:19 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:651)
+Chi tiết lỗi:
+	java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at services.ManufactureService.sendManafactureAnimalArmor(ManufactureService.java:337)
+	at services.MenuOptionService.onMenuOption(MenuOptionService.java:86)
+	at network.MessageHandler.onMessage(MessageHandler.java:307)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+

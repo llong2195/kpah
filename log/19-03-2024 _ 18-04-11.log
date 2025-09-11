@@ -1,0 +1,11 @@
+[ERROR] 2024-03-19 18:04:11 - Lỗi Message Handler
+	from: network.MessageHandler.onMessage(MessageHandler.java:596)
+Chi tiết lỗi:
+	java.lang.NullPointerException: Cannot invoke "template.PotionTemplate.getName()" because the return value of "item.ItemPotion.getTemplate()" is null
+	at services.MenuOptionService.onMenuOption(MenuOptionService.java:121)
+	at network.MessageHandler.onMessage(MessageHandler.java:252)
+	at network.Collector.run(Collector.java:53)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+
