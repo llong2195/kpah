@@ -2,11 +2,13 @@ package database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import manager.Settings;
 
 /**
@@ -76,8 +78,11 @@ public class HikariCP {
             ps.execute();
             final int r;
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.first();
-                r = rs.getInt(id);
+                if (rs.next()) {
+                    r = rs.getInt(id);
+                } else {
+                    throw new SQLException("No generated key returned");
+                }
             }
             return r;
         }
@@ -89,8 +94,11 @@ public class HikariCP {
             s.execute();
             final int r;
             try (ResultSet rs = s.getGeneratedKeys()) {
-                rs.first();
-                r = rs.getInt(id);
+                if (rs.next()) {
+                    r = rs.getInt(id);
+                } else {
+                    throw new SQLException("No generated key returned");
+                }
             }
             return r;
         }
@@ -98,8 +106,12 @@ public class HikariCP {
 
     public static int executeExist(final String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection(); PreparedStatement s = connection.prepareStatement(sql); ResultSet rs = s.executeQuery()) {
-            rs.first();
-            return rs.getInt(1);
+//            rs.first();
+//            return rs.getInt(1);
+            if (rs.next()) {                // ✅ dùng next()
+                return rs.getInt(1);
+            }
+            return 0; // hoặc throw exception
         }
     }
 }
