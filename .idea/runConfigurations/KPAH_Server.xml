@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="KPAH Server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="server.Server" />
+    <module name="kpah-server" />
+    <option name="VM_PARAMETERS" value="--enable-preview" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="server.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
