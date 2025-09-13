@@ -3,9 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2024 at 02:11 PM
+-- Generation Time: Mar 19, 2024 at 02:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
+
+drop database kpah;
+create database kpah;
+use kpah;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +38,7 @@ CREATE TABLE `animal_template` (
   `name` text NOT NULL,
   `nFrame` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL,
-  `attributeSpecial` text NOT NULL
+  `attributeSpecial` text NOT NULL DEFAULT ('[]')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -458,8 +462,15 @@ CREATE TABLE `clan` (
   `members` text NOT NULL,
   `dissolve` tinyint(4) NOT NULL DEFAULT 0,
   `lastTimeCreate` text NOT NULL,
-  `lastTimeEndDelete` text NOT NULL
+  `lastTimeEndDelete` text NOT NULL DEFAULT ('0')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clan`
+--
+
+INSERT INTO `clan` (`id`, `nameLeader`, `name`, `slogan`, `indexIcon`, `nationID`, `level`, `exp`, `dedicationPoint`, `xu`, `members`, `dissolve`, `lastTimeCreate`, `lastTimeEndDelete`) VALUES
+(99, 'jhgjgjghj', 'kpah', 'KPAH DUY', 87, 0, 1, 0, 0, 0, '[[1,\"jhgjgjghj\",2,76,87,0,[[2,0,1,0],[28,0,1,0],[466,0,1,0],[79,0,31,0],[114,0,4,0]]], [2,\"duy\",2,2,87,3,[[2,0,1,0],[28,0,1,0],[79,0,1,0]]]]', 0, '1710847039840', '1711106239840');
 
 -- --------------------------------------------------------
 
@@ -478,6 +489,13 @@ CREATE TABLE `cpanel` (
   `time` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
+--
+-- Dumping data for table `cpanel`
+--
+
+INSERT INTO `cpanel` (`userlogin`, `stk`, `name`, `password`, `sessionId`, `deviceId`, `token`, `time`) VALUES
+('0968989708', '0968989708', 'NGUYEN DUC DUY', 'Duyiutruc0508', 'b215e563-dd20-4c6a-8153-b0576d744fea', '26ed06cd-f51c-5f74-9d51-2024031918838', '20dd925b60d10ee1f02eb55b6ef3294d', 1710846518);
+
 -- --------------------------------------------------------
 
 --
@@ -489,10 +507,10 @@ CREATE TABLE `effect_data` (
   `idEffect` int(11) NOT NULL,
   `idShadow` tinyint(4) NOT NULL DEFAULT -1,
   `typeEffect` tinyint(4) NOT NULL,
-  `smallImage` text NOT NULL,
-  `frames` text NOT NULL,
-  `sequence` text NOT NULL,
-  `animations` text NOT NULL
+  `smallImage` text NOT NULL DEFAULT ('[]'),
+  `frames` text NOT NULL DEFAULT ('[]'),
+  `sequence` text NOT NULL DEFAULT ('[]'),
+  `animations` text NOT NULL DEFAULT ('[]')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1067,9 +1085,9 @@ INSERT INTO `gem_template` (`id`, `idImage`, `price`, `name`, `decript`, `type`,
 
 CREATE TABLE `hoa_tieu_template` (
   `id` int(11) NOT NULL,
-  `mapId` text NOT NULL,
-  `x` text NOT NULL,
-  `y` text NOT NULL
+  `mapId` text NOT NULL DEFAULT ('[]'),
+  `x` text NOT NULL DEFAULT ('[]'),
+  `y` text NOT NULL DEFAULT ('[]')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1258,7 +1276,7 @@ CREATE TABLE `item_equipment` (
   `colorItem` tinyint(4) NOT NULL,
   `ndayLoan` smallint(6) NOT NULL,
   `attribute` text NOT NULL,
-  `dataWeapon` text NOT NULL
+  `dataWeapon` text NOT NULL DEFAULT ('[]')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2064,12 +2082,12 @@ CREATE TABLE `maps` (
   `isOfflineMap` tinyint(1) NOT NULL,
   `idXaPhu` tinyint(4) NOT NULL DEFAULT -1,
   `idHoaTieu` tinyint(4) NOT NULL DEFAULT -1,
-  `childMap` text NOT NULL,
-  `wayPoints` text NOT NULL,
+  `childMap` text NOT NULL DEFAULT ('[]'),
+  `wayPoints` text NOT NULL DEFAULT ('[]'),
   `mobs` text NOT NULL,
-  `npcsActor` text NOT NULL,
+  `npcsActor` text NOT NULL DEFAULT ('[]'),
   `npcs` text NOT NULL,
-  `npcServer` text NOT NULL,
+  `npcServer` text NOT NULL DEFAULT ('[]'),
   `data` text NOT NULL,
   `tileTop` text NOT NULL,
   `tree` text NOT NULL,
@@ -2346,8 +2364,8 @@ CREATE TABLE `npc_actor` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `head` int(11) NOT NULL DEFAULT -1,
-  `itemBody` text NOT NULL,
-  `idModels` text NOT NULL
+  `itemBody` text NOT NULL DEFAULT ('[]'),
+  `idModels` text NOT NULL DEFAULT ('[]')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -2412,7 +2430,7 @@ INSERT INTO `npc_server` (`id`, `name`, `idImg`, `w0`, `h0`, `frame`, `typeLimit
 
 CREATE TABLE `npc_shop` (
   `id` int(11) NOT NULL,
-  `nameShop` varchar(255) NOT NULL,
+  `nameShop` varchar(512) NOT NULL,
   `typeShop` tinyint(4) NOT NULL,
   `items` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2491,20 +2509,20 @@ CREATE TABLE `players` (
   `location` text NOT NULL,
   `info` varchar(255) DEFAULT NULL,
   `point` text NOT NULL,
-  `inventory` text NOT NULL,
-  `skills` text NOT NULL,
-  `friends` text NOT NULL,
-  `horse` text NOT NULL,
-  `itemBody` text NOT NULL,
-  `itemBag` text NOT NULL,
-  `itemBox` text NOT NULL,
-  `itemPotion` text NOT NULL,
-  `itemQuest` text NOT NULL,
-  `itemGem` text NOT NULL,
-  `itemGemLock` text NOT NULL,
-  `itemSold` text NOT NULL,
-  `itemAnimal` text NOT NULL,
-  `itemAnimalExpiry` text NOT NULL,
+  `inventory` text NOT NULL DEFAULT ('[]'),
+  `skills` text NOT NULL DEFAULT ('{}'),
+  `friends` text NOT NULL DEFAULT ('[]'),
+  `horse` text NOT NULL DEFAULT ('[]'),
+  `itemBody` text NOT NULL DEFAULT ('[]'),
+  `itemBag` text NOT NULL DEFAULT ('[]'),
+  `itemBox` text NOT NULL DEFAULT ('[]'),
+  `itemPotion` text NOT NULL DEFAULT ('[]'),
+  `itemQuest` text NOT NULL DEFAULT ('[]'),
+  `itemGem` text NOT NULL DEFAULT ('[]'),
+  `itemGemLock` text NOT NULL DEFAULT ('[]'),
+  `itemSold` text NOT NULL DEFAULT ('[]'),
+  `itemAnimal` text NOT NULL DEFAULT ('[]'),
+  `itemAnimalExpiry` text NOT NULL DEFAULT ('[]'),
   `lastTimeLogout` bigint(20) NOT NULL DEFAULT 0,
   `lastTimeEndDelete` bigint(20) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=DYNAMIC;
@@ -2514,7 +2532,7 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `idPlayer`, `name`, `location`, `info`, `point`, `inventory`, `skills`, `friends`, `horse`, `itemBody`, `itemBag`, `itemBox`, `itemPotion`, `itemQuest`, `itemGem`, `itemGemLock`, `itemSold`, `itemAnimal`, `itemAnimalExpiry`, `lastTimeLogout`, `lastTimeEndDelete`) VALUES
-(1, -30999, 'jhgjgjghj', '[70,384,672,0]', '[0,2,1,0,4,76,-1,0]', '[5030,1700,100,95,85,100,85,375,75,0,0,4140464581]', '[56956,70000,9374503845,5,-32720]', '[[1,0,0,0,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1]]', '[[2,\"duy\",2,2,-1,-1,[[2,0,1,0],[28,0,1,0],[79,0,1,0]]]]', '[5,7,30,true,[67,3,[[56,5],[60,5],[30,5],[33,4000],[34,4000],[13,8],[12,8],[36,2],[28,5]],[[-32742,509,0,30,0,0,false,500,500,0,0,0,\"\",0,1711173871617,-1,[[1,0],[6,5]]],[-32741,521,0,30,0,0,false,500,500,0,0,0,\"\",0,1711173871617,-1,[[1,0],[6,6]]],[-32739,545,0,30,0,0,false,500,500,0,0,0,\"\",0,1711173871617,-1,[[0,5],[4,3]]],[-32738,557,0,30,0,0,false,500,500,0,0,0,\"\",0,1711173871617,-1,[[0,6],[3,5]]],[-32740,533,0,30,0,0,false,500,500,0,0,0,\"\",0,1711173871617,-1,[[1,0],[6,6]]]],-1,1710846713017]]', '[[-32767,2,0,1,0,0,false,149,195,0,0,2,\"\",0,1710502487910,-1,[[1,12],[2,1],[3,1],[6,12]]], [-32766,28,0,1,0,0,false,149,195,0,0,2,\"\",0,1710502487910,-1,[[1,8],[6,8]]], [-32754,114,0,4,0,0,false,250,250,0,0,0,\"\",0,1710863851543,-1,[[0,5],[3,1]]], [-32755,120,0,34,0,0,false,390,390,1,0,0,\"\",0,1710862891139,-1,[[0,35],[3,4]]], [-32743,400,0,21,0,3,false,1300,1300,0,1,2,\"jhgjgjghj\",0,1711104338963,2,[[0,249],[3,23],[4,57],[30,8]]]]', '[[-32762,97,2,21,0,0,false,1400,1400,0,0,0,\"\",0,1710504313880,0,[[0,150],[3,2]]], [-32758,119,0,29,0,0,false,370,370,0,0,0,\"jhgjgjghj\",0,1710824659890,4,[[0,30],[3,3]]], [-32761,466,0,1,0,0,false,1269,1297,0,0,2,\"jhgjgjghj\",1440,1710766819808,-1,[[0,5]]], [-32761,466,0,1,0,0,false,1293,1300,0,0,2,\"jhgjgjghj\",1440,1710766819808,-1,[[0,5]]], [-32756,114,0,4,0,0,false,250,250,1,0,0,\"\",0,1710862891138,-1,[[0,5],[3,1]]], [-32749,400,0,21,0,0,false,1300,1300,0,5,1,\"jhgjgjghj\",0,1710988257323,0,[]], [-32748,400,0,21,0,0,false,1300,1300,0,5,1,\"jhgjgjghj\",0,1710988264335,3,[]], [-32747,400,0,21,0,1,false,1300,1300,0,2,2,\"jhgjgjghj\",0,1710995276597,1,[]], [-32746,400,0,21,0,1,false,1300,1300,0,5,2,\"jhgjgjghj\",0,1710995281775,2,[]], [-32745,400,0,21,0,1,false,1300,1300,0,5,2,\"jhgjgjghj\",0,1710995289254,1,[]], [-32744,414,1,26,0,3,true,1300,1300,0,1,2,\"jhgjgjghj\",0,1711101205600,3,[]], [-32764,79,0,31,0,0,false,849,895,0,0,0,\"\",0,1710504313880,2,[[0,150],[3,9]]], [-32729,557,-1,30,0,3,false,500,500,0,1,0,\"jhgjgjghj\",0,1711250267294,0,[[0,150],[3,148]]], [-32728,400,0,21,0,2,false,1300,1300,0,3,2,\"jhgjgjghj\",0,1711288223641,2,[[0,209],[3,72],[4,38],[29,8],[33,5],[38,3],[35,2],[58,3]]], [-32725,407,0,56,0,3,false,1300,1300,0,3,2,\"jhgjgjghj\",0,1711347307352,3,[[0,206],[3,9],[4,57],[30,8],[34,5000],[37,3],[36,1],[58,2]]], [-32724,407,0,56,0,2,false,1300,1300,0,3,2,\"jhgjgjghj\",0,1711347319169,4,[[0,203],[3,75],[4,66],[32,8],[33,5000],[35,1],[40,1],[58,4]]], [-32721,412,0,81,0,1,false,1300,1300,0,1,2,\"jhgjgjghj\",0,1711347504831,3,[[0,210],[3,66],[4,42],[28,9],[34,9000],[35,3],[36,3],[58,9],[29,9]]], [-32720,412,0,81,0,1,false,1300,1300,0,1,2,\"jhgjgjghj\",0,1711347612999,3,[[0,245],[3,7],[4,44],[32,8],[34,9000],[38,3],[35,2],[58,10],[109,1442],[30,9]]]]', '[[-32764,85,0,31,0,0,false,900,900,0,0,0,\"\",0,1710504313880,2,[[0,150],[3,9]]], [-32763,86,1,1,0,0,false,400,400,0,0,2,\"\",0,1710504313880,-1,[[0,50],[3,1]]], [-32765,86,1,0,0,0,false,433,433,0,0,2,\"\",0,1710502560807,-1,[[0,34],[3,1]]], [-32762,97,2,21,0,0,false,1400,1400,0,0,0,\"\",0,1710504313880,0,[[0,150],[3,2]]]]', '[[4,8], [30,1], [3,200], [82,1]]', '[]', '[[-32761,89,9999], [-32760,75,9999], [-32757,110,9997], [-32753,124,9999], [-32749,114,1], [-32748,93,1], [-32737,142,19], [-32736,148,20], [-32735,154,20], [-32727,249,0], [-32726,250,997], [-32723,94,1967], [-32722,115,1968]]', '[[-32751,68,2]]', '[[-32765,86,1,0,0,0,false,433,433,0,0,2,\"\",0,1710502560807,-1,[[0,34],[3,1]]]]', '[[65,1,[[56,1],[60,1],[30,2],[33,2000],[34,2000],[36,2],[28,1]],[],-1,1710846707330], [66,1,[[56,2],[60,2],[30,2],[33,2000],[34,2000],[36,2],[40,1]],[],-1,1710846710357], [68,1,[[56,1],[60,2],[30,1],[33,2000],[34,2000],[13,2],[40,1]],[],-1,1710846716430], [64,1,[[56,2],[60,2],[30,2],[33,2000],[34,2000],[10,1],[81,2]],[],-1,1710846251786]]', '[]', 1711347664294, 0),
+(1, -30999, 'jhgjgjghj', '[70,384,672,0]', '[0,2,1,0,4,76,-1,0]', '[5030,1700,100,95,85,100,85,375,75,0,0,4140464581]', '[68071,70000,9400174845,5,-32757]', '[[1,0,0,0,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1]]', '[[2,\"duy\",2,2,-1,-1,[[2,0,1,0],[28,0,1,0],[79,0,1,0]]]]', '[5,7,30,true,[67,3,[[56,5],[60,5],[30,5],[33,4000],[34,4000],[13,8],[12,8],[36,2],[28,5]],[],-1,1710846713017]]', '[[-32767,2,0,1,0,0,false,149,195,0,0,2,\"\",0,1710502487910,-1,[[1,12],[2,1],[3,1],[6,12]]], [-32766,28,0,1,0,0,false,149,195,0,0,2,\"\",0,1710502487910,-1,[[1,8],[6,8]]], [-32764,79,0,31,0,0,false,849,895,0,0,0,\"\",0,1710504313880,2,[[0,150],[3,9]]], [-32759,114,0,4,0,0,false,250,250,0,0,0,\"jhgjgjghj\",0,1710824659890,2,[[0,5],[3,1]]], [-32761,466,0,1,0,0,false,1293,1300,0,0,2,\"jhgjgjghj\",1440,1710766819808,-1,[[0,5]]]]', '[[-32762,97,2,21,0,0,false,1400,1400,0,0,0,\"\",0,1710504313880,0,[[0,150],[3,2]]], [-32768,79,0,1,0,0,false,498,500,0,0,2,\"jhgjgjghj\",0,1710502487910,-1,[[0,30],[3,1]]], [-32758,119,0,29,0,0,false,370,370,0,0,0,\"jhgjgjghj\",0,1710824659890,4,[[0,30],[3,3]]], [-32761,466,0,1,0,0,false,1269,1297,0,0,2,\"jhgjgjghj\",1440,1710766819808,-1,[[0,5]]]]', '[[-32764,85,0,31,0,0,false,900,900,0,0,0,\"\",0,1710504313880,2,[[0,150],[3,9]]], [-32763,86,1,1,0,0,false,400,400,0,0,2,\"\",0,1710504313880,-1,[[0,50],[3,1]]], [-32765,86,1,0,0,0,false,433,433,0,0,2,\"\",0,1710502560807,-1,[[0,34],[3,1]]], [-32762,97,2,21,0,0,false,1400,1400,0,0,0,\"\",0,1710504313880,0,[[0,150],[3,2]]]]', '[[4,8], [30,1]]', '[]', '[[-32761,33,8], [-32760,81,2], [-32757,95,1]]', '[]', '[[-32765,86,1,0,0,0,false,433,433,0,0,2,\"\",0,1710502560807,-1,[[0,34],[3,1]]]]', '[[65,1,[[56,1],[60,1],[30,2],[33,2000],[34,2000],[36,2],[28,1]],[],-1,1710846707330], [66,1,[[56,2],[60,2],[30,2],[33,2000],[34,2000],[36,2],[40,1]],[],-1,1710846710357], [68,1,[[56,1],[60,2],[30,1],[33,2000],[34,2000],[13,2],[40,1]],[],-1,1710846716430], [64,1,[[56,2],[60,2],[30,2],[33,2000],[34,2000],[10,1],[81,2]],[],-1,1710846251786]]', '[]', 1710848015912, 0),
 (2, -30998, 'duy', '[201,616,1400,0]', '[0,2,1,0,4,2,-1,0]', '[2780,920,26,21,11,26,11,5,1,0,0,253]', '[0,0,4852,5,-32758]', '[[1,0,0,0,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1]]', '[[1,\"jhgjgjghj\",2,76,87,-1,[[2,0,1,0],[28,0,1,0],[466,0,1,0],[79,0,31,0],[114,0,4,0]]]]', '[0,0,0,false,[]]', '[[-32767,2,0,1,0,0,false,183,199,0,0,2,\"\",0,1710750658485,-1,[[1,12],[2,1],[3,1],[6,12]]], [-32766,28,0,1,0,0,false,183,199,0,0,2,\"\",0,1710750658485,-1,[[1,8],[6,8]]], [-32768,79,0,1,0,0,false,489,499,0,0,2,\"\",0,1710750658485,-1,[[0,30],[3,1]]]]', '[[-32765,3,0,4,0,0,false,220,220,0,0,0,\"\",0,1710752264527,2,[[1,1],[2,1],[3,2],[6,18]]], [-32763,86,1,1,0,0,false,400,400,0,0,2,\"\",0,1710504313880,-1,[[0,50],[3,1]]], [-32763,86,1,1,0,0,false,400,400,0,0,2,\"\",0,1710504313880,-1,[[0,50],[3,1]]], [-32764,86,1,1,0,0,false,400,400,0,0,2,\"duy\",0,1710504313880,-1,[[0,50],[3,1]]], [-32763,86,1,1,0,0,false,400,400,0,0,2,\"duy\",0,1710504313880,-1,[[0,50],[3,1]]], [-32762,86,1,1,0,0,false,400,400,0,0,2,\"duy\",0,1710504313880,-1,[[0,50],[3,1]]], [-32760,28,0,1,0,0,false,232,232,0,0,2,\"\",0,1710846645505,-1,[[1,9],[6,8]]], [-32759,28,4,1,0,0,false,206,206,0,0,2,\"\",0,1710846661871,-1,[[1,8],[6,8]]], [-32758,28,4,2,0,0,false,169,169,0,0,2,\"\",0,1710846667064,-1,[[1,12],[6,8]]]]', '[]', '[[1,20], [4,12]]', '[]', '[[-32761,33,2]]', '[]', '[]', '[]', '[]', 1710848016658, 0),
 (3, -30997, 'gdfgdfggdf', '[341,297,197,1]', '[4,3,2,1,1,49,-1,2]', '[1600,655,68,78,63,63,58,240,39,0,0,2159739204]', '[0,0,10000,5,-32763]', '[[1,1,1,1,3,1,4,3,3,-1,-1,-1,-1,-1,-1]]', '[]', '[0,0,0,false,[]]', '[[-32768,107,4,1,0,0,false,769,797,0,0,2,\"\",0,1710845690582,-1,[[0,20],[3,6],[4,1]]], [-32763,27,1,2,0,0,false,240,240,0,0,2,\"\",0,1710845833723,-1,[[1,15],[6,9]]], [-32764,1,3,3,0,0,false,215,215,0,0,2,\"\",0,1710845831409,-1,[[1,24],[2,1],[3,1],[6,23]]], [-32765,53,1,1,0,0,false,235,235,0,0,2,\"\",0,1710845827371,-1,[[1,7],[3,1],[6,7]]]]', '[[-32766,27,4,1,0,0,false,200,200,0,0,2,\"\",0,1710845690582,-1,[[1,8],[6,8]]], [-32767,1,4,1,0,0,false,200,200,0,0,2,\"\",0,1710845690582,-1,[[1,12],[2,1],[3,1],[6,12]]]]', '[]', '[[1,10], [4,10]]', '[]', '[]', '[]', '[]', '[]', '[]', 171084617659, 0);
 
@@ -2992,7 +3010,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` text NOT NULL,
-  `chars` varchar(255) NOT NULL DEFAULT '[]',
+  `chars` varchar(255) NOT NULL DEFAULT ('[]'),
   `isAdmin` tinyint(1) NOT NULL,
   `active` tinyint(4) NOT NULL,
   `luong` int(11) NOT NULL,
@@ -3270,7 +3288,7 @@ ALTER TABLE `char_part`
 -- AUTO_INCREMENT for table `clan`
 --
 ALTER TABLE `clan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `effect_data`
