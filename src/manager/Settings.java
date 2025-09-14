@@ -22,7 +22,7 @@ public class Settings {
     public static final String URL = "localhost";
 
     public static final int SECOND_WAIT_LOGIN = 30;
-    public static final int MILISECOND_WAIT_LOGIN = 30000;
+    public static final int MILISECOND_WAIT_LOGIN = 10000;
     public static final short SECOND_REVIVE_PLAYER = 30;
     public static final int MILISECOND_REVIVE_PLAYER = 30000;
     public static final byte LEVEL_CAN_AUTO_REVIVE = 10;

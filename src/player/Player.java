@@ -116,7 +116,8 @@ public class Player {
             }
             for (int i = 0; i < this.inventory.getItemBody().size(); i++) {
                 ItemEquip item = this.inventory.getItemBody().get(i);
-                if ((item.getTemplate().getType() == 0 || item.getTemplate().getType() == 1 || item.getTemplate().getType() == 2) && item.getMDurable() > 0) {
+                if ((item.getTemplate().getType() == 0 || item.getTemplate().getType() == 1
+                        || item.getTemplate().getType() == 2) && item.getMDurable() > 0) {
                     item.minusDurable();
                 }
             }
@@ -220,7 +221,11 @@ public class Player {
                 MapService.instance.revivePlayer(this, (byte) 100);
                 sundry.setLastTimeRevived(System.currentTimeMillis());
             } else {
-                ChatService.instance.sendChatOnlyMe(this, "Hồi sinh sau " + (sundry.getMiliSecondRevive() / 1000 - Util.getSecondDifference(System.currentTimeMillis(), sundry.getLastTimeDie())) + "s");
+                ChatService.instance.sendChatOnlyMe(this,
+                        "Hồi sinh sau "
+                                + (sundry.getMiliSecondRevive() / 1000
+                                        - Util.getSecondDifference(System.currentTimeMillis(), sundry.getLastTimeDie()))
+                                + "s");
             }
         }
         if (sundry.isNewlyRevived() && Util.canDoWithTime(sundry.getLastTimeRevived(), 5000)) {
