@@ -68,7 +68,8 @@ public class Point {
 
     public void increaseSkillPoint(byte type) throws IOException {
         byte levelSkill = player.getSkill().getLevelSkill()[type];
-        if (levelSkill == -1 || skillPoint <= 0 || player.getInfo().getLevel() < Manager.getLevelAddSkill(type, levelSkill)) {
+        if (levelSkill == -1 || skillPoint <= 0
+                || player.getInfo().getLevel() < Manager.getLevelAddSkill(type, levelSkill)) {
             return;
         }
         if (levelSkill >= 9) {
@@ -111,7 +112,9 @@ public class Point {
             return 0;
         }
         int dameAttack = (int) (this.attack * (isAttackMob ? 2.5 : 2));
-        dameAttack += dameAttack * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(), player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
+        dameAttack += dameAttack
+                * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(),
+                        player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
         if (isCrit || isBaoKich) {
             dameAttack *= 2;
         }
@@ -147,7 +150,8 @@ public class Point {
     private void setSpirit() {
         spiritAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 12);
         if (player.getInfo().getClassPlayer() == Const.PHAP_SU) {
-            spiritAdd += spiritAdd * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5, player.getSkill().getLevelSkill()[5]) / 100);
+            spiritAdd += spiritAdd * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]) / 100);
         }
         if (player.getHorse().getImageHorse() == 1) {
             spiritAdd += 3;
@@ -182,7 +186,8 @@ public class Point {
         attack += InventoryService.instance.sumAttributeValueForId(player, (short) 0);
         attack += attack * InventoryService.instance.sumAttributeValueForId(player, (short) 58) / 100;
         if (player.getInfo().getClassPlayer() == Const.CHIEN_BINH) {
-            attack += attack * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5, player.getSkill().getLevelSkill()[5]) / 100);
+            attack += attack * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]) / 100);
         }
         if (player.getHorse().getAnimalUse() != null) {
             attack += attack * player.getHorse().getAnimalUse().getValue((byte) 30) / 100;
@@ -195,7 +200,8 @@ public class Point {
         defend += agility + agilityAdd;
         defend += InventoryService.instance.sumAttributeValueForId(player, (short) 1);
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defend += defend * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5, player.getSkill().getLevelSkill()[5]) / 100);
+            defend += defend * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]) / 100);
         }
         defend += defend * InventoryService.instance.sumAttributeValueForId(player, (short) 60) / 100;
         defend += defend * InventoryService.instance.sumAttributeValueForId(player, (short) 88) / 100;
@@ -209,7 +215,8 @@ public class Point {
         defendMagic += agility + agilityAdd;
         defendMagic += InventoryService.instance.sumAttributeValueForId(player, (short) 6);
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defendMagic += defendMagic * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5, player.getSkill().getLevelSkill()[5]) / 100);
+            defendMagic += defendMagic * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]) / 100);
         }
         defendMagic += defendMagic * InventoryService.instance.sumAttributeValueForId(player, (short) 59) / 100;
         defendMagic += defendMagic * InventoryService.instance.sumAttributeValueForId(player, (short) 88) / 100;
@@ -258,14 +265,16 @@ public class Point {
     private void setDocTinh() {
         docTinh += InventoryService.instance.sumAttributeValueForId(player, (short) 16);
         if (player.getInfo().getClassPlayer() == Const.CUNG_THU) {
-            docTinh += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5, player.getSkill().getLevelSkill()[5]);
+            docTinh += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]);
         }
     }
 
     private void setXuyenGiap() {
         xuyenGiap += InventoryService.instance.sumAttributeValueForId(player, (short) 31);
         if (player.getInfo().getClassPlayer() == Const.KIEM_KHACH) {
-            xuyenGiap += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 4, player.getSkill().getLevelSkill()[4]);
+            xuyenGiap += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 4,
+                    player.getSkill().getLevelSkill()[4]);
         }
     }
 
@@ -398,6 +407,9 @@ public class Point {
     public void plusExp(int exp) {
         if (exp < 0) {
             return;
+        }
+        if (this.exp < 0) {
+            this.exp = 0;
         }
         this.exp += exp;
     }

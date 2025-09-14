@@ -42,7 +42,8 @@ public class SkillService {
         if (levelSkill <= 0) {
             return;
         }
-        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill], Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
+        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill],
+                Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
             return;
         }
         int skillMP = Manager.getSkillMP(pl.getInfo().getClassPlayer(), typeSkill, levelSkill);
@@ -53,8 +54,10 @@ public class SkillService {
         if (playerTarget == null || playerTarget.isDie() || !playerTarget.isPlayer()) {
             return;
         }
-        if (pl.getSundry().getPk() == 0 || playerTarget.getSundry().getPk() == 0 || playerTarget.getSundry().getPk() == pl.getSundry().getPk()) {
-            if (!pl.getSundry().isKiller() && !playerTarget.getSundry().isKiller() && pl.getInfo().getIdNation() == playerTarget.getInfo().getIdNation()) {
+        if (pl.getSundry().getPk() == 0 || playerTarget.getSundry().getPk() == 0
+                || playerTarget.getSundry().getPk() == pl.getSundry().getPk()) {
+            if (!pl.getSundry().isKiller() && !playerTarget.getSundry().isKiller()
+                    && pl.getInfo().getIdNation() == playerTarget.getInfo().getIdNation()) {
                 return;
             }
         }
@@ -96,7 +99,8 @@ public class SkillService {
         if (levelSkill <= 0) {
             return;
         }
-        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill], Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
+        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill],
+                Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
             return;
         }
         int skillMP = Manager.getSkillMP(pl.getInfo().getClassPlayer(), typeSkill, levelSkill);
@@ -118,7 +122,8 @@ public class SkillService {
         }
         if (isSkillAeo && !mobTarget.isKhoangSan()) {
             @Cleanup("clear")
-            List<Monster> mobsNear = pl.getLocation().getZone().findMobNear(pl, idMobs, range + Settings.DISTANCE_MOB_CAN_ATTACK + 60);
+            List<Monster> mobsNear = pl.getLocation().getZone().findMobNear(pl, idMobs,
+                    range + Settings.DISTANCE_MOB_CAN_ATTACK + 60);
             onPlayerAttackMultiMob(pl, mobsNear);
         } else {
             if (mobTarget.isKhoangSan()) {
@@ -153,7 +158,11 @@ public class SkillService {
         }
         int damePlayer = player.getPoint().getDameAttack(isMiss, isCrit, isBaoKich, false);
         damePlayer = BuffService.instance.onAttackPlayerHasBuff(player, playerTarget, damePlayer);
-        int dameHit = playerTarget.injured(damePlayer, false, ((player.getInfo().getClassPlayer() == Const.PHAP_SU || player.getInfo().getClassPlayer() == Const.CUNG_THU) ? ItemEquipConst.DAMAGE_MAGIC : ItemEquipConst.DAMAGE_PHYSIC), x2);
+        int dameHit = playerTarget.injured(damePlayer, false,
+                ((player.getInfo().getClassPlayer() == Const.PHAP_SU
+                        || player.getInfo().getClassPlayer() == Const.CUNG_THU) ? ItemEquipConst.DAMAGE_MAGIC
+                                : ItemEquipConst.DAMAGE_PHYSIC),
+                x2);
         BuffService.instance.onPlayerInjured(player, playerTarget);
 
         if (playerTarget.isDie()) {
@@ -204,6 +213,8 @@ public class SkillService {
             effAttack = Const.MISS_EFFECT;
             isXuyenGiap = false;
         }
+        // nếu là skill nhiều tia thì dùng dameHit * Min(3, level skill)
+
         Message msg = new Message(CommandMessage.PLAYER_ATTACK_MONSTER);
         msg.writer().writeShort(player.getIdPlayer());
         msg.writer().writeShort(mob.getId());
@@ -233,7 +244,8 @@ public class SkillService {
             effAttack = Const.BAO_KICK_EFFECT;
         }
         Monster mobTarget = mobs.get(0);
-        int dameHit = mobTarget.injured(player, player.getPoint().getDameAttack(isMiss, isCrit, isBaoKich, true), isXuyenGiap, false, false);
+        int dameHit = mobTarget.injured(player, player.getPoint().getDameAttack(isMiss, isCrit, isBaoKich, true),
+                isXuyenGiap, false, false);
         if (dameHit == 0) {
             effAttack = Const.MISS_EFFECT;
             isXuyenGiap = false;
@@ -269,14 +281,16 @@ public class SkillService {
         }
         short levelRequest = Manager.getLevelAddSkill(templateSkill.getIdSkill(), 1);
         if (player.getInfo().getLevel() < levelRequest) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Yêu cầu level %s để học kĩ năng %s", levelRequest, templateSkill.getName()));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Yêu cầu level %s để học kĩ năng %s", levelRequest, templateSkill.getName()));
             return;
         }
         if (player.getSkill().getLevelSkill()[templateSkill.getIdSkill()] == -1) {
             player.getSkill().getLevelSkill()[templateSkill.getIdSkill()] = 0;
             player.getPoint().initPoint();
             Service.instance.sendMainCharInfo(player);
-            Service.instance.sendLogOut(player.getSession(), String.format("Học thành công kĩ năng %s", templateSkill.getName()));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Học thành công kĩ năng %s", templateSkill.getName()));
         } else {
             Service.instance.sendLogOut(player.getSession(), "Bạn đã học skill này rồi");
         }

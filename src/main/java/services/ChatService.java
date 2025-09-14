@@ -97,7 +97,7 @@ public class ChatService {
         if (chat.startsWith("lv")) {
             byte exp = Byte.parseByte(chat.replace("lv", ""));
             pl.getInfo().setLevel(exp);
-            pl.getPoint().setExp(pl.getPoint().getExp() - Util.getExp(pl.getInfo().getLevel()));
+            pl.getPoint().setExp(Math.min(1, pl.getPoint().getExp() - Util.getExp(pl.getInfo().getLevel())));
             pl.getPoint().plusStrength(1 * exp);
             pl.getPoint().plusHealth(1 * exp);
             pl.getPoint().plusAgility(1 * exp);

@@ -21,9 +21,9 @@ public class Const {
     public static final byte DROP_SPECIAL_ITEM = 1;
 
     //player
-    public static final long XU_START = 10000;
-    public static final int LUONG_START = 0;
-    public static final int LUONG_KHOA_START = 0;
+    public static final long XU_START = 1000000000;
+    public static final int LUONG_START = 1000000;
+    public static final int LUONG_KHOA_START = 1000000;
 
     public static final byte SPEED = 4;
 
