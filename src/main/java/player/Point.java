@@ -1,6 +1,8 @@
 package player;
 
-import java.io.IOException;
+import consts.AttributeConst;
+import consts.BuffConst;
+import consts.Const;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Synchronized;
@@ -9,9 +11,9 @@ import org.json.JSONArray;
 import services.InventoryService;
 import services.MapService;
 import services.Service;
-import consts.BuffConst;
-import consts.Const;
 import utils.Util;
+
+import java.io.IOException;
 
 /**
  *
@@ -89,16 +91,11 @@ public class Point {
         }
         basePoint -= numIncrease;
         switch (type) {
-            case 0 ->
-                strength += numIncrease;
-            case 1 ->
-                agility += numIncrease;
-            case 2 ->
-                spirit += numIncrease;
-            case 3 ->
-                health += numIncrease;
-            case 4 ->
-                luck += numIncrease;
+            case 0 -> strength += numIncrease;
+            case 1 -> agility += numIncrease;
+            case 2 -> spirit += numIncrease;
+            case 3 -> health += numIncrease;
+            case 4 -> luck += numIncrease;
         }
         Service.instance.sendEndDialog(player);
         initPoint();
@@ -114,7 +111,7 @@ public class Point {
         int dameAttack = (int) (this.attack * (isAttackMob ? 2.5 : 2));
         dameAttack += dameAttack
                 * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(),
-                        player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
+                player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
         if (isCrit || isBaoKich) {
             dameAttack *= 2;
         }
@@ -126,29 +123,29 @@ public class Point {
     }
 
     private void setStrength() {
-        strengthAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 10);
+        strengthAdd += (short) InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_SUC_MANH);
         if (player.getHorse().getImageHorse() == 1) {
             strengthAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
-            strengthAdd += player.getHorse().getAnimalUse().getValue((byte) 10);
-            strengthAdd += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 10);
+            strengthAdd += player.getHorse().getAnimalUse().getValue((byte) AttributeConst.TANG_SUC_MANH);
+            strengthAdd += (short) player.getHorse().getAnimalUse().sumAttributeValueForId((byte) AttributeConst.TANG_SUC_MANH);
         }
     }
 
     private void setAgility() {
-        agilityAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 11);
+        agilityAdd += (short) InventoryService.instance.sumAttributeValueForId(player, (short) AttributeConst.TANG_NHANH_NHEN);
         if (player.getHorse().getImageHorse() == 1) {
             agilityAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
             agilityAdd += player.getHorse().getAnimalUse().getValue((byte) 36);
-            agilityAdd += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 11);
+            agilityAdd += (short) player.getHorse().getAnimalUse().sumAttributeValueForId((byte) AttributeConst.TANG_NHANH_NHEN);
         }
     }
 
     private void setSpirit() {
-        spiritAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 12);
+        spiritAdd += (short) InventoryService.instance.sumAttributeValueForId(player, (short) AttributeConst.TANG_TINH_THAN);
         if (player.getInfo().getClassPlayer() == Const.PHAP_SU) {
             spiritAdd += spiritAdd * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]) / 100);
@@ -176,12 +173,9 @@ public class Point {
 
     private void setAttack() {
         switch (player.getInfo().getClassPlayer()) {
-            case Const.KIEM_KHACH, Const.CHIEN_BINH, Const.DAU_SI ->
-                attack += strength + strengthAdd;
-            case Const.PHAP_SU ->
-                attack += (spirit + spiritAdd) * 2;
-            case Const.CUNG_THU ->
-                attack += (agility + agilityAdd) * 1.8;
+            case Const.KIEM_KHACH, Const.CHIEN_BINH, Const.DAU_SI -> attack += strength + strengthAdd;
+            case Const.PHAP_SU -> attack += (spirit + spiritAdd) * 2;
+            case Const.CUNG_THU -> attack += (agility + agilityAdd) * 1.8;
         }
         attack += InventoryService.instance.sumAttributeValueForId(player, (short) 0);
         attack += attack * InventoryService.instance.sumAttributeValueForId(player, (short) 58) / 100;
@@ -228,8 +222,7 @@ public class Point {
 
     private void setAccurate() {
         switch (player.getInfo().getClassPlayer()) {
-            case Const.CUNG_THU ->
-                accurate += agility + agilityAdd;
+            case Const.CUNG_THU -> accurate += agility + agilityAdd;
         }
         accurate += InventoryService.instance.sumAttributeValueForId(player, (short) 3);
         if (player.getHorse().getAnimalUse() != null) {
@@ -239,8 +232,7 @@ public class Point {
 
     private void setDodge() {
         switch (player.getInfo().getClassPlayer()) {
-            case Const.CUNG_THU ->
-                dodge += (agility + agilityAdd) * 0.5;
+            case Const.CUNG_THU -> dodge += (agility + agilityAdd) * 0.5;
         }
         dodge += InventoryService.instance.sumAttributeValueForId(player, (short) 2);
         if (player.getHorse().getAnimalUse() != null) {
@@ -300,20 +292,15 @@ public class Point {
 
     private void setHpMax() {
         switch (player.getInfo().getClassPlayer()) {
-            case Const.KIEM_KHACH ->
-                hpMax += (health + healthAdd) * 80;
-            case Const.DAU_SI, Const.CHIEN_BINH ->
-                hpMax += (health + healthAdd) * 70;
-            case Const.PHAP_SU, Const.CUNG_THU ->
-                hpMax += (health + healthAdd) * 60;
+            case Const.KIEM_KHACH -> hpMax += (health + healthAdd) * 80;
+            case Const.DAU_SI, Const.CHIEN_BINH -> hpMax += (health + healthAdd) * 70;
+            case Const.PHAP_SU, Const.CUNG_THU -> hpMax += (health + healthAdd) * 60;
         }
         hpMax += hpMax * percentPlusHp / 100;
         hpMax += InventoryService.instance.sumAttributeValueForId(player, (short) 33) * 1000;
         switch (player.getHorse().getImageHorse()) {
-            case 0 ->
-                hpMax += 700;
-            case 1 ->
-                hpMax += 1000;
+            case 0 -> hpMax += 700;
+            case 1 -> hpMax += 1000;
             default -> {
                 if (player.getHorse().getAnimalUse() != null) {
                     hpMax += player.getHorse().getAnimalUse().getValue((byte) 33) * 1000;
@@ -324,18 +311,14 @@ public class Point {
 
     private void setMpMax() {
         switch (player.getInfo().getClassPlayer()) {
-            case Const.KIEM_KHACH, Const.CHIEN_BINH, Const.DAU_SI, Const.CUNG_THU ->
-                mpMax += (spirit + spiritAdd) * 20;
-            case Const.PHAP_SU ->
-                mpMax += (spirit + spiritAdd) * 52;
+            case Const.KIEM_KHACH, Const.CHIEN_BINH, Const.DAU_SI, Const.CUNG_THU -> mpMax += (spirit + spiritAdd) * 20;
+            case Const.PHAP_SU -> mpMax += (spirit + spiritAdd) * 52;
         }
         mpMax += mpMax * percentPlusMp / 100;
         mpMax += InventoryService.instance.sumAttributeValueForId(player, (short) 34) * 1000;
         switch (player.getHorse().getImageHorse()) {
-            case 0 ->
-                mpMax += 700;
-            case 1 ->
-                mpMax += 1000;
+            case 0 -> mpMax += 700;
+            case 1 -> mpMax += 1000;
             default -> {
                 if (player.getHorse().getAnimalUse() != null) {
                     mpMax += player.getHorse().getAnimalUse().getValue((byte) 34) * 1000;

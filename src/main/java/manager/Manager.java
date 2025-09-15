@@ -1,66 +1,33 @@
 package manager;
 
 import clan.Clan;
+import consts.Const;
+import consts.NpcConst;
 import daos.PlayerDAO;
 import database.HikariCP;
 import database.ResultSetImpl;
-import effects.Animation;
-import effects.EffectData;
-import effects.ImageInfo;
-import effects.PartChar;
-import effects.PartFrame;
+import deposite.Deposite;
+import effects.*;
 import interfaces.IMap;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import map.Map;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import lombok.Cleanup;
-import map.Actor;
-import map.ChildMap;
-import map.LoctionWayPoint;
-import map.MapData;
-import map.Monster;
-import map.WayPoint;
-import map.XaPhu;
+import map.*;
+import map.Map;
+import minigame.VongQuay;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import player.Friend;
 import player.Player;
 import shop.NpcShop;
-import template.GemTemplate;
-import template.AttributeEquipTemplate;
-import template.ItemQuestTemplate;
-import template.ItemEquipTemplate;
-import template.MonsterTemplate;
-import template.NpcTemplate;
-import template.PotionTemplate;
-import template.ShopTemplate;
-import template.SkillNewTemplate;
-import template.TreeInfo;
-import template.XaPhuTemplate;
-import consts.Const;
-import consts.NpcConst;
-import deposite.Deposite;
-import java.util.Arrays;
-import java.util.Enumeration;
-import map.NpcServer;
-import minigame.VongQuay;
-import template.AnimalTemplate;
-import template.HoaTieuTemplate;
-import template.NpcServerTemplate;
-import template.ValueAttributeAnimal;
+import template.*;
 import utils.Logger;
-import utils.Printer;
 import utils.NumericStringComparator;
+import utils.Printer;
 import utils.Util;
+
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class Manager {
 
@@ -137,19 +104,19 @@ public class Manager {
     public static byte[] PRICE_UPGRADE_ANIMAL;
 
     public static final byte[][] EFF_BUFF_SKILL = new byte[][]{
-        new byte[]{20, 24},
-        new byte[]{20, 21},
-        new byte[]{25, 30, 27, 23},
-        new byte[]{19, 20},
-        new byte[]{22, 19}
+            new byte[]{20, 24},
+            new byte[]{20, 21},
+            new byte[]{25, 30, 27, 23},
+            new byte[]{19, 20},
+            new byte[]{22, 19}
     };
 
     public static final byte[][] SKILL_CAN_BUFF_TO_USER = new byte[][]{
-        new byte[]{-1, 0},
-        new byte[]{0, -1},
-        new byte[]{0, -1, 1, 0},
-        new byte[]{0, -1},
-        new byte[]{0, -1}
+            new byte[]{-1, 0},
+            new byte[]{0, -1},
+            new byte[]{0, -1, 1, 0},
+            new byte[]{0, -1},
+            new byte[]{0, -1}
     };
 
     public static final byte[] BUFF_TYPE = new byte[]{19, 20, 22, 23, 24, 25, 27};
@@ -160,26 +127,26 @@ public class Manager {
     public static final byte[] Y_FOWARD = new byte[]{17, -17, 0, 0};
 
     public static final boolean[][] ATTRIBUTE_FOR_TYPE = new boolean[][]{
-        new boolean[]{false, true, true, true, false, false, true, false, false, false},
-        new boolean[]{false, true, true, true, false, false, true, false, false, false},
-        new boolean[]{false, true, true, true, false, false, true, false, false, false},
-        new boolean[]{true, false, false, true, true, false, false, false, false, false},
-        new boolean[]{true, false, false, true, true, false, false, false, false, false},
-        new boolean[]{true, false, false, true, true, false, false, false, false, false},
-        new boolean[]{true, false, false, true, true, false, false, false, false, false},
-        new boolean[]{true, false, false, true, true, false, false, false, false, false},
-        new boolean[]{true, false, false, true, false, false, false, false, false, false},
-        new boolean[]{true, false, false, false, true, false, false, false, false, false},
-        new boolean[]{false, true, true, false, false, false, true, false, false, false},
-        new boolean[]{false, true, false, true, true, false, true, false, false, false},
-        new boolean[]{false, false, false, true, true, true, false, false, false, false},
-        new boolean[]{true, false, false, false, false, false, false, false, false, false},
-        new boolean[]{false, true, false, false, false, false, true, false, false, false},
-        new boolean[]{true, false, false, true, false, false, false, false, false, false},
-        new boolean[]{false, true, false, false, false, false, true, false, false, false},
-        new boolean[]{true, false, false, false, true, false, false, false, false, false},
-        new boolean[]{false, true, false, false, false, false, true, false, false, false},
-        new boolean[]{false, true, false, false, false, false, true, false, false, false}
+            new boolean[]{false, true, true, true, false, false, true, false, false, false},
+            new boolean[]{false, true, true, true, false, false, true, false, false, false},
+            new boolean[]{false, true, true, true, false, false, true, false, false, false},
+            new boolean[]{true, false, false, true, true, false, false, false, false, false},
+            new boolean[]{true, false, false, true, true, false, false, false, false, false},
+            new boolean[]{true, false, false, true, true, false, false, false, false, false},
+            new boolean[]{true, false, false, true, true, false, false, false, false, false},
+            new boolean[]{true, false, false, true, true, false, false, false, false, false},
+            new boolean[]{true, false, false, true, false, false, false, false, false, false},
+            new boolean[]{true, false, false, false, true, false, false, false, false, false},
+            new boolean[]{false, true, true, false, false, false, true, false, false, false},
+            new boolean[]{false, true, false, true, true, false, true, false, false, false},
+            new boolean[]{false, false, false, true, true, true, false, false, false, false},
+            new boolean[]{true, false, false, false, false, false, false, false, false, false},
+            new boolean[]{false, true, false, false, false, false, true, false, false, false},
+            new boolean[]{true, false, false, true, false, false, false, false, false, false},
+            new boolean[]{false, true, false, false, false, false, true, false, false, false},
+            new boolean[]{true, false, false, false, true, false, false, false, false, false},
+            new boolean[]{false, true, false, false, false, false, true, false, false, false},
+            new boolean[]{false, true, false, false, false, false, true, false, false, false}
     };
     // </editor-fold>
 
@@ -763,8 +730,8 @@ public class Manager {
                     attribute[i] = (short) attb.getInt(i);
                 }
                 JSONArray dxdy = new JSONArray(rs.getString("dataWeapon"));
-                byte dx = dxdy.length() > 0 ? (byte) dxdy.getInt(0) : Manager.DX_DY_WP[0][0];
-                byte dy = dxdy.length() > 0 ? (byte) dxdy.getInt(1) : Manager.DX_DY_WP[1][0];
+                byte dx = !dxdy.isEmpty() ? (byte) dxdy.getInt(0) : Manager.DX_DY_WP[0][0];
+                byte dy = !dxdy.isEmpty() ? (byte) dxdy.getInt(1) : Manager.DX_DY_WP[1][0];
                 ItemEquipTemplate itemTemplate = ItemEquipTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).classChar(rs.getByte("classChar")).idIcon(rs.getShort("idIcon")).type(rs.getByte("type")).style(rs.getByte("stype")).he(rs.getByte("he")).gender(rs.getByte("gender")).level(rs.getByte("level")).durable(rs.getShort("durable")).price(rs.getInt("price")).colorItem(rs.getByte("colorItem")).ndayLoan(rs.getShort("ndayLoan")).attribute(attribute).dxWear(dx).dyWear(dy).build();
                 ITEM_EQUIPMENTS.put(itemTemplate.getId(), itemTemplate);
                 if (itemTemplate.getColorItem() == 0 && itemTemplate.getNdayLoan() == 0) {
@@ -1403,7 +1370,7 @@ public class Manager {
                     dataOutputStream.writeByte(5);
                     ConcurrentHashMap<Short, IMap> maps = Manager.MAPS.get(l);
                     @Cleanup("clear")
-                    List<IMap> list = maps.values().stream().sorted(Comparator.comparingInt(map -> map.getMapId())).collect(Collectors.toList());;
+                    List<IMap> list = maps.values().stream().sorted(Comparator.comparingInt(map -> map.getMapId())).collect(Collectors.toList());
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).getMapId() == 70) {
                             IMap im = list.remove(i);
@@ -1412,8 +1379,7 @@ public class Manager {
                         }
                     }
                     dataOutputStream.writeByte(list.size());
-                    for (int i = 0; i < list.size(); i++) {
-                        IMap map = list.get(i);
+                    for (IMap map : list) {
                         if (map.getMapData().getWayPoints().length > 0) {
                             WayPoint[][] wps = map.getMapData().getWayPoints()[l];
                             if (l == Const.THANH_LONG && map.getMapData().getWayPoints()[l].length <= 0) {

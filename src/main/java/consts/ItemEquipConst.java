@@ -44,43 +44,66 @@ public class ItemEquipConst {
     public static final short[] ATTRIBUTE_RANDOM_ANIMAL_SPECIAL = new short[]{26, 40, 2, 81, 28};
 
     public static final String[] HE = new String[]{
-        "thủy",
-        "mộc",
-        "hỏa",
-        "thổ",
-        "kim"
+            "thủy",
+            "mộc",
+            "hỏa",
+            "thổ",
+            "kim"
     };
 
+
+    public static final byte AO = 0;
+    public static final byte QUAN = 1;
+    public static final byte MU = 2;
+    public static final byte VU_KHI_KIEM = 3;
+    public static final byte VU_KHI_DAO = 4;
+    public static final byte VU_KHI_BUT = 5;
+    public static final byte VU_KHI_BUA = 6;
+    public static final byte VU_KHI_CUNG = 7;
+    public static final byte NHAN = 8;
+    public static final byte DAY_CHUYEN = 9;
+    public static final byte GIAY = 10;
+    public static final byte GANG = 11;
+    public static final byte NGOC = 12;
+    public static final byte CUOC = 13;
+    public static final byte ANIMAL_GIAP = 14;
+    public static final byte ANIMAL_HO_UYEN = 15;
+    public static final byte ANIMAL_NON = 16;
+    public static final byte ANIMAL_BAN_DAP = 17;
+    public static final byte ANIMAL_YEN = 18;
+    public static final byte ANIMAL_PHI_LONG = 19;
+
+
     public static final String[][] GROUP_KICH = new String[][]{
-        new String[]{"1_0", "8_0"},
-        new String[]{"12_0", "11_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"0_0", "9_0"},
-        new String[]{"2_0", "3_0", "12_0", "11_0"},
-        new String[]{"8_0", "1_0"},
-        new String[]{"2_0", "3_0"},
-        new String[]{"10_0", "8_1"},
-        new String[]{"10_0", "8_1"}
+            new String[]{"1_0", "8_0"},
+            new String[]{"12_0", "11_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"0_0", "9_0"},
+            new String[]{"2_0", "3_0", "12_0", "11_0"},
+            new String[]{"8_0", "1_0"},
+            new String[]{"2_0", "3_0"},
+            new String[]{"10_0", "8_1"},
+            new String[]{"10_0", "8_1"}
     };
 
     public static final byte[] KICH_HE = new byte[]{
-        KIM,
-        THUY,
-        MOC,
-        HOA,
-        THO
+            KIM,
+            THUY,
+            MOC,
+            HOA,
+            THO
     };
 
     public static final byte[] GROUP_KICH_ANIMAL = new byte[]{
-        16,
-        17,
-        15,
-        18,
-        14
+            16,
+            17,
+            15,
+            18,
+            14
     };
 
     public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI = new short[]{83, 84, 85, 86, 87, 92, 78, 79, 88};

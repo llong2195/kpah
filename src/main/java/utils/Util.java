@@ -2,12 +2,12 @@ package utils;
 
 import consts.Const;
 import consts.ItemEquipConst;
+import lombok.Synchronized;
+import manager.Manager;
+import map.Monster;
+import player.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
@@ -17,17 +17,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import lombok.Synchronized;
-import map.Monster;
-import player.Player;
-import manager.Manager;
 
 public class Util {
 
@@ -44,7 +35,7 @@ public class Util {
         String num = String.valueOf(number);
         long repeat = num.length() - (num.length() > 4 ? 2 : 1);
         long numMulti = (int) Math.pow(10, repeat);
-        int result = Math.round(number / numMulti);
+        int result = Math.round((float) number / numMulti);
         return result * numMulti;
     }
 
@@ -88,8 +79,7 @@ public class Util {
     public static String getCurrentDateTimeInVietnam() {
         LocalDateTime currentTime = LocalDateTime.now(VIET_NAM_ZONE);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDateTime = currentTime.format(formatter);
-        return formattedDateTime;
+        return currentTime.format(formatter);
     }
 
     public static String removeSpecialCharacters(String str) {
@@ -126,7 +116,7 @@ public class Util {
             outputStream.writeShort(data.length);
             outputStream.write(data);
             return byteArrayOutputStream.toByteArray();
-        } catch (Exception e) {
+        } catch (Exception _) {
         }
         return null;
     }
@@ -255,7 +245,7 @@ public class Util {
             byte[] ab = new byte[fis.available()];
             fis.read(ab, 0, ab.length);
             return ab;
-        } catch (Exception e) {
+        } catch (Exception _) {
         }
         return null;
     }
@@ -334,7 +324,7 @@ public class Util {
     }
 
     public static boolean isNullOrEmpty(String s) {
-        return s == null || s.equals("");
+        return s == null || s.isEmpty();
     }
 
     public static boolean checkSuperiorOrInferior(int value1, int value2, int dis) {

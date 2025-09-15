@@ -1,14 +1,13 @@
 package services;
 
-import consts.ManufactureConst;
+import consts.AttributeConst;
 import consts.Const;
 import consts.ItemEquipConst;
+import consts.ManufactureConst;
 import item.Attribute;
 import item.ItemEquip;
 import item.ItemGem;
 import item.ItemMineral;
-import java.io.IOException;
-import java.util.List;
 import lombok.NonNull;
 import manager.Manager;
 import network.Message;
@@ -17,6 +16,9 @@ import template.GemTemplate;
 import template.ItemEquipTemplate;
 import utils.CommandMessage;
 import utils.Util;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -34,10 +36,8 @@ public class ManufactureService {
             return;
         }
         switch (type) {
-            case ManufactureConst.CHE_TAO_VU_KHI ->
-                manufactureWeapon(player, quantity);
-            case ManufactureConst.CHE_TAO_GIAP ->
-                manufactureArmor(player, quantity);
+            case ManufactureConst.CHE_TAO_VU_KHI -> manufactureWeapon(player, quantity);
+            case ManufactureConst.CHE_TAO_GIAP -> manufactureArmor(player, quantity);
         }
     }
 
@@ -97,10 +97,7 @@ public class ManufactureService {
             case 0, 1, 2 -> {
                 rankItem = (byte) Util.getOne(ItemEquipConst.NGU_PHAM, ItemEquipConst.TU_PHAM);
             }
-            case 3 -> {
-                rankItem = (byte) Util.getOne(ItemEquipConst.NHI_PHAM, ItemEquipConst.TAM_PHAM);
-            }
-            case 4 -> {
+            case 3, 4 -> {
                 rankItem = (byte) Util.getOne(ItemEquipConst.NHI_PHAM, ItemEquipConst.TAM_PHAM);
             }
             default -> {
@@ -120,7 +117,7 @@ public class ManufactureService {
                 switch (template.getType()) {
                     case 17 -> {
                         itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                        itemAdd.getItemAttributes().add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
                     }
                     case 15 -> {
                         itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10) / 100)));
@@ -137,7 +134,7 @@ public class ManufactureService {
                 switch (template.getType()) {
                     case 17 -> {
                         itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                        itemAdd.getItemAttributes().add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
                     }
                     case 15 -> {
                         itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13) / 100)));
@@ -290,7 +287,8 @@ public class ManufactureService {
         itemAdd.setDamageType(typeDamage);
         short defPercent = (short) (colorItem == ItemEquipConst.NONE_COLOR ? Util.nextInt(1, 3) : colorItem == ItemEquipConst.BLUE_COLOR ? Util.nextInt(4, 6) : colorItem == ItemEquipConst.RED_COLOR ? Util.nextInt(7, 10) : Util.nextInt(15, 20));
         switch (typeArmor) {
-            case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN, ManufactureConst.GANG -> {
+            case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN,
+                 ManufactureConst.GANG -> {
                 short def = (short) Util.nextInt(160, 200);
                 itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                 itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
@@ -435,11 +433,13 @@ public class ManufactureService {
         itemAdd.setColorName(colorItem);
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
-        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) Util.nextInt(200, 250)));
-        itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
-        itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) Util.nextInt(5, 80)));
+
+        // TODO: implement check with rankItem
+        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.TAN_CONG, (short) Util.nextInt(200, 250)));
+        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
+        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
         addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-        itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
+        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
         Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s", itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
         InventoryService.instance.sendItemBag(player);
@@ -457,12 +457,9 @@ public class ManufactureService {
                 } while (idAttribute == 31);
             }
             switch (levelSoCap) {
-                case 1, 2, 3 ->
-                    valueAn = (short) Util.nextInt(1, 4);
-                case 4 ->
-                    valueAn = (short) Util.nextInt(4, 7);
-                case 5 ->
-                    valueAn = 8;
+                case 1, 2, 3 -> valueAn = (short) Util.nextInt(1, 4);
+                case 4 -> valueAn = (short) Util.nextInt(4, 7);
+                case 5 -> valueAn = 8;
                 case 6 -> {
                     valueAn = (short) Util.getOne(8, 9);
                 }

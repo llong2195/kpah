@@ -1,11 +1,9 @@
 package services;
 
-import item.Attribute;
-import item.ItemEquip;
-import item.ItemGem;
-import item.ItemPotion;
-import item.ItemQuest;
-import java.io.IOException;
+import consts.Const;
+import consts.ItemEquipConst;
+import consts.NpcConst;
+import item.*;
 import lombok.NonNull;
 import lombok.Synchronized;
 import manager.Manager;
@@ -13,12 +11,10 @@ import network.Message;
 import player.Player;
 import template.NpcTemplate;
 import utils.CommandMessage;
-import consts.Const;
-import consts.ItemEquipConst;
-import consts.NpcConst;
-import item.ItemAnimal;
-import java.util.stream.Stream;
 import utils.Util;
+
+import java.io.IOException;
+import java.util.stream.Stream;
 
 /**
  *
@@ -341,6 +337,7 @@ public class InventoryService {
         msg.writer().writeByte(player.getInventory().getItemBody().size());
         for (short i = 0; i < player.getInventory().getItemBody().size(); i++) {
             ItemEquip itemEquipment = player.getInventory().getItemBody().get(i);
+            System.out.println(itemEquipment.toString());
             msg.writer().writeByte(itemEquipment.getClassChar());
             msg.writer().writeShort(itemEquipment.getIdItem());
             msg.writer().writeShort(itemEquipment.getTemplate().getId());
@@ -360,6 +357,7 @@ public class InventoryService {
             msg.writer().writeByte(itemEquipment.getItemAttributes().size());
             for (int j = 0; j < itemEquipment.getItemAttributes().size(); j++) {
                 Attribute att = itemEquipment.getItemAttributes().get(j);
+                System.out.println(att.getInfo());
                 msg.writer().writeByte(att.getTemplate().getId());
                 msg.writer().writeShort(att.getValue());
             }
@@ -667,8 +665,7 @@ public class InventoryService {
                 itemEquipment.setIdItem((short) 1);
                 player.getInventory().setMaxIdItem((short) 1);
             }
-            case 32766 ->
-                player.getInventory().initIdItem();
+            case 32766 -> player.getInventory().initIdItem();
         }
     }
 
@@ -683,8 +680,7 @@ public class InventoryService {
                 itemGem.setIdItem((short) 1);
                 player.getInventory().setMaxIdItem((short) 1);
             }
-            case 32766 ->
-                player.getInventory().initIdItem();
+            case 32766 -> player.getInventory().initIdItem();
         }
     }
 }
