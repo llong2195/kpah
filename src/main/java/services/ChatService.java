@@ -126,7 +126,7 @@ public class ChatService {
             try {
                 byte exp = Byte.parseByte(strInput);
                 pl.getInfo().setLevel(exp);
-                pl.getPoint().setExp(Math.min(1, pl.getPoint().getExp() - Util.getExp(pl.getInfo().getLevel())));
+                pl.getPoint().setExp(Math.max(1, pl.getPoint().getExp() - Util.getExp(pl.getInfo().getLevel())));
                 pl.getPoint().plusStrength(exp);
                 pl.getPoint().plusHealth(exp);
                 pl.getPoint().plusAgility(exp);
