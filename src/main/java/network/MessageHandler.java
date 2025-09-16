@@ -68,7 +68,8 @@ public class MessageHandler {
                         short idItem = msg.reader().readShort();
                         int price = msg.reader().readInt();
                         byte typeItem = msg.reader().readByte();
-                        DepositeService.instance.requestSellItem(player, isSell, typeNpc, indexShop, idItem, price, typeItem);
+                        DepositeService.instance.requestSellItem(player, isSell, typeNpc, indexShop, idItem, price,
+                                typeItem);
                     }
                 }
                 case CommandMessage.GET_DEPOSITE_ITEM -> {
@@ -158,7 +159,8 @@ public class MessageHandler {
                         if (type == CombineConst.THEM_THUOC_TINH) {
                             short idDaTienGiai = msg.reader().readShort();
                             byte isLockDaTienGiai = msg.reader().readByte();
-                            CombineService.instance.doThemDong(player, idItem, idMaterial, iLock == 1, idDaTienGiai, isLockDaTienGiai == 1);
+                            CombineService.instance.doThemDong(player, idItem, idMaterial, iLock == 1, idDaTienGiai,
+                                    isLockDaTienGiai == 1);
                         } else {
                             CombineService.instance.doTachNguyenLieu(player, type, idItem, idMaterial, iLock == 1);
                         }
@@ -187,7 +189,8 @@ public class MessageHandler {
                 }
                 case CommandMessage.CHOOSE_ICON_CLAN -> {
                     if (player != null) {
-                        ClanService.instance.confirmRegisterClan(player, msg.reader().readShort(), msg.reader().readUTF());
+                        ClanService.instance.confirmRegisterClan(player, msg.reader().readShort(),
+                                msg.reader().readUTF());
                     }
                 }
                 case CommandMessage.TOP_STRONGER_RICHER -> {
@@ -319,7 +322,8 @@ public class MessageHandler {
                                 classChar = msg.reader().readByte();
                             }
                             if (quantity > 0 && id > 0) {
-                                player.getSundry().getItemNpcShop().add(new ItemBuyNpc(category, id, quantity, classChar));
+                                player.getSundry().getItemNpcShop()
+                                        .add(new ItemBuyNpc(category, id, quantity, classChar));
                             }
                         }
                         ShopService.instance.buyItemNpcShop(player, player.getSundry().getSelectedOption());
@@ -338,11 +342,13 @@ public class MessageHandler {
                         if (typeGem == Const.DROP_GEM_ITEM) {
                             boolean isLockItem = msg.reader().readByte() == 1;
                             if (isLockItem) {
-                                InventoryService.instance.removeItemGemLock(player, InventoryService.instance.findItemGemLock(player, idGem));
+                                InventoryService.instance.removeItemGemLock(player,
+                                        InventoryService.instance.findItemGemLock(player, idGem));
                                 InventoryService.instance.sendItemGemLock(player);
                                 return;
                             }
-                            InventoryService.instance.removeItemGem(player, InventoryService.instance.findItemGem(player, idGem));
+                            InventoryService.instance.removeItemGem(player,
+                                    InventoryService.instance.findItemGem(player, idGem));
                             InventoryService.instance.sendItemGem(player);
                         }
                     }
@@ -400,7 +406,8 @@ public class MessageHandler {
                 case CommandMessage.DELL_POTION -> {
                     if (player != null) {
                         short potionType = msg.reader().readShort();
-                        InventoryService.instance.removeItemPotion(player, InventoryService.instance.findItemPotion(player, (byte) potionType));
+                        InventoryService.instance.removeItemPotion(player,
+                                InventoryService.instance.findItemPotion(player, (byte) potionType));
                         InventoryService.instance.sendItemPotion(player);
                     }
                 }
@@ -409,7 +416,8 @@ public class MessageHandler {
                         short num = msg.reader().readShort();
                         for (int i = 0; i < num; i++) {
                             short gemId = msg.reader().readShort();
-                            player.getSundry().getItemNpcShop().add(new ItemBuyNpc(Const.CATEGORY_GEM_ITEM, gemId, (short) 1, (byte) -1));
+                            player.getSundry().getItemNpcShop()
+                                    .add(new ItemBuyNpc(Const.CATEGORY_GEM_ITEM, gemId, (short) 1, (byte) -1));
                         }
                         ShopService.instance.buyItemNpcShop(player, ItemEquipConst.DAMAGE_NONE);
                     }
@@ -437,7 +445,8 @@ public class MessageHandler {
                     if (player != null) {
                         byte type = msg.reader().readByte();
                         byte idType = 0;
-                        if (type == NpcConst.THIET_BI || type == NpcConst.GIAP_SU || (type > NpcConst.HOA_TIEU && type != 30)) {
+                        if (type == NpcConst.THIET_BI || type == NpcConst.GIAP_SU
+                                || (type > NpcConst.HOA_TIEU && type != 30)) {
                             idType = msg.reader().readByte();
                         }
                         NpcService.instance.onNpcInfo(player, type, idType);
@@ -467,7 +476,8 @@ public class MessageHandler {
                 }
                 case CommandMessage.CHANGE_MAP -> {
                     if (player != null && player.getLocation().getZone() != null) {
-                        MapService.instance.doChangeMap(player, msg.reader().readShort(), msg.reader().readShort(), msg.reader().readShort());
+                        MapService.instance.doChangeMap(player, msg.reader().readShort(), msg.reader().readShort(),
+                                msg.reader().readShort());
                     }
                 }
                 case CommandMessage.LOAD_IMAGE_MONSTER -> {

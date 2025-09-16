@@ -53,11 +53,16 @@ public class ItemEquip {
         }
         byte heKich = ItemEquipConst.KICH_HE[he];
         if (rank > 0 && rank < 5 && template.getType() < 13 && template.getType() != 8) {
-            String[] groupKich2 = ItemEquipConst.GROUP_KICH[template.getType()][viTriVe != 1 && template.getType() == 8 ? 3 : 1].split("_");
-            String[] groupKich1 = ItemEquipConst.GROUP_KICH[template.getType()][viTriVe != 1 && template.getType() == 8 ? 2 : 0].split("_");
+            String[] groupKich2 = ItemEquipConst.GROUP_KICH[template.getType()][viTriVe != 1 && template.getType() == 8
+                    ? 3
+                    : 1].split("_");
+            String[] groupKich1 = ItemEquipConst.GROUP_KICH[template.getType()][viTriVe != 1 && template.getType() == 8
+                    ? 2
+                    : 0].split("_");
             byte typeKich1 = Byte.parseByte(groupKich1[0]);
             byte viTri1 = Byte.parseByte(groupKich1[1]);
-            byte typeKich2 = (byte) (Byte.parseByte(groupKich2[0]) == 3 ? 3 + player.getInfo().getClassPlayer() : Byte.parseByte(groupKich2[0]));
+            byte typeKich2 = (byte) (Byte.parseByte(groupKich2[0]) == 3 ? 3 + player.getInfo().getClassPlayer()
+                    : Byte.parseByte(groupKich2[0]));
             byte viTri2 = Byte.parseByte(groupKich2[1]);
             ItemEquip item = InventoryService.instance.findItemBodyByTypeHe(player, typeKich1, heKich, viTri1);
             ItemEquip item2 = InventoryService.instance.findItemBodyByTypeHe(player, typeKich2, heKich, viTri2);
@@ -71,25 +76,31 @@ public class ItemEquip {
     }
 
     public boolean isJewelry() {
-        return Arrays.asList(ItemEquipConst.NHAN, ItemEquipConst.DAY_CHUYEN, ItemEquipConst.NGOC).contains(template.getType());
+        return Arrays.asList(ItemEquipConst.NHAN, ItemEquipConst.DAY_CHUYEN, ItemEquipConst.NGOC)
+                .contains(template.getType());
     }
 
     public boolean isArmor() {
-        return Arrays.asList(ItemEquipConst.AO, ItemEquipConst.QUAN, ItemEquipConst.MU, ItemEquipConst.GIAY, ItemEquipConst.GANG).contains(template.getType());
+        return Arrays.asList(ItemEquipConst.AO, ItemEquipConst.QUAN, ItemEquipConst.MU, ItemEquipConst.GIAY,
+                ItemEquipConst.GANG).contains(template.getType());
     }
 
     public boolean isWeapon() {
-        return Arrays.asList(ItemEquipConst.VU_KHI_KIEM, ItemEquipConst.VU_KHI_DAO, ItemEquipConst.VU_KHI_BUT, ItemEquipConst.VU_KHI_BUA, ItemEquipConst.VU_KHI_CUNG).contains(template.getType());
+        return Arrays.asList(ItemEquipConst.VU_KHI_KIEM, ItemEquipConst.VU_KHI_DAO, ItemEquipConst.VU_KHI_BUT,
+                ItemEquipConst.VU_KHI_BUA, ItemEquipConst.VU_KHI_CUNG).contains(template.getType());
     }
 
     public boolean isAnimalArmor() {
-        return Arrays.asList(ItemEquipConst.ANIMAL_GIAP, ItemEquipConst.ANIMAL_HO_UYEN, ItemEquipConst.ANIMAL_NON, ItemEquipConst.ANIMAL_BAN_DAP, ItemEquipConst.ANIMAL_YEN).contains(template.getType());
+        return Arrays.asList(ItemEquipConst.ANIMAL_GIAP, ItemEquipConst.ANIMAL_HO_UYEN, ItemEquipConst.ANIMAL_NON,
+                ItemEquipConst.ANIMAL_BAN_DAP, ItemEquipConst.ANIMAL_YEN).contains(template.getType());
     }
 
     public void subDefend() {
-        List<Byte> equipTypeDefs = Arrays.asList(ItemEquipConst.AO, ItemEquipConst.QUAN, ItemEquipConst.GIAY, ItemEquipConst.GANG);
+        List<Byte> equipTypeDefs = Arrays.asList(ItemEquipConst.AO, ItemEquipConst.QUAN, ItemEquipConst.GIAY,
+                ItemEquipConst.GANG);
 
-        // (template.getType() < 2) || (template.getType() == 10) || (template.getType() == 11) || isAnimalArmor()
+        // (template.getType() < 2) || (template.getType() == 10) || (template.getType()
+        // == 11) || isAnimalArmor()
         if (equipTypeDefs.contains(template.getType()) || isAnimalArmor()) {
             short thuVat = getValue((byte) 1);
             if (damageType == ItemEquipConst.DAMAGE_MAGIC) {
@@ -158,7 +169,7 @@ public class ItemEquip {
         arr.put(he);
         try {
             arr.put(new JSONArray(itemAttributes.toString()));
-        } catch (JSONException _) {
+        } catch (JSONException e) {
         }
         return arr.toString();
     }

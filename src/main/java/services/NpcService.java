@@ -1,11 +1,12 @@
 package services;
 
 import java.io.IOException;
+
+import consts.ItemEquipConst;
+import consts.NpcConst;
 import lombok.NonNull;
 import player.Player;
-import consts.ItemEquipConst;
 import utils.Printer;
-import consts.NpcConst;
 
 /**
  *
@@ -22,7 +23,8 @@ public class NpcService {
         player.getSundry().setIdNpcOpen(type);
         player.getSundry().setSelected(idType);
         switch (type) {
-            case NpcConst.NHAT_GIAP, NpcConst.NHI_GIAP, NpcConst.TAM_GIAP, NpcConst.TU_GIAP, NpcConst.NGU_GIAP, NpcConst.NHAT_NGUU ->
+            case NpcConst.NHAT_GIAP, NpcConst.NHI_GIAP, NpcConst.TAM_GIAP, NpcConst.TU_GIAP, NpcConst.NGU_GIAP,
+                    NpcConst.NHAT_NGUU ->
                 DepositeService.instance.sendGianHang(player, idType);
             case NpcConst.HOA_TIEU_NEW_2 ->
                 MenuOptionService.instance.sendMenuHoaTieu2(player);

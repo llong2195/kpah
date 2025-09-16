@@ -38,7 +38,8 @@ public class BuffService {
         if (levelSkill <= 0) {
             return;
         }
-        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill], Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
+        if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill],
+                Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
             return;
         }
         int skillMP = Manager.getSkillMP(pl.getInfo().getClassPlayer(), typeSkill, levelSkill);
@@ -107,7 +108,8 @@ public class BuffService {
         }
     }
 
-    public int onAttackPlayerHasBuff(@NonNull Monster mobAttack, @NonNull Player playerTarget, int damage) throws IOException {
+    public int onAttackPlayerHasBuff(@NonNull Monster mobAttack, @NonNull Player playerTarget, int damage)
+            throws IOException {
         if (playerTarget.isDie() || mobAttack.isDie()) {
             return damage;
         }
@@ -116,7 +118,8 @@ public class BuffService {
                 if (playerTarget.getSkillBuff().isExistBuff(BuffConst.DI_LUC_DAO_CONG)) {
                     short percentDamage = playerTarget.getSkillBuff().getPercentDame(BuffConst.DI_LUC_DAO_CONG);
                     if (Util.isTrue((double) percentDamage, 100.0)) {
-                        short hp = (short) mobAttack.injured(playerTarget, (int) (damage * percentDamage / 100), false, true, false);
+                        short hp = (short) mobAttack.injured(playerTarget, (int) (damage * percentDamage / 100), false,
+                                true, false);
                         if (hp > 0) {
                             sendSubHpByBuffInfluence(mobAttack, hp);
                         }
@@ -138,7 +141,8 @@ public class BuffService {
         return damage;
     }
 
-    public int onAttackPlayerHasBuff(@NonNull Player playerAttack, @NonNull Player playerTarget, int damage) throws IOException {
+    public int onAttackPlayerHasBuff(@NonNull Player playerAttack, @NonNull Player playerTarget, int damage)
+            throws IOException {
         if (playerTarget.isDie() || playerAttack.isDie()) {
             return damage;
         }
@@ -147,7 +151,8 @@ public class BuffService {
                 if (playerTarget.getSkillBuff().isExistBuff(BuffConst.DI_LUC_DAO_CONG)) {
                     short percentDamage = playerTarget.getSkillBuff().getPercentDame(BuffConst.DI_LUC_DAO_CONG);
                     if (Util.isTrue((double) percentDamage, 100.0)) {
-                        short hp = (short) playerAttack.injured((int) (damage * percentDamage / 100), true, ItemEquipConst.DAMAGE_NONE, false);
+                        short hp = (short) playerAttack.injured((int) (damage * percentDamage / 100), true,
+                                ItemEquipConst.DAMAGE_NONE, false);
                         if (hp > 0) {
                             sendSubHpByBuffInfluence(playerAttack, hp);
                         }
@@ -227,7 +232,8 @@ public class BuffService {
         msg.writer().writeShort(0);
         msg.writer().writeByte(4);
         msg.writer().writeByte(idBuff);
-        msg.writer().writeByte(idBuff == BuffConst.BUFF_DOC_TO ? player.getBuffInfluence().getSecondPosonedLeft() : player.getBuffInfluence().getSecondOfStunned());
+        msg.writer().writeByte(idBuff == BuffConst.BUFF_DOC_TO ? player.getBuffInfluence().getSecondPosonedLeft()
+                : player.getBuffInfluence().getSecondOfStunned());
         MapService.instance.sendAllPlayerInMap(player, msg);
     }
 
@@ -239,7 +245,8 @@ public class BuffService {
         msg.writer().writeShort(0);
         msg.writer().writeByte(4);
         msg.writer().writeByte(idBuff);
-        msg.writer().writeByte(idBuff == BuffConst.BUFF_DOC_TO ? mob.getBuffInfluence().getSecondPosonedLeft() : mob.getBuffInfluence().getSecondOfStunned());
+        msg.writer().writeByte(idBuff == BuffConst.BUFF_DOC_TO ? mob.getBuffInfluence().getSecondPosonedLeft()
+                : mob.getBuffInfluence().getSecondOfStunned());
         MapService.instance.sendAllPlayerInMap(mob, msg);
     }
 

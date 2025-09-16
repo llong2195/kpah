@@ -1,13 +1,15 @@
 package services;
 
-import daos.PlayerDAO;
-import effects.EffectData;
-import interfaces.ISession;
-import item.ItemEquip;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
+
+import consts.Const;
+import daos.PlayerDAO;
+import effects.EffectData;
+import interfaces.ISession;
+import item.ItemEquip;
 import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.Synchronized;
@@ -15,13 +17,12 @@ import manager.ClientManager;
 import manager.ExecutorVirtualThread;
 import manager.Manager;
 import manager.Settings;
-import player.Player;
 import network.Message;
+import player.Player;
 import template.ItemQuestTemplate;
 import template.PotionTemplate;
 import template.SkillNewTemplate;
 import utils.CommandMessage;
-import consts.Const;
 import utils.Util;
 
 /**
@@ -49,7 +50,11 @@ public class LoginService {
                     }
                     if (pl.getSundry().getDayCanRestore() == -1) {
                         if (!Util.canDoWithTime(pl.getSundry().getLastTimeLogout(), Settings.MILISECOND_WAIT_LOGIN)) {
-                            Service.instance.sendLogOut(session, "Bạn chỉ có thể vào lại game sau " + (Settings.SECOND_WAIT_LOGIN - Util.getSecondDifference(System.currentTimeMillis(), pl.getSundry().getLastTimeLogout())) + " giây nữa");
+                            Service.instance.sendLogOut(session,
+                                    "Bạn chỉ có thể vào lại game sau "
+                                            + (Settings.SECOND_WAIT_LOGIN - Util.getSecondDifference(
+                                                    System.currentTimeMillis(), pl.getSundry().getLastTimeLogout()))
+                                            + " giây nữa");
                             return;
                         }
                         session.emptyListChar(pl.getIdDatabase());
@@ -58,7 +63,8 @@ public class LoginService {
                         pl.setUp();
                         sendDataWhenLogin(pl);
                         ExecutorVirtualThread.submitThreadPlayer(pl.updatePlayer());
-                        ChangeMapService.instance.changeMap(pl, pl.getLocation().getZone(), pl.getLocation().getX(), pl.getLocation().getY());
+                        ChangeMapService.instance.changeMap(pl, pl.getLocation().getZone(), pl.getLocation().getX(),
+                                pl.getLocation().getY());
                     }
                 }
             }
@@ -76,7 +82,8 @@ public class LoginService {
         sendDataLogin(pl);
         MapService.instance.sendLocationServer(pl);
         Service.instance.sendConfigGame(pl, Const.SHOW_TREE_AND_PLAYER);
-        ChatService.instance.sendChatDelay(pl, String.format("Chào mừng đến với %s. Chúc bạn chơi game vui vẻ", Settings.NAME_SERVER));
+        ChatService.instance.sendChatDelay(pl,
+                String.format("Chào mừng đến với %s. Chúc bạn chơi game vui vẻ", Settings.NAME_SERVER));
         MapService.instance.sendXaPhuTemplate(pl);
         SkillService.instance.sendSkillInfo(pl);
         Service.instance.sendMainCharInfo(pl);
@@ -195,7 +202,8 @@ public class LoginService {
             m.writer().writeByte(pl.getSundry().getDayCanRestore() == -1 ? 1 : 0);
             m.writer().writeByte(pl.getInfo().getIdNation());
             m.writer().writeShort(pl.getSundry().getDayCanRestore());
-            ItemEquip weapon = InventoryService.instance.findItemBodyByType(pl, (byte) (3 + pl.getInfo().getClassPlayer()));
+            ItemEquip weapon = InventoryService.instance.findItemBodyByType(pl,
+                    (byte) (3 + pl.getInfo().getClassPlayer()));
             if (weapon == null) {
                 m.writer().writeByte(-1);
             } else {

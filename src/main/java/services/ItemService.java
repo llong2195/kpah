@@ -1,29 +1,30 @@
 package services;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+
+import consts.Const;
+import consts.ItemEquipConst;
 import item.Attribute;
+import item.ItemAnimal;
 import item.ItemEquip;
 import item.ItemFriend;
 import item.ItemGem;
 import item.ItemMap;
 import item.ItemPotion;
 import item.ItemQuest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import lombok.NonNull;
 import manager.Manager;
 import map.Zone;
-import player.Player;
 import network.Message;
-import template.GemTemplate;
+import player.Player;
 import template.AttributeEquipTemplate;
+import template.GemTemplate;
 import template.ItemEquipTemplate;
 import template.PotionTemplate;
 import template.ShopTemplate;
 import utils.CommandMessage;
-import consts.Const;
-import consts.ItemEquipConst;
-import item.ItemAnimal;
 import utils.Util;
 
 /**
@@ -40,7 +41,11 @@ public class ItemService {
             classChar = template.getClassChar();
         }
         byte typeDamage = (byte) (typeDamages.length <= 0 ? ItemEquipConst.DAMAGE_NONE : typeDamages[0]);
-        ItemEquip item = ItemEquip.builder().he(ItemEquipConst.NONE_HE).template(template).colorName(ItemEquipConst.NONE_COLOR).level(template.getLevel()).plusTemplate((byte) 0).classChar(classChar).isLock(false).damageType(typeDamage).durable(template.getDurable()).mDurable(template.getDurable()).viTriVe((byte) 0).rank(ItemEquipConst.NONE_RANK).nameCharSeal("").itemAttributes(new ArrayList<>()).dayUse(0).timeCreateItem(System.currentTimeMillis()).build();
+        ItemEquip item = ItemEquip.builder().he(ItemEquipConst.NONE_HE).template(template)
+                .colorName(ItemEquipConst.NONE_COLOR).level(template.getLevel()).plusTemplate((byte) 0)
+                .classChar(classChar).isLock(false).damageType(typeDamage).durable(template.getDurable())
+                .mDurable(template.getDurable()).viTriVe((byte) 0).rank(ItemEquipConst.NONE_RANK).nameCharSeal("")
+                .itemAttributes(new ArrayList<>()).dayUse(0).timeCreateItem(System.currentTimeMillis()).build();
         if (item.getTemplate().getAttribute()[0] > 0) {
             item.getItemAttributes().add(new Attribute((short) 0, item.getTemplate().getAttribute()[0]));
         }
@@ -48,7 +53,9 @@ public class ItemService {
             item.setDamageType(ItemEquipConst.DAMAGE_NONE);
         }
         for (short i = 1; i < 7; i++) {
-            short value = (short) ((item.getTemplate().getAttribute()[i] + (!item.isAnimalArmor() ? item.getTemplate().getAttribute()[i] * Manager.PERCENT_ATTRIBUTE[classChar] / 100 : 0)));
+            short value = (short) ((item.getTemplate().getAttribute()[i] + (!item.isAnimalArmor()
+                    ? item.getTemplate().getAttribute()[i] * Manager.PERCENT_ATTRIBUTE[classChar] / 100
+                    : 0)));
             if (value > 0 && Manager.ATTRIBUTE_FOR_TYPE[item.getTemplate().getType()][i]) {
                 item.getItemAttributes().add(new Attribute(i, value));
             }
@@ -58,18 +65,27 @@ public class ItemService {
     }
 
     public ItemEquip createNewItemEquipment(@NonNull ItemMap itemMap) {
-        ItemEquip item = this.createNewItemEquipment(itemMap.getItemTemplateID(), (byte) Util.nextInt(Const.KIEM_KHACH, Const.CUNG_THU), (byte) Util.getOne(ItemEquipConst.DAMAGE_PHYSIC, ItemEquipConst.DAMAGE_MAGIC));
+        ItemEquip item = this.createNewItemEquipment(itemMap.getItemTemplateID(),
+                (byte) Util.nextInt(Const.KIEM_KHACH, Const.CUNG_THU),
+                (byte) Util.getOne(ItemEquipConst.DAMAGE_PHYSIC, ItemEquipConst.DAMAGE_MAGIC));
         return item;
     }
 
     public ItemEquip createNewItemEquipment(@NonNull ItemEquip itemEquip) {
-        ItemEquip item = ItemEquip.builder().template(itemEquip.getTemplate()).plusTemplate(itemEquip.getPlusTemplate()).classChar(itemEquip.getClassChar()).isLock(itemEquip.isLock()).durable(itemEquip.getDurable()).mDurable(itemEquip.getMDurable()).level(itemEquip.getLevel()).colorName(itemEquip.getColorName()).viTriVe(itemEquip.getViTriVe()).he(itemEquip.getHe()).rank(itemEquip.getRank()).damageType(itemEquip.getDamageType()).nameCharSeal(itemEquip.getNameCharSeal()).dayUse(itemEquip.getDayUse()).timeCreateItem(itemEquip.getTimeCreateItem()).itemAttributes(new ArrayList<>()).build();
+        ItemEquip item = ItemEquip.builder().template(itemEquip.getTemplate()).plusTemplate(itemEquip.getPlusTemplate())
+                .classChar(itemEquip.getClassChar()).isLock(itemEquip.isLock()).durable(itemEquip.getDurable())
+                .mDurable(itemEquip.getMDurable()).level(itemEquip.getLevel()).colorName(itemEquip.getColorName())
+                .viTriVe(itemEquip.getViTriVe()).he(itemEquip.getHe()).rank(itemEquip.getRank())
+                .damageType(itemEquip.getDamageType()).nameCharSeal(itemEquip.getNameCharSeal())
+                .dayUse(itemEquip.getDayUse()).timeCreateItem(itemEquip.getTimeCreateItem())
+                .itemAttributes(new ArrayList<>()).build();
         item.getItemAttributes().addAll(itemEquip.getItemAttributes());
         return item;
     }
 
     public ItemAnimal createNewItemAnimal(short id) {
-        ItemAnimal item = ItemAnimal.builder().template(Manager.getAnimalTemplate(id)).attributes(new ArrayList<>()).minutes(-1).level((byte) 1).timeStart(0).build();
+        ItemAnimal item = ItemAnimal.builder().template(Manager.getAnimalTemplate(id)).attributes(new ArrayList<>())
+                .minutes(-1).level((byte) 1).timeStart(0).build();
         return item;
     }
 
@@ -93,13 +109,16 @@ public class ItemService {
         return item;
     }
 
-    public ItemMap createNewItemMap(short id, short quantity, byte catagory, short x, short y, short playerDrop, Zone zone) {
-        ItemMap item = new ItemMap(catagory, id, (short) -1, quantity, x, y, zone, System.currentTimeMillis(), playerDrop);
+    public ItemMap createNewItemMap(short id, short quantity, byte catagory, short x, short y, short playerDrop,
+            Zone zone) {
+        ItemMap item = new ItemMap(catagory, id, (short) -1, quantity, x, y, zone, System.currentTimeMillis(),
+                playerDrop);
         return item;
     }
 
     public ItemFriend createNewItemFriend(ItemEquip item) {
-        ItemFriend itemF = ItemFriend.builder().classChar(item.getClassChar()).idTemplate(item.getTemplate().getId()).level(item.getLevel()).plusTemplate(item.getPlusTemplate()).build();
+        ItemFriend itemF = ItemFriend.builder().classChar(item.getClassChar()).idTemplate(item.getTemplate().getId())
+                .level(item.getLevel()).plusTemplate(item.getPlusTemplate()).build();
         return itemF;
     }
 
@@ -143,7 +162,8 @@ public class ItemService {
         MapService.instance.sendAllPlayerInMap(playerPick, msg);
     }
 
-    public void removeItemEquipmentFromGround(@NonNull Player playerPick, @NonNull ItemMap itemMap, @NonNull ItemEquip equipmentPick) throws IOException {
+    public void removeItemEquipmentFromGround(@NonNull Player playerPick, @NonNull ItemMap itemMap,
+            @NonNull ItemEquip equipmentPick) throws IOException {
         Message msg = new Message(CommandMessage.GET_ITEM_FROM_GROUND);
         msg.writer().writeShort(playerPick.getIdPlayer());
         msg.writer().writeByte(equipmentPick.getClassChar());
@@ -159,7 +179,8 @@ public class ItemService {
     }
 
     public void sendItemInfo(@NonNull Player player, short index, short idTemp) throws IOException {
-        ItemEquip item = idTemp == player.getIdPlayer() ? InventoryService.instance.findItemBag(player, index) : InventoryService.instance.findItemBody(player, index);
+        ItemEquip item = idTemp == player.getIdPlayer() ? InventoryService.instance.findItemBag(player, index)
+                : InventoryService.instance.findItemBody(player, index);
         if (item == null) {
             return;
         }

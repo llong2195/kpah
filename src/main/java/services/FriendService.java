@@ -1,10 +1,11 @@
 package services;
 
-import item.ItemEquip;
-import item.ItemFriend;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import item.ItemEquip;
+import item.ItemFriend;
 import lombok.NonNull;
 import network.Message;
 import player.Friend;
@@ -46,19 +47,27 @@ public class FriendService {
             return;
         }
         if (playerReceive.getFriends().stream().anyMatch(f -> f != null && f.getId() == idPlayerSend)) {
-            Service.instance.sendLogOut(playerReceive.getSession(), String.format("Đã kết bạn với %s rồi", playerSend.getName()));
+            Service.instance.sendLogOut(playerReceive.getSession(),
+                    String.format("Đã kết bạn với %s rồi", playerSend.getName()));
             return;
         }
         List<ItemFriend> itemFriendSend = new ArrayList<>();
         for (ItemEquip item : playerSend.getInventory().getItemBody()) {
             itemFriendSend.add(ItemService.instance.createNewItemFriend(item));
         }
-        Friend friendSend = Friend.builder().id(playerSend.getIdDatabase()).name(playerSend.getName()).head(playerSend.getInfo().getHead()).level(playerSend.getInfo().getLevel()).idClan(playerSend.getInfo().getClan() == null ? -1 : playerSend.getInfo().getClan().getIndexIcon()).isMaster((byte) -1).items(itemFriendSend).build();
+        Friend friendSend = Friend.builder().id(playerSend.getIdDatabase()).name(playerSend.getName())
+                .head(playerSend.getInfo().getHead()).level(playerSend.getInfo().getLevel())
+                .idClan(playerSend.getInfo().getClan() == null ? -1 : playerSend.getInfo().getClan().getIndexIcon())
+                .isMaster((byte) -1).items(itemFriendSend).build();
         List<ItemFriend> itemFriendReceive = new ArrayList<>();
         for (ItemEquip item : playerReceive.getInventory().getItemBody()) {
             itemFriendReceive.add(ItemService.instance.createNewItemFriend(item));
         }
-        Friend friendReceive = Friend.builder().id(playerReceive.getIdDatabase()).name(playerReceive.getName()).head(playerReceive.getInfo().getHead()).level(playerReceive.getInfo().getLevel()).idClan(playerReceive.getInfo().getClan() == null ? -1 : playerReceive.getInfo().getClan().getIndexIcon()).isMaster((byte) -1).items(itemFriendReceive).build();
+        Friend friendReceive = Friend.builder().id(playerReceive.getIdDatabase()).name(playerReceive.getName())
+                .head(playerReceive.getInfo().getHead()).level(playerReceive.getInfo().getLevel())
+                .idClan(playerReceive.getInfo().getClan() == null ? -1
+                        : playerReceive.getInfo().getClan().getIndexIcon())
+                .isMaster((byte) -1).items(itemFriendReceive).build();
         playerReceive.getFriends().add(friendSend);
         playerSend.getFriends().add(friendReceive);
         sendListFriend(playerSend);
@@ -71,7 +80,8 @@ public class FriendService {
             return;
         }
         if (playerSend.getFriends().stream().anyMatch(f -> f != null && f.getId() == idPlayerReceive)) {
-            Service.instance.sendLogOut(playerSend.getSession(), String.format("Đã kết bạn với %s rồi", playerReceive.getName()));
+            Service.instance.sendLogOut(playerSend.getSession(),
+                    String.format("Đã kết bạn với %s rồi", playerReceive.getName()));
             return;
         }
         sendRequestAddFriend(playerSend, playerReceive);

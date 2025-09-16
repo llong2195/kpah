@@ -1,5 +1,7 @@
 package services;
 
+import java.io.IOException;
+
 import consts.Const;
 import deposite.Deposite;
 import deposite.DepositeItemEquip;
@@ -7,7 +9,6 @@ import deposite.DepositeItemGem;
 import item.ItemEquip;
 import item.ItemGem;
 import item.ItemPotion;
-import java.io.IOException;
 import lombok.NonNull;
 import manager.Manager;
 import network.Message;
@@ -48,7 +49,8 @@ public class TextBoxService {
                 short idItem = player.getSundry().getItemIdDeposite();
                 byte category = player.getSundry().getCategoryDeposite();
                 int price = player.getSundry().getPriceDeposite();
-                String depositeName = String.format("%s_%s", player.getSundry().getNpcTypeDeposite(), player.getSundry().getIndexShopDeposite());
+                String depositeName = String.format("%s_%s", player.getSundry().getNpcTypeDeposite(),
+                        player.getSundry().getIndexShopDeposite());
                 Deposite deposite = Manager.getDeposite(depositeName);
                 if (deposite == null) {
                     return;
@@ -70,7 +72,8 @@ public class TextBoxService {
                             return;
                         }
                         deposite.addPlayer(player);
-                        DepositeItemGem depositeItemGem = new DepositeItemGem((short) 0, item, depositeName, price, text);
+                        DepositeItemGem depositeItemGem = new DepositeItemGem((short) 0, item, depositeName, price,
+                                text);
                         player.getSundry().addDepositeItemGem(depositeItemGem);
                         depositeItemGem.setIdReal((short) (idItem + player.getSundry().indexOfGem(depositeItemGem)));
                         DepositeService.instance.onPlayerSellItemGem(player, item, price);

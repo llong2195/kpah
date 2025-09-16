@@ -66,7 +66,6 @@ public class ResultSetImpl {
         }
     }
 
-
     public void close() {
         for (Map map : this.data) {
             if (map != null) {

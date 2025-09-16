@@ -1,25 +1,26 @@
 package services;
 
-import consts.ManufactureConst;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import consts.CombineConst;
 import consts.Const;
-import java.io.IOException;
-import lombok.NonNull;
-import network.Message;
-import player.Player;
-import utils.CommandMessage;
 import consts.ItemEquipConst;
+import consts.ManufactureConst;
 import consts.NpcConst;
-import item.ItemAnimal;
 import item.Attribute;
+import item.ItemAnimal;
 import item.ItemEquip;
 import item.ItemGem;
 import item.ItemPotion;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Cleanup;
+import lombok.NonNull;
 import manager.Manager;
+import network.Message;
+import player.Player;
 import template.HoaTieuTemplate;
+import utils.CommandMessage;
 import utils.Util;
 
 /**
@@ -99,10 +100,12 @@ public class MenuOptionService {
                     return;
                 }
                 InventoryService.instance.sendItemPotion(player);
-                ItemEquip item = InventoryService.instance.findItemBody(player, player.getSundry().getIdDoiHe().get(selected));
+                ItemEquip item = InventoryService.instance.findItemBody(player,
+                        player.getSundry().getIdDoiHe().get(selected));
                 if (item != null && item.getHe() != ItemEquipConst.NONE_HE) {
                     item.setHe((byte) Util.nextInt(ItemEquipConst.THUY, ItemEquipConst.KIM));
-                    Service.instance.sendLogOut(player.getSession(), String.format("%s đã được đổi sang hệ %s", item.getTemplate().getName(), ItemEquipConst.HE[item.getHe()]));
+                    Service.instance.sendLogOut(player.getSession(), String.format("%s đã được đổi sang hệ %s",
+                            item.getTemplate().getName(), ItemEquipConst.HE[item.getHe()]));
                     InventoryService.instance.sendItemBody(player);
                     player.getPoint().initPoint();
                     Service.instance.sendMainCharInfo(player);
@@ -114,7 +117,8 @@ public class MenuOptionService {
                 sendMenuSelectNguyenLieu(player);
             }
             case CREATE_ANIMAL_ARMOR -> {
-                player.getManufacture().setTypeDamageCreate(selected == 0 ? ItemEquipConst.DAMAGE_MAGIC : ItemEquipConst.DAMAGE_PHYSIC);
+                player.getManufacture().setTypeDamageCreate(
+                        selected == 0 ? ItemEquipConst.DAMAGE_MAGIC : ItemEquipConst.DAMAGE_PHYSIC);
                 sendMenuSelectColorAnimalArmor(player);
             }
             case SELECT_ANIMAL_ARMOR_CREATE -> {
@@ -138,7 +142,8 @@ public class MenuOptionService {
             case CREATE_ARMOR -> {
                 player.getManufacture().dispose();
                 player.getManufacture().setTypeCheTao(ManufactureConst.CHE_TAO_GIAP);
-                player.getManufacture().setTypeDamageCreate(selected == 0 ? ItemEquipConst.DAMAGE_MAGIC : ItemEquipConst.DAMAGE_PHYSIC);
+                player.getManufacture().setTypeDamageCreate(
+                        selected == 0 ? ItemEquipConst.DAMAGE_MAGIC : ItemEquipConst.DAMAGE_PHYSIC);
                 sendMenuClassCreateArmor(player);
             }
             case SELECT_NGUYEN_LIEU_CREATE -> {
@@ -233,16 +238,20 @@ public class MenuOptionService {
                 if (equipment == null) {
                     return;
                 }
-                if (equipment.getTemplate().getGender() != 0 && equipment.getTemplate().getGender() != player.getInfo().getGender()) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.", (equipment.getTemplate().getGender() == Const.MALE ? "nam" : "nữ")));
+                if (equipment.getTemplate().getGender() != 0
+                        && equipment.getTemplate().getGender() != player.getInfo().getGender()) {
+                    Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.",
+                            (equipment.getTemplate().getGender() == Const.MALE ? "nam" : "nữ")));
                     return;
                 }
                 if (equipment.getClassChar() != -1 && equipment.getClassChar() != player.getInfo().getClassPlayer()) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.", Const.NAME_CLASS_CHAR[equipment.getClassChar()]));
+                    Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.",
+                            Const.NAME_CLASS_CHAR[equipment.getClassChar()]));
                     return;
                 }
                 if (equipment.getLevel() > equipment.getLevel()) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Bạn phải đạt cấp %s để có thể dùng.", equipment.getLevel()));
+                    Service.instance.sendLogOut(player.getSession(),
+                            String.format("Bạn phải đạt cấp %s để có thể dùng.", equipment.getLevel()));
                     return;
                 }
                 if (equipment.getTemplate().getType() == 8) {
@@ -319,14 +328,16 @@ public class MenuOptionService {
                 }
                 ItemPotion trung = InventoryService.instance.findItemPotion(player, idItem);
                 if (trung == null) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Không tìm thấy trứng %s", Util.capitalizeFirstLetter(Manager.getPotionTemplate(idItem).getName().replace("Trứng ", ""))));
+                    Service.instance.sendLogOut(player.getSession(), String.format("Không tìm thấy trứng %s", Util
+                            .capitalizeFirstLetter(Manager.getPotionTemplate(idItem).getName().replace("Trứng ", ""))));
                     return;
                 }
                 createAnimal(player, idItem);
                 InventoryService.instance.minusQuantityItemPotion(player, trung, (short) 1);
                 InventoryService.instance.sendItemPotion(player);
                 InventoryService.instance.sendItemAnimal(player);
-                Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công linh thú %s", Util.capitalizeFirstLetter(trung.getTemplate().getName().replace("Trứng ", ""))));
+                Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công linh thú %s",
+                        Util.capitalizeFirstLetter(trung.getTemplate().getName().replace("Trứng ", ""))));
             }
             case LUYEN_THU -> {
                 switch (selected) {
@@ -349,7 +360,8 @@ public class MenuOptionService {
             case CONG_DICH_CHUYEN -> {
                 switch (selected) {
                     case 0 -> {
-                        byte countryGo = player.getLocation().getInCountry() == Const.THANH_LONG ? Const.HAC_HO : Const.THANH_LONG;
+                        byte countryGo = player.getLocation().getInCountry() == Const.THANH_LONG ? Const.HAC_HO
+                                : Const.THANH_LONG;
                         player.getLocation().setInCountry(countryGo);
                         ChangeMapService.instance.changeMap(player, (short) 118);
                         MapService.instance.sendLocationServer(player);
@@ -367,7 +379,8 @@ public class MenuOptionService {
                             MapService.instance.sendLocationServer(player);
                             Service.instance.sendMainCharInfo(player);
                         }
-                        ChangeMapService.instance.changeMap(player, player.getLocation().getMapVillage(), (short) 384, (short) 672);
+                        ChangeMapService.instance.changeMap(player, player.getLocation().getMapVillage(), (short) 384,
+                                (short) 672);
                     }
                     case 1 -> {
                         if (player.getLocation().getInCountry() != player.getInfo().getIdNation()) {
@@ -375,7 +388,9 @@ public class MenuOptionService {
                             MapService.instance.sendLocationServer(player);
                             Service.instance.sendMainCharInfo(player);
                         }
-                        ChangeMapService.instance.changeMap(player, (short) (player.getInfo().getIdNation() == Const.THANH_LONG ? 1701 : 301), (short) 384, (short) 672);
+                        ChangeMapService.instance.changeMap(player,
+                                (short) (player.getInfo().getIdNation() == Const.THANH_LONG ? 1701 : 301), (short) 384,
+                                (short) 672);
                     }
                 }
             }
@@ -432,27 +447,97 @@ public class MenuOptionService {
     public void sendMenuSelectArmorCreate(@NonNull Player player) throws IOException {
         switch (player.getManufacture().getTypeArmorCreate()) {
             case ManufactureConst.AO ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Áo Nữ lv20(Da mềm 1 Da cứng 1)", "Áo Nam lv20(Da mềm 1 Da cứng 1)", "Áo Nữ lv25(Da mềm 2 Da cứng 1)", "Áo Nam lv25(Da mềm 2 Da cứng 1)", "Áo Nữ lv30(Da mềm 3 Da cứng 1)", "Áo Nam lv30(Da mềm 3 Da cứng 1)", "Áo Nữ lv35(Da mềm 4 Da cứng 2)", "Áo Nam lv35(Da mềm 4 Da cứng 2)", "Áo Nữ lv40(Da mềm 4 Da cứng 3)", "Áo Nam lv40(Da mềm 4 Da cứng 3)", "Áo Nữ lv45(Da mềm 5 Da cứng 3)", "Áo Nam lv45(Da mềm 5 Da cứng 3)", "Áo Nữ lv50(Da mềm 5 Da cứng 4)", "Áo Nam lv50(Da mềm 5 Da cứng 4)", "Áo Nữ lv55(Da mềm 5 Da cứng 4)", "Áo Nam lv55(Da mềm 5 Da cứng 4)", "Áo Nữ lv60(Da mềm 5 Da cứng 5)", "Áo Nam lv60(Da mềm 5 Da cứng 5)", "Áo Nữ lv65(Da mềm 7 Da cứng 7)", "Áo Nam lv65(Da mềm 7 Da cứng 7)", "Áo Nữ lv70(Da mềm 9 Da cứng 9)", "Áo Nam lv70(Da mềm 9 Da cứng 9)", "Áo Nữ lv75(Da mềm 11 Da cứng 11)", "Áo Nam lv75(Da mềm 11 Da cứng 11)", "Áo Nữ lv80(Da mềm 13 Da cứng 13)", "Áo Nam lv80(Da mềm 13 Da cứng 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Áo Nữ lv20(Da mềm 1 Da cứng 1)",
+                        "Áo Nam lv20(Da mềm 1 Da cứng 1)", "Áo Nữ lv25(Da mềm 2 Da cứng 1)",
+                        "Áo Nam lv25(Da mềm 2 Da cứng 1)", "Áo Nữ lv30(Da mềm 3 Da cứng 1)",
+                        "Áo Nam lv30(Da mềm 3 Da cứng 1)", "Áo Nữ lv35(Da mềm 4 Da cứng 2)",
+                        "Áo Nam lv35(Da mềm 4 Da cứng 2)", "Áo Nữ lv40(Da mềm 4 Da cứng 3)",
+                        "Áo Nam lv40(Da mềm 4 Da cứng 3)", "Áo Nữ lv45(Da mềm 5 Da cứng 3)",
+                        "Áo Nam lv45(Da mềm 5 Da cứng 3)", "Áo Nữ lv50(Da mềm 5 Da cứng 4)",
+                        "Áo Nam lv50(Da mềm 5 Da cứng 4)", "Áo Nữ lv55(Da mềm 5 Da cứng 4)",
+                        "Áo Nam lv55(Da mềm 5 Da cứng 4)", "Áo Nữ lv60(Da mềm 5 Da cứng 5)",
+                        "Áo Nam lv60(Da mềm 5 Da cứng 5)", "Áo Nữ lv65(Da mềm 7 Da cứng 7)",
+                        "Áo Nam lv65(Da mềm 7 Da cứng 7)", "Áo Nữ lv70(Da mềm 9 Da cứng 9)",
+                        "Áo Nam lv70(Da mềm 9 Da cứng 9)", "Áo Nữ lv75(Da mềm 11 Da cứng 11)",
+                        "Áo Nam lv75(Da mềm 11 Da cứng 11)", "Áo Nữ lv80(Da mềm 13 Da cứng 13)",
+                        "Áo Nam lv80(Da mềm 13 Da cứng 13)");
             case ManufactureConst.QUAN ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Quần Nữ lv20(Vải 1 Tơ lụa 1)", "Quần Nam lv20(Vải 1 Tơ lụa 1)", "Quần Nữ lv25(Vải 2 Tơ lụa 1)", "Quần Nam lv25(Vải 2 Tơ lụa 1)", "Quần Nữ lv30(Vải 3 Tơ lụa 1)", "Quần Nam lv30(Vải 3 Tơ lụa 1)", "Quần Nữ lv35(Vải 4 Tơ lụa 2)", "Quần Nam lv35(Vải 4 Tơ lụa 2)", "Quần Nữ lv40(Vải 4 Tơ lụa 3)", "Quần Nam lv40(Vải 4 Tơ lụa 3)", "Quần Nữ lv45(Vải 5 Tơ lụa 3)", "Quần Nam lv45(Vải 5 Tơ lụa 3)", "Quần Nữ lv50(Vải 5 Tơ lụa 4)", "Quần Nam lv50(Vải 5 Tơ lụa 4)", "Quần Nữ lv55(Vải 5 Tơ lụa 4)", "Quần Nam lv55(Vải 5 Tơ lụa 4)", "Quần Nữ lv60(Vải 5 Tơ lụa 5)", "Quần Nam lv60(Vải 5 Tơ lụa 5)", "Quần Nữ lv65(Vải 7 Tơ lụa 7)", "Quần Nam lv65(Vải 7 Tơ lụa 7)", "Quần Nữ lv70(Vải 9 Tơ lụa 9)", "Quần Nam lv70(Vải 9 Tơ lụa 9)", "Quần Nữ lv75(Vải 11 Tơ lụa 11)", "Quần Nam lv75(Vải 11 Tơ lụa 11)", "Quần Nữ lv80(Vải 13 Tơ lụa 13)", "Quần Nam lv80(Vải 13 Tơ lụa 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Quần Nữ lv20(Vải 1 Tơ lụa 1)",
+                        "Quần Nam lv20(Vải 1 Tơ lụa 1)", "Quần Nữ lv25(Vải 2 Tơ lụa 1)",
+                        "Quần Nam lv25(Vải 2 Tơ lụa 1)", "Quần Nữ lv30(Vải 3 Tơ lụa 1)",
+                        "Quần Nam lv30(Vải 3 Tơ lụa 1)", "Quần Nữ lv35(Vải 4 Tơ lụa 2)",
+                        "Quần Nam lv35(Vải 4 Tơ lụa 2)", "Quần Nữ lv40(Vải 4 Tơ lụa 3)",
+                        "Quần Nam lv40(Vải 4 Tơ lụa 3)", "Quần Nữ lv45(Vải 5 Tơ lụa 3)",
+                        "Quần Nam lv45(Vải 5 Tơ lụa 3)", "Quần Nữ lv50(Vải 5 Tơ lụa 4)",
+                        "Quần Nam lv50(Vải 5 Tơ lụa 4)", "Quần Nữ lv55(Vải 5 Tơ lụa 4)",
+                        "Quần Nam lv55(Vải 5 Tơ lụa 4)", "Quần Nữ lv60(Vải 5 Tơ lụa 5)",
+                        "Quần Nam lv60(Vải 5 Tơ lụa 5)", "Quần Nữ lv65(Vải 7 Tơ lụa 7)",
+                        "Quần Nam lv65(Vải 7 Tơ lụa 7)", "Quần Nữ lv70(Vải 9 Tơ lụa 9)",
+                        "Quần Nam lv70(Vải 9 Tơ lụa 9)", "Quần Nữ lv75(Vải 11 Tơ lụa 11)",
+                        "Quần Nam lv75(Vải 11 Tơ lụa 11)", "Quần Nữ lv80(Vải 13 Tơ lụa 13)",
+                        "Quần Nam lv80(Vải 13 Tơ lụa 13)");
             case ManufactureConst.NON ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Nón Nữ lv20(Da mềm 1 Da cứng 1)", "Nón Nam lv20(Da mềm 1 Da cứng 1)", "Nón Nữ lv25(Da mềm 2 Da cứng 1)", "Nón Nam lv25(Da mềm 2 Da cứng 1)", "Nón Nữ lv30(Da mềm 3 Da cứng 1)", "Nón Nam lv30(Da mềm 3 Da cứng 1)", "Nón Nữ lv35(Da mềm 4 Da cứng 2)", "Nón Nam lv35(Da mềm 4 Da cứng 2)", "Nón Nữ lv40(Da mềm 4 Da cứng 3)", "Nón Nam lv40(Da mềm 4 Da cứng 3)", "Nón Nữ lv45(Da mềm 5 Da cứng 3)", "Nón Nam lv45(Da mềm 5 Da cứng 3)", "Nón Nữ lv50(Da mềm 5 Da cứng 4)", "Nón Nam lv50(Da mềm 5 Da cứng 4)", "Nón Nữ lv55(Da mềm 5 Da cứng 4)", "Nón Nam lv55(Da mềm 5 Da cứng 4)", "Nón Nữ lv60(Da mềm 5 Da cứng 5)", "Nón Nam lv60(Da mềm 5 Da cứng 5)", "Nón Nữ lv65(Da mềm 7 Da cứng 7)", "Nón Nam lv65(Da mềm 7 Da cứng 7)", "Nón Nữ lv70(Da mềm 9 Da cứng 9)", "Nón Nam lv70(Da mềm 9 Da cứng 9)", "Nón Nữ lv75(Da mềm 11 Da cứng 11)", "Nón Nam lv75(Da mềm 11 Da cứng 11)", "Nón Nữ lv80(Da mềm 13 Da cứng 13)", "Nón Nam lv80(Da mềm 13 Da cứng 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Nón Nữ lv20(Da mềm 1 Da cứng 1)",
+                        "Nón Nam lv20(Da mềm 1 Da cứng 1)", "Nón Nữ lv25(Da mềm 2 Da cứng 1)",
+                        "Nón Nam lv25(Da mềm 2 Da cứng 1)", "Nón Nữ lv30(Da mềm 3 Da cứng 1)",
+                        "Nón Nam lv30(Da mềm 3 Da cứng 1)", "Nón Nữ lv35(Da mềm 4 Da cứng 2)",
+                        "Nón Nam lv35(Da mềm 4 Da cứng 2)", "Nón Nữ lv40(Da mềm 4 Da cứng 3)",
+                        "Nón Nam lv40(Da mềm 4 Da cứng 3)", "Nón Nữ lv45(Da mềm 5 Da cứng 3)",
+                        "Nón Nam lv45(Da mềm 5 Da cứng 3)", "Nón Nữ lv50(Da mềm 5 Da cứng 4)",
+                        "Nón Nam lv50(Da mềm 5 Da cứng 4)", "Nón Nữ lv55(Da mềm 5 Da cứng 4)",
+                        "Nón Nam lv55(Da mềm 5 Da cứng 4)", "Nón Nữ lv60(Da mềm 5 Da cứng 5)",
+                        "Nón Nam lv60(Da mềm 5 Da cứng 5)", "Nón Nữ lv65(Da mềm 7 Da cứng 7)",
+                        "Nón Nam lv65(Da mềm 7 Da cứng 7)", "Nón Nữ lv70(Da mềm 9 Da cứng 9)",
+                        "Nón Nam lv70(Da mềm 9 Da cứng 9)", "Nón Nữ lv75(Da mềm 11 Da cứng 11)",
+                        "Nón Nam lv75(Da mềm 11 Da cứng 11)", "Nón Nữ lv80(Da mềm 13 Da cứng 13)",
+                        "Nón Nam lv80(Da mềm 13 Da cứng 13)");
             case ManufactureConst.GIAY ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Giày lv20(Da mềm 1 Da cứng 1)", "Giày lv25(Da mềm 2 Da cứng 1)", "Giày lv30(Da mềm 3 Da cứng 1)", "Giày lv35(Da mềm 4 Da cứng 2)", "Giày lv40(Da mềm 4 Da cứng 3)", "Giày lv45(Da mềm 5 Da cứng 3)", "Giày lv50(Da mềm 5 Da cứng 4)", "Giày lv55(Da mềm 5 Da cứng 4)", "Giày lv60(Da mềm 5 Da cứng 5)", "Giày lv65(Da mềm 7 Da cứng 7)", "Giày lv70(Da mềm 9 Da cứng 9)", "Giày lv75(Da mềm 11 Da cứng 11)", "Giày lv80(Da mềm 13 Da cứng 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Giày lv20(Da mềm 1 Da cứng 1)",
+                        "Giày lv25(Da mềm 2 Da cứng 1)", "Giày lv30(Da mềm 3 Da cứng 1)",
+                        "Giày lv35(Da mềm 4 Da cứng 2)", "Giày lv40(Da mềm 4 Da cứng 3)",
+                        "Giày lv45(Da mềm 5 Da cứng 3)", "Giày lv50(Da mềm 5 Da cứng 4)",
+                        "Giày lv55(Da mềm 5 Da cứng 4)", "Giày lv60(Da mềm 5 Da cứng 5)",
+                        "Giày lv65(Da mềm 7 Da cứng 7)", "Giày lv70(Da mềm 9 Da cứng 9)",
+                        "Giày lv75(Da mềm 11 Da cứng 11)", "Giày lv80(Da mềm 13 Da cứng 13)");
             case ManufactureConst.GANG ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Găng lv20(Vải 1 Tơ lụa 1)", "Găng lv25(Vải 2 Tơ lụa 1)", "Găng lv30(Vải 3 Tơ lụa 1)", "Găng lv35(Vải 4 Tơ lụa 2)", "Găng lv40(Vải 4 Tơ lụa 3)", "Găng lv45(Vải 5 Tơ lụa 3)", "Găng lv50(Vải 5 Tơ lụa 4)", "Găng lv55(Vải 5 Tơ lụa 4)", "Găng lv60(Vải 5 Tơ lụa 5)", "Găng lv65(Vải 7 Tơ lụa 7)", "Găng lv70(Vải 9 Tơ lụa 9)", "Găng lv75(Vải 11 Tơ lụa 11)", "Găng lv80(Vải 13 Tơ lụa 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Găng lv20(Vải 1 Tơ lụa 1)", "Găng lv25(Vải 2 Tơ lụa 1)",
+                        "Găng lv30(Vải 3 Tơ lụa 1)", "Găng lv35(Vải 4 Tơ lụa 2)", "Găng lv40(Vải 4 Tơ lụa 3)",
+                        "Găng lv45(Vải 5 Tơ lụa 3)", "Găng lv50(Vải 5 Tơ lụa 4)", "Găng lv55(Vải 5 Tơ lụa 4)",
+                        "Găng lv60(Vải 5 Tơ lụa 5)", "Găng lv65(Vải 7 Tơ lụa 7)", "Găng lv70(Vải 9 Tơ lụa 9)",
+                        "Găng lv75(Vải 11 Tơ lụa 11)", "Găng lv80(Vải 13 Tơ lụa 13)");
             case ManufactureConst.NHAN ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Nhẫn lv20(Ngọc 1 Thuỷ tinh 1)", "Nhẫn lv25(Ngọc 2 Thuỷ tinh 1)", "Nhẫn lv30(Ngọc 3 Thuỷ tinh 1)", "Nhẫn lv35(Ngọc 4 Thuỷ tinh 2)", "Nhẫn lv40(Ngọc 4 Thuỷ tinh 3)", "Nhẫn lv45(Ngọc 5 Thuỷ tinh 3)", "Nhẫn lv50(Ngọc 5 Thuỷ tinh 4)", "Nhẫn lv55(Ngọc 5 Thuỷ tinh 4)", "Nhẫn lv60(Ngọc 5 Thuỷ tinh 5)", "Nhẫn lv65(Ngọc 7 Thuỷ tinh 7)", "Nhẫn lv70(Ngọc 9 Thuỷ tinh 9)", "Nhẫn lv75(Ngọc 11 Thuỷ tinh 11)", "Nhẫn lv80(Ngọc 13 Thuỷ tinh 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Nhẫn lv20(Ngọc 1 Thuỷ tinh 1)",
+                        "Nhẫn lv25(Ngọc 2 Thuỷ tinh 1)", "Nhẫn lv30(Ngọc 3 Thuỷ tinh 1)",
+                        "Nhẫn lv35(Ngọc 4 Thuỷ tinh 2)", "Nhẫn lv40(Ngọc 4 Thuỷ tinh 3)",
+                        "Nhẫn lv45(Ngọc 5 Thuỷ tinh 3)", "Nhẫn lv50(Ngọc 5 Thuỷ tinh 4)",
+                        "Nhẫn lv55(Ngọc 5 Thuỷ tinh 4)", "Nhẫn lv60(Ngọc 5 Thuỷ tinh 5)",
+                        "Nhẫn lv65(Ngọc 7 Thuỷ tinh 7)", "Nhẫn lv70(Ngọc 9 Thuỷ tinh 9)",
+                        "Nhẫn lv75(Ngọc 11 Thuỷ tinh 11)", "Nhẫn lv80(Ngọc 13 Thuỷ tinh 13)");
             case ManufactureConst.DAY_CHUYEN ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Dây chuyền lv20(Ngọc 1 Thuỷ tinh 1)", "Dây chuyền lv25(Ngọc 2 Thuỷ tinh 1)", "Dây chuyền lv30(Ngọc 3 Thuỷ tinh 1)", "Dây chuyền lv35(Ngọc 4 Thuỷ tinh 2)", "Dây chuyền lv40(Ngọc 4 Thuỷ tinh 3)", "Dây chuyền lv45(Ngọc 5 Thuỷ tinh 3)", "Dây chuyền lv50(Ngọc 5 Thuỷ tinh 4)", "Dây chuyền lv55(Ngọc 5 Thuỷ tinh 4)", "Dây chuyền lv60(Ngọc 5 Thuỷ tinh 5)", "Dây chuyền lv65(Ngọc 7 Thuỷ tinh 7)", "Dây chuyền lv70(Ngọc 9 Thuỷ tinh 9)", "Dây chuyền lv75(Ngọc 11 Thuỷ tinh 11)", "Dây chuyền lv80(Ngọc 13 Thuỷ tinh 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Dây chuyền lv20(Ngọc 1 Thuỷ tinh 1)",
+                        "Dây chuyền lv25(Ngọc 2 Thuỷ tinh 1)", "Dây chuyền lv30(Ngọc 3 Thuỷ tinh 1)",
+                        "Dây chuyền lv35(Ngọc 4 Thuỷ tinh 2)", "Dây chuyền lv40(Ngọc 4 Thuỷ tinh 3)",
+                        "Dây chuyền lv45(Ngọc 5 Thuỷ tinh 3)", "Dây chuyền lv50(Ngọc 5 Thuỷ tinh 4)",
+                        "Dây chuyền lv55(Ngọc 5 Thuỷ tinh 4)", "Dây chuyền lv60(Ngọc 5 Thuỷ tinh 5)",
+                        "Dây chuyền lv65(Ngọc 7 Thuỷ tinh 7)", "Dây chuyền lv70(Ngọc 9 Thuỷ tinh 9)",
+                        "Dây chuyền lv75(Ngọc 11 Thuỷ tinh 11)", "Dây chuyền lv80(Ngọc 13 Thuỷ tinh 13)");
             case ManufactureConst.NGOC ->
-                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Ngọc lv20(Ngọc 1 Thuỷ tinh 1)", "Ngọc lv25(Ngọc 2 Thuỷ tinh 1)", "Ngọc lv30(Ngọc 3 Thuỷ tinh 1)", "Ngọc lv35(Ngọc 4 Thuỷ tinh 2)", "Ngọc lv40(Ngọc 4 Thuỷ tinh 3)", "Ngọc lv45(Ngọc 5 Thuỷ tinh 3)", "Ngọc lv50(Ngọc 5 Thuỷ tinh 4)", "Ngọc lv55(Ngọc 5 Thuỷ tinh 4)", "Ngọc lv60(Ngọc 5 Thuỷ tinh 5)", "Ngọc lv65(Ngọc 7 Thuỷ tinh 7)", "Ngọc lv70(Ngọc 9 Thuỷ tinh 9)", "Ngọc lv75(Ngọc 11 Thuỷ tinh 11)", "Ngọc lv80(Ngọc 13 Thuỷ tinh 13)");
+                sendOptionMenu(player, SELECT_ARMOR_CREATE, "Ngọc lv20(Ngọc 1 Thuỷ tinh 1)",
+                        "Ngọc lv25(Ngọc 2 Thuỷ tinh 1)", "Ngọc lv30(Ngọc 3 Thuỷ tinh 1)",
+                        "Ngọc lv35(Ngọc 4 Thuỷ tinh 2)", "Ngọc lv40(Ngọc 4 Thuỷ tinh 3)",
+                        "Ngọc lv45(Ngọc 5 Thuỷ tinh 3)", "Ngọc lv50(Ngọc 5 Thuỷ tinh 4)",
+                        "Ngọc lv55(Ngọc 5 Thuỷ tinh 4)", "Ngọc lv60(Ngọc 5 Thuỷ tinh 5)",
+                        "Ngọc lv65(Ngọc 7 Thuỷ tinh 7)", "Ngọc lv70(Ngọc 9 Thuỷ tinh 9)",
+                        "Ngọc lv75(Ngọc 11 Thuỷ tinh 11)", "Ngọc lv80(Ngọc 13 Thuỷ tinh 13)");
         }
     }
 
     public void sendMenuTypeArmorCreate(@NonNull Player player) throws IOException {
-        String plus = String.format("%s %s", Const.DAMAGE_TYPE[player.getManufacture().getTypeDamageCreate()], Const.NAME_CLASS_CHAR[player.getManufacture().getClassCharCreateEquip()]);
-        sendOptionMenu(player, SELECT_TYPE_ARMOR_CREATE, String.format("Áo %s", plus), String.format("Quần %s", plus), String.format("Nón %s", plus), String.format("Giày %s", plus), String.format("Găng %s", plus), String.format("Nhẫn %s", plus), String.format("Dây chuyền %s", plus), String.format("Ngọc %s", plus));
+        String plus = String.format("%s %s", Const.DAMAGE_TYPE[player.getManufacture().getTypeDamageCreate()],
+                Const.NAME_CLASS_CHAR[player.getManufacture().getClassCharCreateEquip()]);
+        sendOptionMenu(player, SELECT_TYPE_ARMOR_CREATE, String.format("Áo %s", plus), String.format("Quần %s", plus),
+                String.format("Nón %s", plus), String.format("Giày %s", plus), String.format("Găng %s", plus),
+                String.format("Nhẫn %s", plus), String.format("Dây chuyền %s", plus), String.format("Ngọc %s", plus));
     }
 
     public void sendMenuClassCreateArmor(@NonNull Player player) throws IOException {
@@ -460,37 +545,58 @@ public class MenuOptionService {
     }
 
     public void sendMenuSelectNguyenLieu(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, SELECT_NGUYEN_LIEU_CREATE, "Nguyên liệu thường", "Nguyên liệu khóa", "Nguyên liệu tổng hợp");
+        sendOptionMenu(player, SELECT_NGUYEN_LIEU_CREATE, "Nguyên liệu thường", "Nguyên liệu khóa",
+                "Nguyên liệu tổng hợp");
     }
 
     public void sendMenuSelectWeapon(@NonNull Player player, byte classChar) throws IOException {
         switch (classChar) {
             case Const.KIEM_KHACH ->
-                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Kiếm cấp độ 21(Gỗ thường 1 Bạc 1)", "Kiếm cấp độ 26(Gỗ thường 2 Bạc 1)",
-                        "Kiếm cấp độ 31(Gỗ thường 3 Bạc 1)", "Kiếm cấp độ 36(Gỗ thường 4 Bạc 2)", "Kiếm cấp độ 41(Gỗ thường 4 Bạc 3)", "Kiếm cấp độ 46(Gỗ thường 5 Bạc 3)",
-                        "Kiếm cấp độ 51(Gỗ thường 5 Bạc 4)", "Kiếm cấp độ 56(Gỗ thường 5 Bạc 4)", "Kiếm cấp độ 61(Gỗ thường 5 Bạc 5)", "Kiếm cấp độ 66(Gỗ thường 7 Bạc 7)",
-                        "Kiếm cấp độ 71(Gỗ thường 9 Bạc 9)", "Kiếm cấp độ 76(Gỗ thường 11 Bạc 11)", "Kiếm cấp độ 81(Gỗ thường 13 Bạc 13)");
+                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Kiếm cấp độ 21(Gỗ thường 1 Bạc 1)",
+                        "Kiếm cấp độ 26(Gỗ thường 2 Bạc 1)",
+                        "Kiếm cấp độ 31(Gỗ thường 3 Bạc 1)", "Kiếm cấp độ 36(Gỗ thường 4 Bạc 2)",
+                        "Kiếm cấp độ 41(Gỗ thường 4 Bạc 3)", "Kiếm cấp độ 46(Gỗ thường 5 Bạc 3)",
+                        "Kiếm cấp độ 51(Gỗ thường 5 Bạc 4)", "Kiếm cấp độ 56(Gỗ thường 5 Bạc 4)",
+                        "Kiếm cấp độ 61(Gỗ thường 5 Bạc 5)", "Kiếm cấp độ 66(Gỗ thường 7 Bạc 7)",
+                        "Kiếm cấp độ 71(Gỗ thường 9 Bạc 9)", "Kiếm cấp độ 76(Gỗ thường 11 Bạc 11)",
+                        "Kiếm cấp độ 81(Gỗ thường 13 Bạc 13)");
             case Const.CHIEN_BINH ->
-                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Đại đao cấp độ 21(Gỗ thường 1 Bạc 1)", "Đại đao cấp độ 26(Gỗ thường 2 Bạc 1)",
-                        "Đại đao cấp độ 31(Gỗ thường 3 Bạc 1)", "Đại đao cấp độ 36(Gỗ thường 4 Bạc 2)", "Đại đao cấp độ 41(Gỗ thường 4 Bạc 3)", "Đại đao cấp độ 46(Gỗ thường 5 Bạc 3)",
-                        "Đại đao cấp độ 51(Gỗ thường 5 Bạc 4)", "Đại đao cấp độ 56(Gỗ thường 5 Bạc 4)", "Đại đao cấp độ 61(Gỗ thường 5 Bạc 5)", "Đại đao cấp độ 66(Gỗ thường 7 Bạc 7)",
-                        "Đại đao cấp độ 71(Gỗ thường 9 Bạc 9)", "Đại đao cấp độ 76(Gỗ thường 11 Bạc 11)", "Đại đao cấp độ 81(Gỗ thường 13 Bạc 13)");
+                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Đại đao cấp độ 21(Gỗ thường 1 Bạc 1)",
+                        "Đại đao cấp độ 26(Gỗ thường 2 Bạc 1)",
+                        "Đại đao cấp độ 31(Gỗ thường 3 Bạc 1)", "Đại đao cấp độ 36(Gỗ thường 4 Bạc 2)",
+                        "Đại đao cấp độ 41(Gỗ thường 4 Bạc 3)", "Đại đao cấp độ 46(Gỗ thường 5 Bạc 3)",
+                        "Đại đao cấp độ 51(Gỗ thường 5 Bạc 4)", "Đại đao cấp độ 56(Gỗ thường 5 Bạc 4)",
+                        "Đại đao cấp độ 61(Gỗ thường 5 Bạc 5)", "Đại đao cấp độ 66(Gỗ thường 7 Bạc 7)",
+                        "Đại đao cấp độ 71(Gỗ thường 9 Bạc 9)", "Đại đao cấp độ 76(Gỗ thường 11 Bạc 11)",
+                        "Đại đao cấp độ 81(Gỗ thường 13 Bạc 13)");
             case Const.PHAP_SU ->
-                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Bút cấp độ 21(Sắt 1 Gỗ sưa 1)", "Bút cấp độ 26(Sắt 2 Gỗ sưa 1)",
-                        "Bút cấp độ 31(Sắt 3 Gỗ sưa 1)", "Bút cấp độ 36(Sắt 4 Gỗ sưa 2)", "Bút cấp độ 41(Sắt 4 Gỗ sưa 3)", "Bút cấp độ 46(Sắt 5 Gỗ sưa 3)",
-                        "Bút cấp độ 51(Sắt 5 Gỗ sưa 4)", "Bút cấp độ 56(Sắt 5 Gỗ sưa 4)", "Bút cấp độ 61(Sắt 5 Gỗ sưa 5)", "Bút cấp độ 66(Sắt 7 Gỗ sưa 7)",
-                        "Bút cấp độ 71(Sắt 9 Gỗ sưa 9)", "Bút cấp độ 76(Sắt 11 Gỗ sưa 11)", "Bút cấp độ 81(Sắt 13 Gỗ sưa 13)");
+                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Bút cấp độ 21(Sắt 1 Gỗ sưa 1)",
+                        "Bút cấp độ 26(Sắt 2 Gỗ sưa 1)",
+                        "Bút cấp độ 31(Sắt 3 Gỗ sưa 1)", "Bút cấp độ 36(Sắt 4 Gỗ sưa 2)",
+                        "Bút cấp độ 41(Sắt 4 Gỗ sưa 3)", "Bút cấp độ 46(Sắt 5 Gỗ sưa 3)",
+                        "Bút cấp độ 51(Sắt 5 Gỗ sưa 4)", "Bút cấp độ 56(Sắt 5 Gỗ sưa 4)",
+                        "Bút cấp độ 61(Sắt 5 Gỗ sưa 5)", "Bút cấp độ 66(Sắt 7 Gỗ sưa 7)",
+                        "Bút cấp độ 71(Sắt 9 Gỗ sưa 9)", "Bút cấp độ 76(Sắt 11 Gỗ sưa 11)",
+                        "Bút cấp độ 81(Sắt 13 Gỗ sưa 13)");
             case Const.DAU_SI ->
-                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Búa cấp độ 21(Gỗ thường 1 Bạc 1)", "Búa cấp độ 26(Gỗ thường 2 Bạc 1)",
-                        "Búa cấp độ 31(Gỗ thường 3 Bạc 1)", "Búa cấp độ 36(Gỗ thường 4 Bạc 2)", "Búa cấp độ 41(Gỗ thường 4 Bạc 3)", "Búa cấp độ 46(Gỗ thường 5 Bạc 3)",
-                        "Búa cấp độ 51(Gỗ thường 5 Bạc 4)", "Búa cấp độ 56(Gỗ thường 5 Bạc 4)", "Búa cấp độ 61(Gỗ thường 5 Bạc 5)", "Búa cấp độ 66(Gỗ thường 7 Bạc 7)",
-                        "Búa cấp độ 71(Gỗ thường 9 Bạc 9)", "Búa cấp độ 76(Gỗ thường 11 Bạc 11)", "Búa cấp độ 81(Gỗ thường 13 Bạc 13)");
+                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Búa cấp độ 21(Gỗ thường 1 Bạc 1)",
+                        "Búa cấp độ 26(Gỗ thường 2 Bạc 1)",
+                        "Búa cấp độ 31(Gỗ thường 3 Bạc 1)", "Búa cấp độ 36(Gỗ thường 4 Bạc 2)",
+                        "Búa cấp độ 41(Gỗ thường 4 Bạc 3)", "Búa cấp độ 46(Gỗ thường 5 Bạc 3)",
+                        "Búa cấp độ 51(Gỗ thường 5 Bạc 4)", "Búa cấp độ 56(Gỗ thường 5 Bạc 4)",
+                        "Búa cấp độ 61(Gỗ thường 5 Bạc 5)", "Búa cấp độ 66(Gỗ thường 7 Bạc 7)",
+                        "Búa cấp độ 71(Gỗ thường 9 Bạc 9)", "Búa cấp độ 76(Gỗ thường 11 Bạc 11)",
+                        "Búa cấp độ 81(Gỗ thường 13 Bạc 13)");
 
             case Const.CUNG_THU ->
-                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Cung cấp độ 21(Sắt 1 Gỗ sưa 1)", "Cung cấp độ 26(Sắt 2 Gỗ sưa 1)",
-                        "Cung cấp độ 31(Sắt 3 Gỗ sưa 1)", "Cung cấp độ 36(Sắt 4 Gỗ sưa 2)", "Cung cấp độ 41(Sắt 4 Gỗ sưa 3)", "Cung cấp độ 46(Sắt 5 Gỗ sưa 3)",
-                        "Cung cấp độ 51(Sắt 5 Gỗ sưa 4)", "Cung cấp độ 56(Sắt 5 Gỗ sưa 4)", "Cung cấp độ 61(Sắt 5 Gỗ sưa 5)", "Cung cấp độ 66(Sắt 7 Gỗ sưa 7)",
-                        "Cung cấp độ 71(Sắt 9 Gỗ sưa 9)", "Cung cấp độ 76(Sắt 11 Gỗ sưa 11)", "Cung cấp độ 81(Sắt 13 Gỗ sưa 13)");
+                sendOptionMenu(player, SELECT_WEAPON_CREATE, "Cung cấp độ 21(Sắt 1 Gỗ sưa 1)",
+                        "Cung cấp độ 26(Sắt 2 Gỗ sưa 1)",
+                        "Cung cấp độ 31(Sắt 3 Gỗ sưa 1)", "Cung cấp độ 36(Sắt 4 Gỗ sưa 2)",
+                        "Cung cấp độ 41(Sắt 4 Gỗ sưa 3)", "Cung cấp độ 46(Sắt 5 Gỗ sưa 3)",
+                        "Cung cấp độ 51(Sắt 5 Gỗ sưa 4)", "Cung cấp độ 56(Sắt 5 Gỗ sưa 4)",
+                        "Cung cấp độ 61(Sắt 5 Gỗ sưa 5)", "Cung cấp độ 66(Sắt 7 Gỗ sưa 7)",
+                        "Cung cấp độ 71(Sắt 9 Gỗ sưa 9)", "Cung cấp độ 76(Sắt 11 Gỗ sưa 11)",
+                        "Cung cấp độ 81(Sắt 13 Gỗ sưa 13)");
         }
     }
 
@@ -507,23 +613,31 @@ public class MenuOptionService {
     }
 
     public void sendMenuCreateAnimalArmor(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, SELECT_ANIMAL_ARMOR_CREATE, "Cấp 30", "Cấp 35", "Cấp 40", "Cấp 45", "Cấp 50", "Cấp 55", "Cấp 60", "Cấp 65", "Cấp 70", "Cấp 75", "Cấp 80");
+        sendOptionMenu(player, SELECT_ANIMAL_ARMOR_CREATE, "Cấp 30", "Cấp 35", "Cấp 40", "Cấp 45", "Cấp 50", "Cấp 55",
+                "Cấp 60", "Cấp 65", "Cấp 70", "Cấp 75", "Cấp 80");
     }
 
     public void sendMenuDoiNguyenLieuThuongCaoCap(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_CAO_CAP, "Tơ lụa 1", "Tơ lụa 2", "Tơ lụa 3", "Tơ lụa 4", "Tơ lụa 5", "Tơ lụa 6",
+        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_CAO_CAP, "Tơ lụa 1", "Tơ lụa 2", "Tơ lụa 3", "Tơ lụa 4",
+                "Tơ lụa 5", "Tơ lụa 6",
                 "Bạc cấp 1", "Bạc cấp 2", "Bạc cấp 3", "Bạc cấp 4", "Bạc cấp 5", "Bạc cấp 6",
-                "Thủy tinh cấp 1", "Thủy tinh cấp 2", "Thủy tinh cấp 3", "Thủy tinh cấp 4", "Thủy tinh cấp 5", "Thủy tinh cấp 6",
+                "Thủy tinh cấp 1", "Thủy tinh cấp 2", "Thủy tinh cấp 3", "Thủy tinh cấp 4", "Thủy tinh cấp 5",
+                "Thủy tinh cấp 6",
                 "Gỗ sưa cấp 1", "Gỗ sưa cấp 2", "Gỗ sưa cấp 3", "Gỗ sưa cấp 4", "Gỗ sưa cấp 5", "Gỗ sưa cấp 6",
                 "Da cứng cấp 1", "Da cứng cấp 2", "Da cứng cấp 3", "Da cứng cấp 4", "Da cứng cấp 5", "Da cứng cấp 6");
     }
 
     public void sendMenuDoiNguyenLieuThuongKhoaCaoCap(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_KHOA_CAO_CAP, "Tơ lụa 1 khóa", "Tơ lụa 2 khóa", "Tơ lụa 3 khóa", "Tơ lụa 4 khóa", "Tơ lụa 5 khóa", "Tơ lụa 6 khóa",
-                "Bạc cấp 1 khóa", "Bạc cấp 2 khóa", "Bạc cấp 3 khóa", "Bạc cấp 4 khóa", "Bạc cấp 5 khóa", "Bạc cấp 6 khóa",
-                "Thủy tinh cấp 1 khóa", "Thủy tinh cấp 2 khóa", "Thủy tinh cấp 3 khóa", "Thủy tinh cấp 4 khóa", "Thủy tinh cấp 5 khóa", "Thủy tinh cấp 6 khóa",
-                "Gỗ sưa cấp 1 khóa", "Gỗ sưa cấp 2 khóa", "Gỗ sưa cấp 3 khóa", "Gỗ sưa cấp 4 khóa", "Gỗ sưa cấp 5 khóa", "Gỗ sưa cấp 6 khóa",
-                "Da cứng cấp 1 khóa", "Da cứng cấp 2 khóa", "Da cứng cấp 3 khóa", "Da cứng cấp 4 khóa", "Da cứng cấp 5 khóa", "Da cứng cấp 6 khóa");
+        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_KHOA_CAO_CAP, "Tơ lụa 1 khóa", "Tơ lụa 2 khóa", "Tơ lụa 3 khóa",
+                "Tơ lụa 4 khóa", "Tơ lụa 5 khóa", "Tơ lụa 6 khóa",
+                "Bạc cấp 1 khóa", "Bạc cấp 2 khóa", "Bạc cấp 3 khóa", "Bạc cấp 4 khóa", "Bạc cấp 5 khóa",
+                "Bạc cấp 6 khóa",
+                "Thủy tinh cấp 1 khóa", "Thủy tinh cấp 2 khóa", "Thủy tinh cấp 3 khóa", "Thủy tinh cấp 4 khóa",
+                "Thủy tinh cấp 5 khóa", "Thủy tinh cấp 6 khóa",
+                "Gỗ sưa cấp 1 khóa", "Gỗ sưa cấp 2 khóa", "Gỗ sưa cấp 3 khóa", "Gỗ sưa cấp 4 khóa", "Gỗ sưa cấp 5 khóa",
+                "Gỗ sưa cấp 6 khóa",
+                "Da cứng cấp 1 khóa", "Da cứng cấp 2 khóa", "Da cứng cấp 3 khóa", "Da cứng cấp 4 khóa",
+                "Da cứng cấp 5 khóa", "Da cứng cấp 6 khóa");
     }
 
     public void sendMenuDoiXuong(@NonNull Player player) throws IOException {
@@ -531,31 +645,40 @@ public class MenuOptionService {
     }
 
     public void sendMenuDoiXuongKhoa(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_XUONG_KHOA, "Xương cấp 2 khóa", "Xương cấp 3 khóa", "Xương cấp 4 khóa", "Xương cấp 5 khóa", "Xương cấp 6 khóa");
+        sendOptionMenu(player, DOI_XUONG_KHOA, "Xương cấp 2 khóa", "Xương cấp 3 khóa", "Xương cấp 4 khóa",
+                "Xương cấp 5 khóa", "Xương cấp 6 khóa");
     }
 
     public void sendMenuDoiNguyenLieuThuongSoCap(@NonNull Player player) throws IOException {
         sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_SO_CAP, "Vải", "Vải 2", "Vải 3", "Vải 4", "Vải 5", "Vải 6",
                 "Sắt cấp 1", "Sắt cấp 2", "Sắt cấp 3", "Sắt cấp 4", "Sắt cấp 5", "Sắt cấp 6",
                 "Ngọc cấp 1", "Ngọc cấp 2", "Ngọc cấp 3", "Ngọc cấp 4", "Ngọc cấp 5", "Ngọc cấp 6",
-                "Gỗ thường cấp 1", "Gỗ thường cấp 2", "Gỗ thường cấp 3", "Gỗ thường cấp 4", "Gỗ thường cấp 5", "Gỗ thường cấp 6",
+                "Gỗ thường cấp 1", "Gỗ thường cấp 2", "Gỗ thường cấp 3", "Gỗ thường cấp 4", "Gỗ thường cấp 5",
+                "Gỗ thường cấp 6",
                 "Da mềm cấp 1", "Da mềm cấp 2", "Da mềm cấp 3", "Da mềm cấp 4", "Da mềm cấp 5", "Da mềm cấp 6");
     }
 
     public void sendMenuDoiNguyenLieuThuongKhoaSoCap(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_KHOA_SO_CAP, "Vải khóa", "Vải 2 khóa", "Vải 3 khóa", "Vải 4 khóa", "Vải 5 khóa", "Vải 6 khóa",
-                "Sắt cấp 1 khóa", "Sắt cấp 2 khóa", "Sắt cấp 3 khóa", "Sắt cấp 4 khóa", "Sắt cấp 5 khóa", "Sắt cấp 6 khóa",
-                "Ngọc cấp 1 khóa", "Ngọc cấp 2 khóa", "Ngọc cấp 3 khóa", "Ngọc cấp 4 khóa", "Ngọc cấp 5 khóa", "Ngọc cấp 6 khóa",
-                "Gỗ thường cấp 1 khóa", "Gỗ thường cấp 2 khóa", "Gỗ thường cấp 3 khóa", "Gỗ thường cấp 4 khóa", "Gỗ thường cấp 5 khóa", "Gỗ thường cấp 6 khóa",
-                "Da mềm cấp 1 khóa", "Da mềm cấp 2 khóa", "Da mềm cấp 3 khóa", "Da mềm cấp 4 khóa", "Da mềm cấp 5 khóa", "Da mềm cấp 6 khóa");
+        sendOptionMenu(player, DOI_NGUYEN_LIEU_THUONG_KHOA_SO_CAP, "Vải khóa", "Vải 2 khóa", "Vải 3 khóa", "Vải 4 khóa",
+                "Vải 5 khóa", "Vải 6 khóa",
+                "Sắt cấp 1 khóa", "Sắt cấp 2 khóa", "Sắt cấp 3 khóa", "Sắt cấp 4 khóa", "Sắt cấp 5 khóa",
+                "Sắt cấp 6 khóa",
+                "Ngọc cấp 1 khóa", "Ngọc cấp 2 khóa", "Ngọc cấp 3 khóa", "Ngọc cấp 4 khóa", "Ngọc cấp 5 khóa",
+                "Ngọc cấp 6 khóa",
+                "Gỗ thường cấp 1 khóa", "Gỗ thường cấp 2 khóa", "Gỗ thường cấp 3 khóa", "Gỗ thường cấp 4 khóa",
+                "Gỗ thường cấp 5 khóa", "Gỗ thường cấp 6 khóa",
+                "Da mềm cấp 1 khóa", "Da mềm cấp 2 khóa", "Da mềm cấp 3 khóa", "Da mềm cấp 4 khóa", "Da mềm cấp 5 khóa",
+                "Da mềm cấp 6 khóa");
     }
 
     public void sendMenuDoiNgocHuyenMinh(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_NGOC_HUYEN_MINH, "Ngọc huyền minh cấp 2", "Ngọc huyền minh cấp 3", "Ngọc huyền minh cấp 4", "Ngọc huyền minh cấp 5", "Ngọc huyền minh cấp 6");
+        sendOptionMenu(player, DOI_NGOC_HUYEN_MINH, "Ngọc huyền minh cấp 2", "Ngọc huyền minh cấp 3",
+                "Ngọc huyền minh cấp 4", "Ngọc huyền minh cấp 5", "Ngọc huyền minh cấp 6");
     }
 
     public void sendMenuDoiNgocHuyenMinhKhoa(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DOI_NGOC_HUYEN_MINH_KHOA, "Ngọc huyền minh cấp 2 khóa", "Ngọc huyền minh cấp 3 khóa", "Ngọc huyền minh cấp 4 khóa", "Ngọc huyền minh cấp 5 khóa", "Ngọc huyền minh cấp 6 khóa");
+        sendOptionMenu(player, DOI_NGOC_HUYEN_MINH_KHOA, "Ngọc huyền minh cấp 2 khóa", "Ngọc huyền minh cấp 3 khóa",
+                "Ngọc huyền minh cấp 4 khóa", "Ngọc huyền minh cấp 5 khóa", "Ngọc huyền minh cấp 6 khóa");
     }
 
     public void sendMenuDoiBot(@NonNull Player player) throws IOException {
@@ -572,7 +695,9 @@ public class MenuOptionService {
             Service.instance.sendLogOut(player.getSession(), "Bạn phải cưỡi linh thú mà bạn muốn luyện");
             return;
         }
-        sendOptionMenu(player, LUYEN_THU_SPECIAL, String.format("Thay đổi (%s lượng)", Manager.ANIMAL_CHANGE_SPECIAL_ATTRIBUTE_PRICE), String.format("Nâng cấp (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())));
+        sendOptionMenu(player, LUYEN_THU_SPECIAL,
+                String.format("Thay đổi (%s lượng)", Manager.ANIMAL_CHANGE_SPECIAL_ATTRIBUTE_PRICE),
+                String.format("Nâng cấp (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())));
     }
 
     public void sendMenuLuyenThu(@NonNull Player player) throws IOException {
@@ -581,7 +706,9 @@ public class MenuOptionService {
             Service.instance.sendLogOut(player.getSession(), "Bạn phải cưỡi linh thú mà bạn muốn luyện");
             return;
         }
-        sendOptionMenu(player, LUYEN_THU, String.format("Cơ bản (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())), String.format("Tiềm năng (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())), "Đặc biệt");
+        sendOptionMenu(player, LUYEN_THU,
+                String.format("Cơ bản (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())),
+                String.format("Tiềm năng (%s lượng)", Manager.getAnimalTrainPrice(animal.getLevel())), "Đặc biệt");
     }
 
     public void sendMenuSelectColorAnimalArmor(@NonNull Player player) throws IOException {
@@ -589,11 +716,13 @@ public class MenuOptionService {
     }
 
     public void sendMenuBangTop(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, BANG_TOP, "Top cao thủ Thanh long", "Top cao thủ Hắc hổ", "Top công trạng Thanh long", "Top công trạng Hắc hổ", "Top liên trảm Thanh long", "Top liên trảm Hắc hổ");
+        sendOptionMenu(player, BANG_TOP, "Top cao thủ Thanh long", "Top cao thủ Hắc hổ", "Top công trạng Thanh long",
+                "Top công trạng Hắc hổ", "Top liên trảm Thanh long", "Top liên trảm Hắc hổ");
     }
 
     public void sendMenuTaoThu(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, TAO_THU, "Hắc ngưu", "Mãnh hỗ", "Sói xám", "Tiên hạc", "Bạch mã", "Phượng hoàng", "Phượng hoàng băng", "Bạch cốt", "Đương khang", "Lân sư tử");
+        sendOptionMenu(player, TAO_THU, "Hắc ngưu", "Mãnh hỗ", "Sói xám", "Tiên hạc", "Bạch mã", "Phượng hoàng",
+                "Phượng hoàng băng", "Bạch cốt", "Đương khang", "Lân sư tử");
     }
 
     public void sendMenuHaoDuyen(@NonNull Player player) throws IOException {
@@ -602,10 +731,12 @@ public class MenuOptionService {
             sendOptionMenu(player, HAO_DUYEN, "Tạo thú", "Luyện thú");
             return;
         }
-        sendOptionMenu(player, HAO_DUYEN, "Tạo thú", "Luyện thú", String.format("Nâng cấp thú (%s lượng)", Manager.getPriceUpgradeAnimal(animal.getLevel())));
+        sendOptionMenu(player, HAO_DUYEN, "Tạo thú", "Luyện thú",
+                String.format("Nâng cấp thú (%s lượng)", Manager.getPriceUpgradeAnimal(animal.getLevel())));
     }
 
-    public void sendMenuHoaTieuMap(@NonNull Player player, @NonNull HoaTieuTemplate template, byte index) throws IOException {
+    public void sendMenuHoaTieuMap(@NonNull Player player, @NonNull HoaTieuTemplate template, byte index)
+            throws IOException {
         player.getSundry().setIndexHoaTieu(index);
         sendOptionMenu(player, SELECT_HOA_TIEU_MAP, template.getNameMapChild()[index]);
     }
@@ -639,15 +770,21 @@ public class MenuOptionService {
     }
 
     public void sendMenuCongDichChuyen(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, CONG_DICH_CHUYEN, String.format("Đến biên giới %s", player.getLocation().getInCountry() == Const.THANH_LONG ? "Hắc hổ" : "Thanh long"), "Trường giang");
+        sendOptionMenu(player, CONG_DICH_CHUYEN,
+                String.format("Đến biên giới %s",
+                        player.getLocation().getInCountry() == Const.THANH_LONG ? "Hắc hổ" : "Thanh long"),
+                "Trường giang");
     }
 
     public void sendMenuDauTruong(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, DAU_TRUONG, "Thách đấu cá nhân", "Trấn yêu trận", "Đăng kí chiến trường", "Nhận quà khu liên đấu", "Nhận quà liên trảm", "Nhận quà top trụ", "Núi châu báu", "Hủy đăng ký liên đấu");
+        sendOptionMenu(player, DAU_TRUONG, "Thách đấu cá nhân", "Trấn yêu trận", "Đăng kí chiến trường",
+                "Nhận quà khu liên đấu", "Nhận quà liên trảm", "Nhận quà top trụ", "Núi châu báu",
+                "Hủy đăng ký liên đấu");
     }
 
     public void sendMenuTongTieuDau(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, TONG_TIEU_DAU, "Xuống ngựa", "Đổi danh hiệu", "Đăng ký lôi đài", "Vào sảnh chờ", "Xem lôi đài");
+        sendOptionMenu(player, TONG_TIEU_DAU, "Xuống ngựa", "Đổi danh hiệu", "Đăng ký lôi đài", "Vào sảnh chờ",
+                "Xem lôi đài");
     }
 
     public void sendMenuThoRenThanBi(@NonNull Player player) throws IOException {
@@ -659,19 +796,23 @@ public class MenuOptionService {
     }
 
     public void sendMenuTongQuan(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, TONG_QUAN, "Hợp đục", "Mở rộng hành trang(150L)", "Thử vận may", "Chuyển lãnh thổ(300L)", "Nhận quà Giftcode", "Đăng ký liên đấu");
+        sendOptionMenu(player, TONG_QUAN, "Hợp đục", "Mở rộng hành trang(150L)", "Thử vận may", "Chuyển lãnh thổ(300L)",
+                "Nhận quà Giftcode", "Đăng ký liên đấu");
     }
 
     public void sendMenuThoHopThanhSoCap(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, THO_HOP_THANH_SO_CAP, "Nguyên liệu thường", "Nguyên liệu khóa", "Ngọc huyền minh", "Ngọc huyền minh khóa", "Bột thường", "Bột khóa");
+        sendOptionMenu(player, THO_HOP_THANH_SO_CAP, "Nguyên liệu thường", "Nguyên liệu khóa", "Ngọc huyền minh",
+                "Ngọc huyền minh khóa", "Bột thường", "Bột khóa");
     }
 
     public void sendMenuThoHopThanhCaoCap(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, THO_HOP_THANH_CAO_CAP, "Nguyên liệu thường", "Nguyên liệu khóa", "Xương không khóa", "Xương khóa");
+        sendOptionMenu(player, THO_HOP_THANH_CAO_CAP, "Nguyên liệu thường", "Nguyên liệu khóa", "Xương không khóa",
+                "Xương khóa");
     }
 
     public void sendMenuThayNguHanh(@NonNull Player player) throws IOException {
-        sendOptionMenu(player, THAY_NGU_HANH, "Đổi hệ ngũ hành", "Tháo ngọc khảm", "Đặt mật khẩu rương", "Vòng quay", "Đồ đã bán");
+        sendOptionMenu(player, THAY_NGU_HANH, "Đổi hệ ngũ hành", "Tháo ngọc khảm", "Đặt mật khẩu rương", "Vòng quay",
+                "Đồ đã bán");
     }
 
     public void sendOptionShopHacNguu(@NonNull Player player) throws IOException {
@@ -734,23 +875,28 @@ public class MenuOptionService {
             return;
         }
         short idItemRequired = (short) (idItemGenerate - 1);
-        ItemGem gemRequired = isLock ? InventoryService.instance.findItemGemLock(player, idItemRequired) : InventoryService.instance.findItemGem(player, idItemRequired);
+        ItemGem gemRequired = isLock ? InventoryService.instance.findItemGemLock(player, idItemRequired)
+                : InventoryService.instance.findItemGem(player, idItemRequired);
         if (gemRequired == null) {
             Service.instance.sendLogOut(player.getSession(), "Không tìm thấy nguyên liệu");
             return;
         }
         if (gemRequired.getQuantity() < quantityRequired) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s %s", quantityRequired, gemRequired.getTemplate().getName()));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s %s", quantityRequired, gemRequired.getTemplate().getName()));
             return;
         }
         int quantityCreate = (int) Math.floor(gemRequired.getQuantity() / quantityRequired);
         if (isLock) {
-            InventoryService.instance.minusQuantityItemGemLock(player, gemRequired, (short) (quantityCreate * quantityRequired));
+            InventoryService.instance.minusQuantityItemGemLock(player, gemRequired,
+                    (short) (quantityCreate * quantityRequired));
         } else {
-            InventoryService.instance.minusQuantityItemGem(player, gemRequired, (short) (quantityCreate * quantityRequired));
+            InventoryService.instance.minusQuantityItemGem(player, gemRequired,
+                    (short) (quantityCreate * quantityRequired));
         }
         ItemGem gemGenerate = ItemService.instance.createNewItemGem(idItemGenerate, (short) quantityCreate);
-        ChatService.instance.sendChatOnlyMe(player, String.format("Tạo thành công %s %s %s", Util.formatNumber(quantityCreate), gemGenerate.getTemplate().getName(), isLock ? " khóa" : ""));
+        ChatService.instance.sendChatOnlyMe(player, String.format("Tạo thành công %s %s %s",
+                Util.formatNumber(quantityCreate), gemGenerate.getTemplate().getName(), isLock ? " khóa" : ""));
         if (isLock) {
             InventoryService.instance.addItemGemLock(player, gemGenerate);
             InventoryService.instance.sendItemGemLock(player);
@@ -774,15 +920,22 @@ public class MenuOptionService {
             byte level = 1;
             for (int i = 0; i < ItemEquipConst.ATTRIBUTE_DEFAULT_ANIMAL.length; i++) {
                 short id = ItemEquipConst.ATTRIBUTE_DEFAULT_ANIMAL[i];
-                short value = (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal((byte) 56, level)) >= 2 ? 2 : 1);
+                short value = (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal((byte) 56, level)) >= 2 ? 2
+                        : 1);
                 animal.getAttributes().add(new Attribute(id, value));
             }
-            animal.getAttributes().add(new Attribute((short) 33, (short) Manager.getMaxValueAttributeAnimal((byte) 33, level)));
-            animal.getAttributes().add(new Attribute((short) 34, (short) Manager.getMaxValueAttributeAnimal((byte) 34, level)));
-            short idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL[Util.nextInt(0, ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL.length - 1)];
-            animal.getAttributes().add(new Attribute(idRandom, (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, level)) >= 2 ? 2 : 1)));
-            idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL[Util.nextInt(0, ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL.length - 1)];
-            animal.getAttributes().add(new Attribute(idRandom, (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, level)) >= 2 ? 2 : 1)));
+            animal.getAttributes()
+                    .add(new Attribute((short) 33, (short) Manager.getMaxValueAttributeAnimal((byte) 33, level)));
+            animal.getAttributes()
+                    .add(new Attribute((short) 34, (short) Manager.getMaxValueAttributeAnimal((byte) 34, level)));
+            short idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL[Util.nextInt(0,
+                    ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL.length - 1)];
+            animal.getAttributes().add(new Attribute(idRandom,
+                    (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, level)) >= 2 ? 2 : 1)));
+            idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL[Util.nextInt(0,
+                    ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL.length - 1)];
+            animal.getAttributes().add(new Attribute(idRandom,
+                    (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, level)) >= 2 ? 2 : 1)));
         }
         InventoryService.instance.addItemAnimal(player, animal);
     }
@@ -797,19 +950,22 @@ public class MenuOptionService {
             Service.instance.sendLogOut(player.getSession(), "Linh thú đạt cấp tối đa");
             return;
         }
-        if (!animal.getAttributes().stream().allMatch(att -> att != null && att.getValue() >= Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(), animal.getLevel()))) {
+        if (!animal.getAttributes().stream().allMatch(att -> att != null && att.getValue() >= Manager
+                .getMaxValueAttributeAnimal(att.getTemplate().getId(), animal.getLevel()))) {
             Service.instance.sendLogOut(player.getSession(), "Linh thú chưa đủ điều kiện để nâng cấp");
             return;
         }
         int price = Manager.getPriceUpgradeAnimal(animal.getLevel());
         if (!player.getInventory().minusLuong(price)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s lượng", Util.formatNumber(price)));
             return;
         }
         animal.plusLevel((byte) 1);
         for (short i = 3; i < 5; i++) {
             Attribute att = animal.getAttributes().get(i);
-            if (att != null && att.getValue() < Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(), animal.getLevel())) {
+            if (att != null && att.getValue() < Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(),
+                    animal.getLevel())) {
                 att.setValue(Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(), animal.getLevel()));
             }
         }
@@ -822,9 +978,14 @@ public class MenuOptionService {
         }
         short idRandom;
         do {
-            idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL[Util.nextInt(0, ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL.length - 1)];
+            idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL[Util.nextInt(0,
+                    ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL.length - 1)];
         } while (existingAttributeIds.contains(idRandom));
-        animal.getAttributes().add(animal.getAttributes().size() - 1, new Attribute(idRandom, (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, animal.getLevel())) >= 2 ? 2 : 1)));
+        animal.getAttributes().add(animal.getAttributes().size() - 1,
+                new Attribute(idRandom,
+                        (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, animal.getLevel())) >= 2
+                                ? 2
+                                : 1)));
         player.getPoint().initPoint();
         InventoryService.instance.sendItemBody(player);
         InventoryService.instance.sendItemAnimal(player);
@@ -839,7 +1000,8 @@ public class MenuOptionService {
         }
         int price = Manager.ANIMAL_CHANGE_SPECIAL_ATTRIBUTE_PRICE;
         if (!player.getInventory().minusLuong(price)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s lượng", Util.formatNumber(price)));
             return;
         }
         Attribute attributeToChange = animal.getAttributes().get(animal.getAttributes().size() - 1);
@@ -847,8 +1009,13 @@ public class MenuOptionService {
             return;
         }
         animal.getAttributes().remove(attributeToChange);
-        short idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL[Util.nextInt(0, ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL.length - 1)];
-        animal.getAttributes().add(new Attribute(idRandom, (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, animal.getLevel())) >= 2 ? 2 : 1)));
+        short idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL[Util.nextInt(0,
+                ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL_SPECIAL.length - 1)];
+        animal.getAttributes()
+                .add(new Attribute(idRandom,
+                        (short) (Util.nextInt(1, Manager.getMaxValueAttributeAnimal(idRandom, animal.getLevel())) >= 2
+                                ? 2
+                                : 1)));
         player.getPoint().initPoint();
         InventoryService.instance.sendItemBody(player);
         InventoryService.instance.sendItemAnimal(player);
@@ -863,14 +1030,16 @@ public class MenuOptionService {
         }
         short price = Manager.getAnimalTrainPrice(animal.getLevel());
         if (!player.getInventory().minusLuong(price)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s lượng", Util.formatNumber(price)));
             return;
         }
         Attribute attributeToUpgrade = animal.getAttributes().get(animal.getAttributes().size() - 1);
         if (attributeToUpgrade == null) {
             return;
         }
-        if (attributeToUpgrade.getValue() < Manager.getMaxValueAttributeAnimal(attributeToUpgrade.getTemplate().getId(), animal.getLevel())) {
+        if (attributeToUpgrade.getValue() < Manager.getMaxValueAttributeAnimal(attributeToUpgrade.getTemplate().getId(),
+                animal.getLevel())) {
             attributeToUpgrade.plusValue((short) 1);
             player.getPoint().initPoint();
             InventoryService.instance.sendItemBody(player);
@@ -889,7 +1058,8 @@ public class MenuOptionService {
         }
         short price = Manager.getAnimalTrainPrice(animal.getLevel());
         if (!player.getInventory().minusLuong(price)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s lượng", Util.formatNumber(price)));
             return;
         }
         Attribute attributeToUpgrade = null;
@@ -934,13 +1104,15 @@ public class MenuOptionService {
         }
         short price = Manager.getAnimalTrainPrice(animal.getLevel());
         if (!player.getInventory().minusLuong(price)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s lượng", Util.formatNumber(price)));
             return;
         }
         Attribute attributeToUpgrade = null;
         for (short i = 0; i < 3; i++) {
             Attribute att = animal.getAttributes().get(i);
-            if (att != null && att.getValue() < Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(), animal.getLevel())) {
+            if (att != null && att.getValue() < Manager.getMaxValueAttributeAnimal(att.getTemplate().getId(),
+                    animal.getLevel())) {
                 attributeToUpgrade = att;
                 break;
             }

@@ -111,7 +111,7 @@ public class Point {
         int dameAttack = (int) (this.attack * (isAttackMob ? 2.5 : 2));
         dameAttack += dameAttack
                 * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(),
-                player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
+                        player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
         if (isCrit || isBaoKich) {
             dameAttack *= 2;
         }
@@ -129,23 +129,27 @@ public class Point {
         }
         if (player.getHorse().getAnimalUse() != null) {
             strengthAdd += player.getHorse().getAnimalUse().getValue((byte) AttributeConst.TANG_SUC_MANH);
-            strengthAdd += (short) player.getHorse().getAnimalUse().sumAttributeValueForId((byte) AttributeConst.TANG_SUC_MANH);
+            strengthAdd += (short) player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId((byte) AttributeConst.TANG_SUC_MANH);
         }
     }
 
     private void setAgility() {
-        agilityAdd += (short) InventoryService.instance.sumAttributeValueForId(player, (short) AttributeConst.TANG_NHANH_NHEN);
+        agilityAdd += (short) InventoryService.instance.sumAttributeValueForId(player,
+                (short) AttributeConst.TANG_NHANH_NHEN);
         if (player.getHorse().getImageHorse() == 1) {
             agilityAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
             agilityAdd += player.getHorse().getAnimalUse().getValue((byte) 36);
-            agilityAdd += (short) player.getHorse().getAnimalUse().sumAttributeValueForId((byte) AttributeConst.TANG_NHANH_NHEN);
+            agilityAdd += (short) player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId((byte) AttributeConst.TANG_NHANH_NHEN);
         }
     }
 
     private void setSpirit() {
-        spiritAdd += (short) InventoryService.instance.sumAttributeValueForId(player, (short) AttributeConst.TANG_TINH_THAN);
+        spiritAdd += (short) InventoryService.instance.sumAttributeValueForId(player,
+                (short) AttributeConst.TANG_TINH_THAN);
         if (player.getInfo().getClassPlayer() == Const.PHAP_SU) {
             spiritAdd += spiritAdd * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]) / 100);

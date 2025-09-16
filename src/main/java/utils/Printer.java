@@ -1,7 +1,8 @@
 package utils;
 
-import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.ansi;
+
+import org.fusesource.jansi.Ansi;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Printer {
             System.out.println(ansi().fgRgb(r, g, b).a(s).reset());
         }
     }
-    
+
     public static void printRed(String text) {
         System.out.println(ansi().fgRed().a(text).reset());
     }

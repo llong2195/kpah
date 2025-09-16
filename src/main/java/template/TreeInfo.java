@@ -25,7 +25,8 @@ public class TreeInfo {
     private byte[] data;
 
     public void setData() throws IOException {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); DataOutputStream outputStream = new DataOutputStream(byteArrayOutputStream)) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream outputStream = new DataOutputStream(byteArrayOutputStream)) {
             outputStream.writeShort(6);
             outputStream.writeByte(dx);
             outputStream.writeByte(dy);

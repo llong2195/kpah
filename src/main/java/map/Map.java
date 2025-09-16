@@ -31,17 +31,20 @@ public class Map implements IMap {
         zones = new ArrayList<>();
         for (byte i = 0; i < (mapData.isOfflineMap() ? 1 : mapData.getMaxZone()); i++) {
             List<Monster> mobsNew = mapData.getMobsOrigin().stream().map(mob -> {
-                Monster newMob = Monster.builder().id(mob.getId()).x(mob.getX()).hp(mob.getHp()).y(mob.getY()).template(mob.getTemplate()).playerAttack(new ArrayList<>()).build();
+                Monster newMob = Monster.builder().id(mob.getId()).x(mob.getX()).hp(mob.getHp()).y(mob.getY())
+                        .template(mob.getTemplate()).playerAttack(new ArrayList<>()).build();
                 newMob.setBuffInfluence(BuffInfluenceMonster.builder().build());
                 newMob.getBuffInfluence().setMob(newMob);
                 return newMob;
             }).collect(Collectors.toList());
             List<Player> playerDefault = mapData.getNpcsActor().stream().map(npc -> {
-                Player player = PlayerDAO.buildNpcActor(Manager.getNpcTemplate((short) npc.getIdDatabase()), npc.getLocation().getX(), npc.getLocation().getY());
+                Player player = PlayerDAO.buildNpcActor(Manager.getNpcTemplate((short) npc.getIdDatabase()),
+                        npc.getLocation().getX(), npc.getLocation().getY());
                 player.setIdPlayer(npc.getIdPlayer());
                 return player;
             }).collect(Collectors.toList());
-            Zone z = Zone.builder().id(i).map(this).mobs(mobsNew).players(playerDefault).items(new ArrayList<>()).build();
+            Zone z = Zone.builder().id(i).map(this).mobs(mobsNew).players(playerDefault).items(new ArrayList<>())
+                    .build();
             z.initMobZone();
             zones.add(z);
         }
@@ -56,17 +59,20 @@ public class Map implements IMap {
             if (childMap != null) {
                 List<Zone> zonesNew = zones.stream().map(zone -> {
                     List<Monster> mobsNew = mapData.getMobsOrigin().stream().map(mob -> {
-                        Monster newMob = Monster.builder().id(mob.getId()).x(mob.getX()).hp(mob.getHp()).y(mob.getY()).template(mob.getTemplate()).playerAttack(new ArrayList<>()).build();
+                        Monster newMob = Monster.builder().id(mob.getId()).x(mob.getX()).hp(mob.getHp()).y(mob.getY())
+                                .template(mob.getTemplate()).playerAttack(new ArrayList<>()).build();
                         newMob.setBuffInfluence(BuffInfluenceMonster.builder().build());
                         newMob.getBuffInfluence().setMob(newMob);
                         return newMob;
                     }).collect(Collectors.toList());
                     List<Player> playerDefault = mapData.getNpcsActor().stream().map(npc -> {
-                        Player player = PlayerDAO.buildNpcActor(Manager.getNpcTemplate((short) npc.getIdDatabase()), npc.getLocation().getX(), npc.getLocation().getY());
+                        Player player = PlayerDAO.buildNpcActor(Manager.getNpcTemplate((short) npc.getIdDatabase()),
+                                npc.getLocation().getX(), npc.getLocation().getY());
                         player.setIdPlayer(npc.getIdPlayer());
                         return player;
                     }).collect(Collectors.toList());
-                    Zone newZone = Zone.builder().id(zone.getId()).map(childMap).mobs(mobsNew).players(playerDefault).items(new ArrayList<>()).build();
+                    Zone newZone = Zone.builder().id(zone.getId()).map(childMap).mobs(mobsNew).players(playerDefault)
+                            .items(new ArrayList<>()).build();
                     newZone.initMobZone();
                     return newZone;
                 }).collect(Collectors.toList());

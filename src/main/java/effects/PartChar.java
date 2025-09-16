@@ -31,7 +31,8 @@ public class PartChar {
     private byte[] data;
 
     public void setData() throws IOException {
-        try (ByteArrayOutputStream bas = new ByteArrayOutputStream(); DataOutputStream dos = new DataOutputStream(bas)) {
+        try (ByteArrayOutputStream bas = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(bas)) {
             dos.writeByte(avx0);
             dos.writeByte(avy0);
             dos.writeByte(avw0);

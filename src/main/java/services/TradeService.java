@@ -1,8 +1,9 @@
 package services;
 
-import item.ItemPotion;
 import java.io.IOException;
 import java.util.List;
+
+import item.ItemPotion;
 import lombok.NonNull;
 import lombok.Synchronized;
 import network.Message;
@@ -156,7 +157,8 @@ public class TradeService {
         sendCancelTrade(trader);
     }
 
-    public void addItemTrade(@NonNull Player player, byte typeItem, short indexItem, short quantity) throws IOException {
+    public void addItemTrade(@NonNull Player player, byte typeItem, short indexItem, short quantity)
+            throws IOException {
         if (quantity <= 0) {
             return;
         }
@@ -189,7 +191,8 @@ public class TradeService {
     }
 
     @Synchronized
-    public void addItemPotionTrade(@NonNull Player player, @NonNull ItemPotion itemPotion, short quantity) throws IOException {
+    public void addItemPotionTrade(@NonNull Player player, @NonNull ItemPotion itemPotion, short quantity)
+            throws IOException {
         if (player.getSundry().hasItemPotionTrade(itemPotion.getTemplate().getId())) {
             return;
         }
@@ -232,7 +235,8 @@ public class TradeService {
         trade.getSession().sendMessage(msg);
     }
 
-    private void sendRemoveItemTrade(@NonNull Player trade, @NonNull Player trader, @NonNull ItemPotion potion) throws IOException {
+    private void sendRemoveItemTrade(@NonNull Player trade, @NonNull Player trader, @NonNull ItemPotion potion)
+            throws IOException {
         Message msg = new Message(CommandMessage.TRADE);
         msg.writer().writeByte(ADD_ITEM_TRADE);
         msg.writer().writeByte(REMOVE_ITEM_POTION_TRADE);
@@ -241,7 +245,8 @@ public class TradeService {
         trader.getSession().sendMessage(msg);
     }
 
-    private void sendAddItemTrade(@NonNull Player trade, @NonNull Player trader, @NonNull ItemPotion potion) throws IOException {
+    private void sendAddItemTrade(@NonNull Player trade, @NonNull Player trader, @NonNull ItemPotion potion)
+            throws IOException {
         Message msg = new Message(CommandMessage.TRADE);
         msg.writer().writeByte(ADD_ITEM_TRADE);
         msg.writer().writeByte(ADD_ITEM_POTION);

@@ -1,14 +1,16 @@
 package services;
 
-import clan.Clan;
-import clan.ClanMessage;
-import item.ItemEquip;
-import item.ItemFriend;
-import item.ItemPotion;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import clan.Clan;
+import clan.ClanMessage;
+import consts.ClanConst;
+import item.ItemEquip;
+import item.ItemFriend;
+import item.ItemPotion;
 import lombok.NonNull;
 import manager.ClanManager;
 import manager.Manager;
@@ -16,7 +18,6 @@ import manager.Settings;
 import network.Message;
 import player.Friend;
 import player.Player;
-import consts.ClanConst;
 import utils.CommandMessage;
 import utils.Util;
 
@@ -94,11 +95,13 @@ public class ClanService {
         clan.removeMessage(index);
     }
 
-    public void onActionInvite(@NonNull Player player, byte type, short idPlayer, boolean confirm) throws SQLException, IOException {
+    public void onActionInvite(@NonNull Player player, byte type, short idPlayer, boolean confirm)
+            throws SQLException, IOException {
         switch (type) {
             case ClanConst.ACCEPT_INVITATION -> {
                 Player playerInviter = player.getLocation().getZone().findPlayer(idPlayer);
-                if (playerInviter == null || playerInviter.getInfo().getClan() == null || player.getInfo().getClan() != null) {
+                if (playerInviter == null || playerInviter.getInfo().getClan() == null
+                        || player.getInfo().getClan() != null) {
                     return;
                 }
                 if (confirm) {
@@ -108,7 +111,8 @@ public class ClanService {
                 }
             }
             case ClanConst.INVITE_TO_CLAN -> {
-                if (player.getInfo().getClan() == null || player.getSundry().getClanMember().getIsMaster() < 0 || player.getSundry().getClanMember().getIsMaster() >= 3) {
+                if (player.getInfo().getClan() == null || player.getSundry().getClanMember().getIsMaster() < 0
+                        || player.getSundry().getClanMember().getIsMaster() >= 3) {
                     return;
                 }
                 Player playerInvited = player.getLocation().getZone().findPlayer(idPlayer);
@@ -160,7 +164,9 @@ public class ClanService {
         for (ItemEquip item : playerInvited.getInventory().getItemBody()) {
             itemFriend.add(ItemService.instance.createNewItemFriend(item));
         }
-        Friend member = Friend.builder().id(playerInvited.getIdDatabase()).name(playerInvited.getName()).head(playerInvited.getInfo().getHead()).level(playerInvited.getInfo().getLevel()).idClan(clan.getIndexIcon()).isMaster(ClanConst.THANH_VIEN).items(itemFriend).build();
+        Friend member = Friend.builder().id(playerInvited.getIdDatabase()).name(playerInvited.getName())
+                .head(playerInvited.getInfo().getHead()).level(playerInvited.getInfo().getLevel())
+                .idClan(clan.getIndexIcon()).isMaster(ClanConst.THANH_VIEN).items(itemFriend).build();
         clan.addMember(member);
         clan.addMemberOnGame(playerInvited);
         playerInvited.getSundry().setClanMember(member);
@@ -179,11 +185,13 @@ public class ClanService {
             return;
         }
         if (player.getInfo().getLevel() < ClanConst.LEVEL_NEED_TO_REGISTER) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Yêu cầu cấp độ %s để tạo bang hội", ClanConst.LEVEL_NEED_TO_REGISTER));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Yêu cầu cấp độ %s để tạo bang hội", ClanConst.LEVEL_NEED_TO_REGISTER));
             return;
         }
         if (player.getInventory().getXu() < ClanConst.XU_NEED_TO_REGISTER) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Cần %s xu tạo bang hội", Util.formatNumber(ClanConst.LEVEL_NEED_TO_REGISTER)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Cần %s xu tạo bang hội", Util.formatNumber(ClanConst.LEVEL_NEED_TO_REGISTER)));
             return;
         }
         PopupService.instance.sendPopupConfirmRegClan(player);
@@ -201,19 +209,26 @@ public class ClanService {
                 clan.setLastTimeEndDelete(clan.getLastTimeCreate() + ClanConst.MINUTES_DELETE_CLAN * 60000);
             }
             clan.setDissolve(true);
-            Service.instance.sendLogOut(player.getSession(), String.format("Bang %s sẽ bị giải tán sau %s phút", clan.getName(), ClanConst.MINUTES_DELETE_CLAN - Util.getMinutesDifference(System.currentTimeMillis(), clan.getLastTimeEndDelete())));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Bang %s sẽ bị giải tán sau %s phút", clan.getName(), ClanConst.MINUTES_DELETE_CLAN
+                            - Util.getMinutesDifference(System.currentTimeMillis(), clan.getLastTimeEndDelete())));
         } else {
             clan.setDissolve(false);
             if (clan.getMembers().size() < 10) {
-                Service.instance.sendLogOut(player.getSession(), String.format("Bang %s đã được khôi phục nhưng sẽ bị giải tán sau %s vì bang chưa đủ 10 thành viên", clan.getName(), ClanConst.MINUTES_DELETE_CLAN - Util.getMinutesDifference(System.currentTimeMillis(), clan.getLastTimeEndDelete())));
+                Service.instance.sendLogOut(player.getSession(), String.format(
+                        "Bang %s đã được khôi phục nhưng sẽ bị giải tán sau %s vì bang chưa đủ 10 thành viên",
+                        clan.getName(), ClanConst.MINUTES_DELETE_CLAN
+                                - Util.getMinutesDifference(System.currentTimeMillis(), clan.getLastTimeEndDelete())));
             } else {
                 clan.setLastTimeEndDelete(0);
-                Service.instance.sendLogOut(player.getSession(), String.format("Bang %s đã được khôi phục", clan.getName()));
+                Service.instance.sendLogOut(player.getSession(),
+                        String.format("Bang %s đã được khôi phục", clan.getName()));
             }
         }
     }
 
-    public void confirmRegisterClan(@NonNull Player player, short indexIcon, String nameClan) throws IOException, SQLException {
+    public void confirmRegisterClan(@NonNull Player player, short indexIcon, String nameClan)
+            throws IOException, SQLException {
         if (player.getInfo().getClan() != null) {
             return;
         }
@@ -223,7 +238,8 @@ public class ClanService {
             return;
         }
         if (!player.getInventory().minusXu(ClanConst.XU_NEED_TO_REGISTER)) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Cần %s xu tạo bang hội", Util.formatNumber(ClanConst.LEVEL_NEED_TO_REGISTER)));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Cần %s xu tạo bang hội", Util.formatNumber(ClanConst.LEVEL_NEED_TO_REGISTER)));
             return;
         }
         if (Manager.hasNameLeader(player.getName())) {
@@ -244,7 +260,9 @@ public class ClanService {
         for (ItemEquip item : player.getInventory().getItemBody()) {
             itemFriend.add(ItemService.instance.createNewItemFriend(item));
         }
-        Friend leader = Friend.builder().id(player.getIdDatabase()).name(player.getName()).head(player.getInfo().getHead()).level(player.getInfo().getLevel()).idClan(clan.getIndexIcon()).isMaster(ClanConst.BANG_CHU).items(itemFriend).build();
+        Friend leader = Friend.builder().id(player.getIdDatabase()).name(player.getName())
+                .head(player.getInfo().getHead()).level(player.getInfo().getLevel()).idClan(clan.getIndexIcon())
+                .isMaster(ClanConst.BANG_CHU).items(itemFriend).build();
         clan.addMember(leader);
         clan.addMemberOnGame(player);
         ClanManager.addClan(clan);
@@ -257,7 +275,11 @@ public class ClanService {
 
     private Clan createNewClan(@NonNull Player leader, short indexIcon, String nameClan) throws SQLException {
         long now = System.currentTimeMillis();
-        Clan clan = Clan.builder().indexIcon(indexIcon).name(nameClan).nameLeader(leader.getName()).slogan(Settings.NAME_SERVER).level((byte) 1).members(new ArrayList<>()).messages(new ArrayList<>()).membersOnGame(new ArrayList<>()).lastTimeEndDelete(now + ClanConst.MINUTES_DELETE_CLAN * 60000).nationID(leader.getInfo().getIdNation()).lastTimeCreate(now).date(Util.convertTimeToString(now)).build();
+        Clan clan = Clan.builder().indexIcon(indexIcon).name(nameClan).nameLeader(leader.getName())
+                .slogan(Settings.NAME_SERVER).level((byte) 1).members(new ArrayList<>()).messages(new ArrayList<>())
+                .membersOnGame(new ArrayList<>()).lastTimeEndDelete(now + ClanConst.MINUTES_DELETE_CLAN * 60000)
+                .nationID(leader.getInfo().getIdNation()).lastTimeCreate(now).date(Util.convertTimeToString(now))
+                .build();
         return clan;
     }
 
@@ -282,10 +304,12 @@ public class ClanService {
         msg.writer().writeLong(clan.getExp());
         msg.writer().writeUTF(clan.getDate());
         msg.writer().writeUTF(clan.getSlogan());
-        msg.writer().writeBoolean((clan.isDissolve() || (clan.getMembers().size() < 10 && clan.getLastTimeEndDelete() != 0)));
+        msg.writer().writeBoolean(
+                (clan.isDissolve() || (clan.getMembers().size() < 10 && clan.getLastTimeEndDelete() != 0)));
         msg.writer().writeByte(clan.getNationID());
         if (clan.isDissolve() || (clan.getMembers().size() < 10 && clan.getLastTimeEndDelete() != 0)) {
-            msg.writer().writeUTF(String.format("Bang còn %s phút nữa sẽ bị giải tái", Util.getMinutesDifference(clan.getLastTimeEndDelete(), System.currentTimeMillis())));
+            msg.writer().writeUTF(String.format("Bang còn %s phút nữa sẽ bị giải tái",
+                    Util.getMinutesDifference(clan.getLastTimeEndDelete(), System.currentTimeMillis())));
         }
         player.getSession().sendMessage(msg);
     }
@@ -343,7 +367,8 @@ public class ClanService {
         Message msg = new Message(CommandMessage.ADD_CLAN);
         msg.writer().writeByte(0);
         msg.writer().writeShort(inviter.getIdPlayer());
-        msg.writer().writeUTF(String.format("%s muốn mời bạn gia nhập bang %s", inviter.getName(), inviter.getInfo().getClan().getName()));
+        msg.writer().writeUTF(String.format("%s muốn mời bạn gia nhập bang %s", inviter.getName(),
+                inviter.getInfo().getClan().getName()));
         invited.getSession().sendMessage(msg);
     }
 

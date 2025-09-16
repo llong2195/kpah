@@ -36,7 +36,7 @@ public class TopManager {
                     loadTop();
                     Printer.printRed("Load Top Data");
                     saveDataClan();
-                    TimeUnit.MINUTES.sleep(5);
+                    TimeUnit.MINUTES.sleep(10);
                 }
             } catch (Exception e) {
                 Logger.logError("Lỗi Update Top", e);
@@ -57,7 +57,8 @@ public class TopManager {
     }
 
     private static void loadTop() throws SQLException, JSONException {
-        ResultSetImpl rs = HikariCP.executeQuery("SELECT `id`,`name`,`itemBody`,`level`,`idNation`,`head`,`idClan`,`xu`, `luong` FROM (SELECT `id`,`name`,`itemBody`,JSON_EXTRACT(`info`, '$[5]') AS `level`,JSON_EXTRACT(`info`, '$[3]') AS `idNation`,JSON_EXTRACT(`info`, '$[1]') AS `head`,JSON_EXTRACT(`info`, '$[6]') AS `idClan`,JSON_EXTRACT(`inventory`, '$[2]') AS `xu`,JSON_EXTRACT(`inventory`, '$[0]') AS `luong` FROM `players`) AS `inventory_sort` ORDER BY `xu` DESC LIMIT 10");
+        ResultSetImpl rs = HikariCP.executeQuery(
+                "SELECT `id`,`name`,`itemBody`,`level`,`idNation`,`head`,`idClan`,`xu`, `luong` FROM (SELECT `id`,`name`,`itemBody`,JSON_EXTRACT(`info`, '$[5]') AS `level`,JSON_EXTRACT(`info`, '$[3]') AS `idNation`,JSON_EXTRACT(`info`, '$[1]') AS `head`,JSON_EXTRACT(`info`, '$[6]') AS `idClan`,JSON_EXTRACT(`inventory`, '$[2]') AS `xu`,JSON_EXTRACT(`inventory`, '$[0]') AS `luong` FROM `players`) AS `inventory_sort` ORDER BY `xu` DESC LIMIT 10");
         while (rs.next()) {
             int id = Integer.parseInt(rs.getString("id"));
             String name = rs.getString("name");
@@ -75,11 +76,14 @@ public class TopManager {
             } else {
                 isMaster = clan.getMaster(id);
             }
-            TopPlayer top = TopPlayer.builder().name(name).head(head).level(level).idClan(idClan).xu(xu).luong(luong).nationId(idNation).isMaster(isMaster).items(PlayerDAO.loadDataItemFriend(new JSONArray(itemBody))).build();
+            TopPlayer top = TopPlayer.builder().name(name).head(head).level(level).idClan(idClan).xu(xu).luong(luong)
+                    .nationId(idNation).isMaster(isMaster).items(PlayerDAO.loadDataItemFriend(new JSONArray(itemBody)))
+                    .build();
             TOP_RIGHER.add(top);
         }
         rs.close();
-        rs = HikariCP.executeQuery("SELECT `id`,`name`,`itemBody`,`level`,`idNation`,`head`,`idClan`,`xu`, `luong` FROM (SELECT `id`,`name`,`itemBody`,JSON_EXTRACT(`info`, '$[5]') AS `level`,JSON_EXTRACT(`info`, '$[3]') AS `idNation`,JSON_EXTRACT(`info`, '$[1]') AS `head`,JSON_EXTRACT(`info`, '$[6]') AS `idClan`,JSON_EXTRACT(`inventory`, '$[2]') AS `xu`,JSON_EXTRACT(`inventory`, '$[0]') AS `luong` FROM `players`) AS `inventory_sort` ORDER BY `level` DESC LIMIT 10");
+        rs = HikariCP.executeQuery(
+                "SELECT `id`,`name`,`itemBody`,`level`,`idNation`,`head`,`idClan`,`xu`, `luong` FROM (SELECT `id`,`name`,`itemBody`,JSON_EXTRACT(`info`, '$[5]') AS `level`,JSON_EXTRACT(`info`, '$[3]') AS `idNation`,JSON_EXTRACT(`info`, '$[1]') AS `head`,JSON_EXTRACT(`info`, '$[6]') AS `idClan`,JSON_EXTRACT(`inventory`, '$[2]') AS `xu`,JSON_EXTRACT(`inventory`, '$[0]') AS `luong` FROM `players`) AS `inventory_sort` ORDER BY `level` DESC LIMIT 10");
         while (rs.next()) {
             int id = Integer.parseInt(rs.getString("id"));
             String name = rs.getString("name");
@@ -97,15 +101,19 @@ public class TopManager {
             } else {
                 isMaster = clan.getMaster(id);
             }
-            TopPlayer top = TopPlayer.builder().name(name).head(head).level(level).idClan(idClan).xu(xu).luong(luong).nationId(idNation).isMaster(isMaster).items(PlayerDAO.loadDataItemFriend(new JSONArray(itemBody))).build();
+            TopPlayer top = TopPlayer.builder().name(name).head(head).level(level).idClan(idClan).xu(xu).luong(luong)
+                    .nationId(idNation).isMaster(isMaster).items(PlayerDAO.loadDataItemFriend(new JSONArray(itemBody)))
+                    .build();
             TOP_STRONGER.add(top);
         }
         rs.close();
         CLANS.values().stream()
                 .sorted(Comparator.comparing(Clan::getLevel).thenComparing(Clan::getXu))
                 .limit(10).forEach(clan -> {
-            ClanInfo clanInfo = ClanInfo.builder().indexIcon(clan.getIndexIcon()).level(clan.getLevel()).members((short) clan.getMembers().size()).nationId(clan.getNationID()).name(clan.getName()).xu(clan.getXu()).nameLeader(clan.getNameLeader()).build();
-            TOP_CLANS.add(clanInfo);
-        });
+                    ClanInfo clanInfo = ClanInfo.builder().indexIcon(clan.getIndexIcon()).level(clan.getLevel())
+                            .members((short) clan.getMembers().size()).nationId(clan.getNationID()).name(clan.getName())
+                            .xu(clan.getXu()).nameLeader(clan.getNameLeader()).build();
+                    TOP_CLANS.add(clanInfo);
+                });
     }
 }

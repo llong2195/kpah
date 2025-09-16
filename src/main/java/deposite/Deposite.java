@@ -32,7 +32,9 @@ public class Deposite {
 
     @Synchronized
     public void removePlayerOffline() {
-        playerSell.removeIf(p -> (!ClientManager.containsPlayers(p) || (p.getSundry().getDepositeItemEquips().size() <= 0 && p.getSundry().getDepositeItemGems().size() <= 0)));
+        playerSell
+                .removeIf(p -> (!ClientManager.containsPlayers(p) || (p.getSundry().getDepositeItemEquips().size() <= 0
+                        && p.getSundry().getDepositeItemGems().size() <= 0)));
     }
 
     public Player getPlayer(short idPlayer) {

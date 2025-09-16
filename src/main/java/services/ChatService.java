@@ -1,5 +1,7 @@
 package services;
 
+import java.io.IOException;
+
 import item.ItemGem;
 import lombok.NonNull;
 import manager.ClientManager;
@@ -7,8 +9,6 @@ import network.Message;
 import player.Player;
 import utils.CommandMessage;
 import utils.Util;
-
-import java.io.IOException;
 
 /**
  *

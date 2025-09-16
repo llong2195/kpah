@@ -62,7 +62,6 @@ public class Manager {
     public static ConcurrentHashMap<String, Deposite> DEPOSITE = new ConcurrentHashMap<>();
     public static VongQuay vongQuay = new VongQuay();
 
-    // <editor-fold defaultstate="collapsed" desc="Variables">
     public static long[] exps;
     public static byte[] DATA_LOCATION_HAC_HO;
     public static byte[] DATA_LOCATION_THANH_LONG;
@@ -81,7 +80,7 @@ public class Manager {
     public static byte[] ICON_ITEM;
     public static byte[][] DATA_HORSE;
     public static byte[][][] HEAD_HORSE;
-    public static byte[] PERCENT_ATTRIBUTE = new byte[]{20, 50, 10, 70, 20};
+    public static byte[] PERCENT_ATTRIBUTE = new byte[] { 20, 50, 10, 70, 20 };
     public static short ID_MAP_PK;
     public static byte[][] MAIN_ATTACK;
     public static byte[][] MAIN_DEFEND;
@@ -103,54 +102,52 @@ public class Manager {
     public static byte ANIMAL_CHANGE_SPECIAL_ATTRIBUTE_PRICE;
     public static byte[] PRICE_UPGRADE_ANIMAL;
 
-    public static final byte[][] EFF_BUFF_SKILL = new byte[][]{
-            new byte[]{20, 24},
-            new byte[]{20, 21},
-            new byte[]{25, 30, 27, 23},
-            new byte[]{19, 20},
-            new byte[]{22, 19}
+    public static final byte[][] EFF_BUFF_SKILL = new byte[][] {
+            new byte[] { 20, 24 },
+            new byte[] { 20, 21 },
+            new byte[] { 25, 30, 27, 23 },
+            new byte[] { 19, 20 },
+            new byte[] { 22, 19 }
     };
 
-    public static final byte[][] SKILL_CAN_BUFF_TO_USER = new byte[][]{
-            new byte[]{-1, 0},
-            new byte[]{0, -1},
-            new byte[]{0, -1, 1, 0},
-            new byte[]{0, -1},
-            new byte[]{0, -1}
+    public static final byte[][] SKILL_CAN_BUFF_TO_USER = new byte[][] {
+            new byte[] { -1, 0 },
+            new byte[] { 0, -1 },
+            new byte[] { 0, -1, 1, 0 },
+            new byte[] { 0, -1 },
+            new byte[] { 0, -1 }
     };
 
-    public static final byte[] BUFF_TYPE = new byte[]{19, 20, 22, 23, 24, 25, 27};
-    public static final byte[] NUM_SKILLS = new byte[]{9, 9, 11, 9, 9};
-    public static final byte[] X_CHECK = new byte[]{0, 0, -16, 16};
-    public static final byte[] Y_CHECK = new byte[]{16, -16, 0, 0};
-    public static final byte[] X_FOWARD = new byte[]{0, 0, -17, 17};
-    public static final byte[] Y_FOWARD = new byte[]{17, -17, 0, 0};
+    public static final byte[] BUFF_TYPE = new byte[] { 19, 20, 22, 23, 24, 25, 27 };
+    public static final byte[] NUM_SKILLS = new byte[] { 9, 9, 11, 9, 9 };
+    public static final byte[] X_CHECK = new byte[] { 0, 0, -16, 16 };
+    public static final byte[] Y_CHECK = new byte[] { 16, -16, 0, 0 };
+    public static final byte[] X_FOWARD = new byte[] { 0, 0, -17, 17 };
+    public static final byte[] Y_FOWARD = new byte[] { 17, -17, 0, 0 };
 
-    public static final boolean[][] ATTRIBUTE_FOR_TYPE = new boolean[][]{
-            new boolean[]{false, true, true, true, false, false, true, false, false, false},
-            new boolean[]{false, true, true, true, false, false, true, false, false, false},
-            new boolean[]{false, true, true, true, false, false, true, false, false, false},
-            new boolean[]{true, false, false, true, true, false, false, false, false, false},
-            new boolean[]{true, false, false, true, true, false, false, false, false, false},
-            new boolean[]{true, false, false, true, true, false, false, false, false, false},
-            new boolean[]{true, false, false, true, true, false, false, false, false, false},
-            new boolean[]{true, false, false, true, true, false, false, false, false, false},
-            new boolean[]{true, false, false, true, false, false, false, false, false, false},
-            new boolean[]{true, false, false, false, true, false, false, false, false, false},
-            new boolean[]{false, true, true, false, false, false, true, false, false, false},
-            new boolean[]{false, true, false, true, true, false, true, false, false, false},
-            new boolean[]{false, false, false, true, true, true, false, false, false, false},
-            new boolean[]{true, false, false, false, false, false, false, false, false, false},
-            new boolean[]{false, true, false, false, false, false, true, false, false, false},
-            new boolean[]{true, false, false, true, false, false, false, false, false, false},
-            new boolean[]{false, true, false, false, false, false, true, false, false, false},
-            new boolean[]{true, false, false, false, true, false, false, false, false, false},
-            new boolean[]{false, true, false, false, false, false, true, false, false, false},
-            new boolean[]{false, true, false, false, false, false, true, false, false, false}
+    public static final boolean[][] ATTRIBUTE_FOR_TYPE = new boolean[][] {
+            new boolean[] { false, true, true, true, false, false, true, false, false, false },
+            new boolean[] { false, true, true, true, false, false, true, false, false, false },
+            new boolean[] { false, true, true, true, false, false, true, false, false, false },
+            new boolean[] { true, false, false, true, true, false, false, false, false, false },
+            new boolean[] { true, false, false, true, true, false, false, false, false, false },
+            new boolean[] { true, false, false, true, true, false, false, false, false, false },
+            new boolean[] { true, false, false, true, true, false, false, false, false, false },
+            new boolean[] { true, false, false, true, true, false, false, false, false, false },
+            new boolean[] { true, false, false, true, false, false, false, false, false, false },
+            new boolean[] { true, false, false, false, true, false, false, false, false, false },
+            new boolean[] { false, true, true, false, false, false, true, false, false, false },
+            new boolean[] { false, true, false, true, true, false, true, false, false, false },
+            new boolean[] { false, false, false, true, true, true, false, false, false, false },
+            new boolean[] { true, false, false, false, false, false, false, false, false, false },
+            new boolean[] { false, true, false, false, false, false, true, false, false, false },
+            new boolean[] { true, false, false, true, false, false, false, false, false, false },
+            new boolean[] { false, true, false, false, false, false, true, false, false, false },
+            new boolean[] { true, false, false, false, true, false, false, false, false, false },
+            new boolean[] { false, true, false, false, false, false, true, false, false, false },
+            new boolean[] { false, true, false, false, false, false, true, false, false, false }
     };
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Functions">
     public static byte[] getImageCloth(byte id, byte type) {
         ConcurrentHashMap<Byte, byte[]> cloth = IMAGES_CLOTH.getOrDefault(type, null);
         if (cloth != null) {
@@ -337,14 +334,15 @@ public class Manager {
 
     private static void loadTypeOfTile() {
         try {
-            String[] names = new String[]{"t_thanh", "t", "t_hang"};
+            String[] names = new String[] { "t_thanh", "t", "t_hang" };
             for (String name : names) {
-                DataInputStream tile = new DataInputStream(new FileInputStream("data/map/typeOfTile/" + name));
-                int[] typeOfTile = new int[tile.available()];
-                for (int i = 0; i < typeOfTile.length; i++) {
-                    typeOfTile[i] = tile.readByte();
+                try (DataInputStream tile = new DataInputStream(new FileInputStream("data/map/typeOfTile/" + name))) {
+                    int[] typeOfTile = new int[tile.available()];
+                    for (int i = 0; i < typeOfTile.length; i++) {
+                        typeOfTile[i] = tile.readByte();
+                    }
+                    TYPE_OF_TILE.add(typeOfTile);
                 }
-                TYPE_OF_TILE.add(typeOfTile);
             }
         } catch (IOException e) {
         }
@@ -359,11 +357,14 @@ public class Manager {
     }
 
     public static ItemEquipTemplate getItemEquipment(byte type, byte style, byte color) {
-        return ITEM_EQUIPMENTS.values().stream().filter(it -> it != null && it.getType() == type && it.getStyle() == style && it.getColorItem() == color).findFirst().orElse(null);
+        return ITEM_EQUIPMENTS.values().stream().filter(
+                it -> it != null && it.getType() == type && it.getStyle() == style && it.getColorItem() == color)
+                .findFirst().orElse(null);
     }
 
     public static ItemEquipTemplate getItemEquipment(byte type, byte level) {
-        return ITEM_EQUIPMENTS.values().stream().filter(it -> it != null && it.getType() == type && it.getLevel() == level).findFirst().orElse(null);
+        return ITEM_EQUIPMENTS.values().stream()
+                .filter(it -> it != null && it.getType() == type && it.getLevel() == level).findFirst().orElse(null);
     }
 
     public static ItemEquipTemplate getItemEquipment(short itemId) {
@@ -387,27 +388,29 @@ public class Manager {
     }
 
     public static List<SkillNewTemplate> getListSkillNew(byte classChar) {
-        return SKILL_NEW_TEMPLATES.values().stream().filter(s -> s != null && s.getClassChar() == classChar).collect(Collectors.toList());
+        return SKILL_NEW_TEMPLATES.values().stream().filter(s -> s != null && s.getClassChar() == classChar)
+                .collect(Collectors.toList());
     }
 
     public static List<EffectData> getEffectData(byte typeEffect) {
-        return EFFECT_DATA.stream().filter(s -> s != null && s.getTypeEffect() == typeEffect).sorted(Comparator.comparingInt(EffectData::getId)).collect(Collectors.toList());
+        return EFFECT_DATA.stream().filter(s -> s != null && s.getTypeEffect() == typeEffect)
+                .sorted(Comparator.comparingInt(EffectData::getId)).collect(Collectors.toList());
     }
 
     public static PartChar getPartCharData(byte type, byte id) {
-        return PART_CHAR.stream().filter(s -> s != null && s.getType() == type && s.getId() == id).findFirst().orElse(null);
+        return PART_CHAR.stream().filter(s -> s != null && s.getType() == type && s.getId() == id).findFirst()
+                .orElse(null);
     }
 
     public static EffectData getEffectData(byte typeEffect, short idEffect) {
-        return EFFECT_DATA.stream().filter(s -> s != null && s.getTypeEffect() == typeEffect && s.getId() == idEffect).findFirst().orElse(null);
+        return EFFECT_DATA.stream().filter(s -> s != null && s.getTypeEffect() == typeEffect && s.getId() == idEffect)
+                .findFirst().orElse(null);
     }
-    //</editor-fold>
 
     public static void init() {
         try {
             loadTypeOfTile();
 
-            // <editor-fold defaultstate="collapsed" desc="Load Others Data">
             ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM `others`");
             while (rs.next()) {
                 String type = rs.getString("type");
@@ -438,7 +441,8 @@ public class Manager {
                                 valueAtt[k - 1] = (short) value.getInt(k);
                             }
                             for (int j = 0; j < arrId.length(); j++) {
-                                ValueAttributeAnimal att = ValueAttributeAnimal.builder().id((short) arrId.getInt(j)).maxValue(valueAtt).build();
+                                ValueAttributeAnimal att = ValueAttributeAnimal.builder().id((short) arrId.getInt(j))
+                                        .maxValue(valueAtt).build();
                                 VALUE_ATTRIBUTE_ANIMAL.put(att.getId(), att);
                             }
                         }
@@ -450,7 +454,8 @@ public class Manager {
                             for (int k = 1; k < value.length(); k++) {
                                 valueAtt[k - 1] = (short) value.getInt(k);
                             }
-                            ValueAttributeAnimal att = ValueAttributeAnimal.builder().id((byte) value.getInt(0)).maxValue(valueAtt).build();
+                            ValueAttributeAnimal att = ValueAttributeAnimal.builder().id((byte) value.getInt(0))
+                                    .maxValue(valueAtt).build();
                             VALUE_ATTRIBUTE_ANIMAL.put(att.getId(), att);
                         }
                     }
@@ -673,22 +678,22 @@ public class Manager {
                 }
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen("Finish Load Others Data");
 
-            // <editor-fold defaultstate="collapsed" desc="Load Monsters Template">
             rs = HikariCP.executeQuery("SELECT * FROM `monsters`");
             while (rs.next()) {
-                MonsterTemplate mobTemplate = MonsterTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).type(rs.getByte("type")).level(rs.getShort("level")).maxHp(rs.getInt("maxHp")).palate(rs.getByte("palate")).spalate(rs.getByte("spalate")).moveType(rs.getByte("moveType")).speed(rs.getByte("speed")).height(rs.getByte("height")).w(rs.getByte("w")).h(rs.getByte("h")).xCenter(rs.getByte("xCenter")).yCenter(rs.getByte("yCenter")).build();
+                MonsterTemplate mobTemplate = MonsterTemplate.builder().id(rs.getShort("id")).name(rs.getString("name"))
+                        .type(rs.getByte("type")).level(rs.getShort("level")).maxHp(rs.getInt("maxHp"))
+                        .palate(rs.getByte("palate")).spalate(rs.getByte("spalate")).moveType(rs.getByte("moveType"))
+                        .speed(rs.getByte("speed")).height(rs.getByte("height")).w(rs.getByte("w")).h(rs.getByte("h"))
+                        .xCenter(rs.getByte("xCenter")).yCenter(rs.getByte("yCenter")).build();
                 MOB_TEMPLATES.put(mobTemplate.getId(), mobTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Monsters Template [%s]", MOB_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Npc Template">
             rs = HikariCP.executeQuery("SELECT * FROM `npc_actor`");
             while (rs.next()) {
                 JSONArray itemsArray = new JSONArray(rs.getString("itemBody"));
@@ -701,27 +706,26 @@ public class Manager {
                 for (int i = 0; i < idModels.length; i++) {
                     idModels[i] = (short) idModelArray.getInt(i);
                 }
-                NpcTemplate npcTemplate = NpcTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).head(rs.getShort("head")).itemEquipment(itemEquipment).idModels(idModels).build();
+                NpcTemplate npcTemplate = NpcTemplate.builder().id(rs.getShort("id")).name(rs.getString("name"))
+                        .head(rs.getShort("head")).itemEquipment(itemEquipment).idModels(idModels).build();
                 NPC_TEMPLATES.put(npcTemplate.getId(), npcTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Npc Template [%s]", NPC_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Tree Info">
             rs = HikariCP.executeQuery("SELECT * FROM `tree_info`");
             while (rs.next()) {
-                TreeInfo treeInfo = TreeInfo.builder().id(rs.getByte("id")).dx(rs.getByte("dx")).dy(rs.getByte("dy")).startX(rs.getByte("startX")).startY(rs.getByte("startY")).endX(rs.getByte("endX")).endY(rs.getByte("endY")).build();
+                TreeInfo treeInfo = TreeInfo.builder().id(rs.getByte("id")).dx(rs.getByte("dx")).dy(rs.getByte("dy"))
+                        .startX(rs.getByte("startX")).startY(rs.getByte("startY")).endX(rs.getByte("endX"))
+                        .endY(rs.getByte("endY")).build();
                 treeInfo.setData();
                 TREE_INFOS.put(treeInfo.getId(), treeInfo);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Tree Info [%s]", TREE_INFOS.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Item Equipment">
             rs = HikariCP.executeQuery("SELECT * FROM item_equipment");
             while (rs.next()) {
                 JSONArray attb = new JSONArray(rs.getString("attribute"));
@@ -732,40 +736,43 @@ public class Manager {
                 JSONArray dxdy = new JSONArray(rs.getString("dataWeapon"));
                 byte dx = !dxdy.isEmpty() ? (byte) dxdy.getInt(0) : Manager.DX_DY_WP[0][0];
                 byte dy = !dxdy.isEmpty() ? (byte) dxdy.getInt(1) : Manager.DX_DY_WP[1][0];
-                ItemEquipTemplate itemTemplate = ItemEquipTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).classChar(rs.getByte("classChar")).idIcon(rs.getShort("idIcon")).type(rs.getByte("type")).style(rs.getByte("stype")).he(rs.getByte("he")).gender(rs.getByte("gender")).level(rs.getByte("level")).durable(rs.getShort("durable")).price(rs.getInt("price")).colorItem(rs.getByte("colorItem")).ndayLoan(rs.getShort("ndayLoan")).attribute(attribute).dxWear(dx).dyWear(dy).build();
+                ItemEquipTemplate itemTemplate = ItemEquipTemplate.builder().id(rs.getShort("id"))
+                        .name(rs.getString("name")).classChar(rs.getByte("classChar")).idIcon(rs.getShort("idIcon"))
+                        .type(rs.getByte("type")).style(rs.getByte("stype")).he(rs.getByte("he"))
+                        .gender(rs.getByte("gender")).level(rs.getByte("level")).durable(rs.getShort("durable"))
+                        .price(rs.getInt("price")).colorItem(rs.getByte("colorItem")).ndayLoan(rs.getShort("ndayLoan"))
+                        .attribute(attribute).dxWear(dx).dyWear(dy).build();
                 ITEM_EQUIPMENTS.put(itemTemplate.getId(), itemTemplate);
                 if (itemTemplate.getColorItem() == 0 && itemTemplate.getNdayLoan() == 0) {
-                    Util.addItemToMap(ITEM_EQUIPMENT, itemTemplate.getLevel() + "_" + itemTemplate.getGender(), itemTemplate.getId());
+                    Util.addItemToMap(ITEM_EQUIPMENT, itemTemplate.getLevel() + "_" + itemTemplate.getGender(),
+                            itemTemplate.getId());
                 }
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Item Template [%s]", ITEM_EQUIPMENTS.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="load Item Attribute Template">
             rs = HikariCP.executeQuery("SELECT * FROM `item_attribute`");
             while (rs.next()) {
-                AttributeEquipTemplate itemAttributeTemplate = AttributeEquipTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).isPercent(rs.getByte("isPercent")).colorPaint(rs.getByte("colorPaint")).build();
+                AttributeEquipTemplate itemAttributeTemplate = AttributeEquipTemplate.builder().id(rs.getShort("id"))
+                        .name(rs.getString("name")).isPercent(rs.getByte("isPercent"))
+                        .colorPaint(rs.getByte("colorPaint")).build();
                 ITEM_ATTRIBUTE_TEMPLATES.put(itemAttributeTemplate.getId(), itemAttributeTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Attribute Template [%s]", ITEM_ATTRIBUTE_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Item Quest Template">
             rs = HikariCP.executeQuery("SELECT * FROM `item_quest`");
             while (rs.next()) {
-                ItemQuestTemplate itemQuestTemplate = ItemQuestTemplate.builder().id(rs.getByte("id")).name(rs.getString("name")).idIcon(rs.getShort("iconId")).build();
+                ItemQuestTemplate itemQuestTemplate = ItemQuestTemplate.builder().id(rs.getByte("id"))
+                        .name(rs.getString("name")).idIcon(rs.getShort("iconId")).build();
                 ITEM_QUEST_TEMPLATES.put(itemQuestTemplate.getId(), itemQuestTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Item Quest Template [%s]", ITEM_QUEST_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Xa Phu Template">
             rs = HikariCP.executeQuery("SELECT * FROM `xa_phu_template`;");
             while (rs.next()) {
                 byte id = rs.getByte("id");
@@ -789,68 +796,71 @@ public class Manager {
                 for (int i = 0; i < priceArray.length(); i++) {
                     price[i] = (short) priceArray.getInt(i);
                 }
-                XaPhuTemplate xaPhuTemplate = XaPhuTemplate.builder().id(id).mapID(mapId).x(x).y(y).price(price).build();
+                XaPhuTemplate xaPhuTemplate = XaPhuTemplate.builder().id(id).mapID(mapId).x(x).y(y).price(price)
+                        .build();
                 XA_PHU_TEMPLATE.put(id, xaPhuTemplate);
             }
             rs.close();
-            // </editor-fold>
 
-            // <editor-fold defaultstate="collapsed" desc="Load Xa Phu">
             rs = HikariCP.executeQuery("SELECT * FROM `xa_phu`");
             while (rs.next()) {
-                XaPhu xaPhu = XaPhu.builder().id(rs.getByte("id")).idMap(rs.getShort("map")).x(rs.getShort("x")).y(rs.getShort("y")).build();
+                XaPhu xaPhu = XaPhu.builder().id(rs.getByte("id")).idMap(rs.getShort("map")).x(rs.getShort("x"))
+                        .y(rs.getShort("y")).build();
                 XA_PHU.add(xaPhu);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Xa Phu [%s]", XA_PHU_TEMPLATE.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Gem Template">
             rs = HikariCP.executeQuery("SELECT * FROM `gem_template`");
             while (rs.next()) {
-                GemTemplate gem = GemTemplate.builder().id(rs.getShort("id")).idImage(rs.getByte("idImage")).price(rs.getInt("price")).name(rs.getString("name")).decript(rs.getString("decript")).type(rs.getByte("type")).isSell(rs.getBoolean("isSell")).typeEp(rs.getByte("typeEp")).typeMoney(rs.getByte("typeMoney")).build();
+                GemTemplate gem = GemTemplate.builder().id(rs.getShort("id")).idImage(rs.getByte("idImage"))
+                        .price(rs.getInt("price")).name(rs.getString("name")).decript(rs.getString("decript"))
+                        .type(rs.getByte("type")).isSell(rs.getBoolean("isSell")).typeEp(rs.getByte("typeEp"))
+                        .typeMoney(rs.getByte("typeMoney")).build();
                 GEM_TEMPLATES.put(gem.getId(), gem);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Gem Template [%s]", GEM_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Shop Template">
             rs = HikariCP.executeQuery("SELECT * FROM shop_template");
             while (rs.next()) {
-                ShopTemplate shopTemplate = ShopTemplate.builder().id(rs.getShort("id")).idImage(rs.getShort("idImage")).name(rs.getString("name")).decript(rs.getString("decript")).shopType(rs.getByte("shopType")).price(rs.getInt("price")).typeMoney(rs.getByte("typeMoney")).isSell(rs.getBoolean("isSell")).value(rs.getShort("value")).idItemEquip(rs.getShort("idItemEquip")).idItemPotion(rs.getShort("idItemPotion")).idItemGem(rs.getShort("idItemGem")).isGemLock(rs.getByte("isGemLock") == 1).build();
+                ShopTemplate shopTemplate = ShopTemplate.builder().id(rs.getShort("id")).idImage(rs.getShort("idImage"))
+                        .name(rs.getString("name")).decript(rs.getString("decript")).shopType(rs.getByte("shopType"))
+                        .price(rs.getInt("price")).typeMoney(rs.getByte("typeMoney")).isSell(rs.getBoolean("isSell"))
+                        .value(rs.getShort("value")).idItemEquip(rs.getShort("idItemEquip"))
+                        .idItemPotion(rs.getShort("idItemPotion")).idItemGem(rs.getShort("idItemGem"))
+                        .isGemLock(rs.getByte("isGemLock") == 1).build();
                 SHOP_TEMPLATES.put(shopTemplate.getId(), shopTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Shop Template [%s]", SHOP_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Potion Template">
             rs = HikariCP.executeQuery("SELECT * FROM `potion_template`");
             while (rs.next()) {
-                PotionTemplate potionTemplate = PotionTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).name2(rs.getString("name2")).idImage(rs.getByte("idImage")).delay(rs.getShort("delay")).isTrade(rs.getBoolean("isTrade")).price(rs.getShort("price")).recovered(rs.getShort("recovered")).build();
+                PotionTemplate potionTemplate = PotionTemplate.builder().id(rs.getShort("id"))
+                        .name(rs.getString("name")).name2(rs.getString("name2")).idImage(rs.getByte("idImage"))
+                        .delay(rs.getShort("delay")).isTrade(rs.getBoolean("isTrade")).price(rs.getShort("price"))
+                        .recovered(rs.getShort("recovered")).build();
                 POTION_TEMPLATES.put(potionTemplate.getId(), potionTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Potion Template [%s]", POTION_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Skill News Template">
             rs = HikariCP.executeQuery("SELECT * FROM `skill_news`");
             while (rs.next()) {
-                SkillNewTemplate skillNewTemplate = SkillNewTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).decript(rs.getString("des")).idSkill(rs.getByte("idSkill")).classChar(rs.getByte("charClass")).price(rs.getInt("price")).build();
+                SkillNewTemplate skillNewTemplate = SkillNewTemplate.builder().id(rs.getShort("id"))
+                        .name(rs.getString("name")).decript(rs.getString("des")).idSkill(rs.getByte("idSkill"))
+                        .classChar(rs.getByte("charClass")).price(rs.getInt("price")).build();
                 SKILL_NEW_TEMPLATES.put(skillNewTemplate.getId(), skillNewTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Skill New Template [%s]", SKILL_NEW_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Part Char Data">
             rs = HikariCP.executeQuery("SELECT * FROM `char_part`");
             while (rs.next()) {
                 JSONArray xArray = new JSONArray(rs.getString("x"));
@@ -907,16 +917,17 @@ public class Manager {
                         dy[i][j] = (byte) dyData.getInt(j);
                     }
                 }
-                PartChar part = PartChar.builder().x(x).y(y).dx(dx).dy(dy).w(w).h(h).id(rs.getByte("idPart")).type(rs.getByte("type")).avx0(rs.getShort("avx0")).avy0(rs.getShort("avy0")).avw0(rs.getShort("avw0")).avh0(rs.getShort("avh0")).avxf(rs.getShort("avxf")).avyf(rs.getShort("avyf")).build();
+                PartChar part = PartChar.builder().x(x).y(y).dx(dx).dy(dy).w(w).h(h).id(rs.getByte("idPart"))
+                        .type(rs.getByte("type")).avx0(rs.getShort("avx0")).avy0(rs.getShort("avy0"))
+                        .avw0(rs.getShort("avw0")).avh0(rs.getShort("avh0")).avxf(rs.getShort("avxf"))
+                        .avyf(rs.getShort("avyf")).build();
                 part.setData();
                 PART_CHAR.add(part);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Part Char Data [%s]", PART_CHAR.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Effect Data">
             rs = HikariCP.executeQuery("SELECT * FROM `effect_data` ORDER BY `typeEffect`");
             while (rs.next()) {
                 short idEffect = rs.getShort("idEffect");
@@ -926,7 +937,9 @@ public class Manager {
                 ImageInfo[] imageInfo = new ImageInfo[smallImage.length()];
                 for (int i = 0; i < smallImage.length(); i++) {
                     JSONObject dataImage = smallImage.getJSONObject(i);
-                    ImageInfo info = ImageInfo.builder().ID((short) dataImage.getInt("id")).x0((short) dataImage.getInt("x0")).y0((short) dataImage.getInt("y0")).w((byte) dataImage.getInt("w")).h((byte) dataImage.getInt("h")).build();
+                    ImageInfo info = ImageInfo.builder().ID((short) dataImage.getInt("id"))
+                            .x0((short) dataImage.getInt("x0")).y0((short) dataImage.getInt("y0"))
+                            .w((byte) dataImage.getInt("w")).h((byte) dataImage.getInt("h")).build();
                     imageInfo[i] = info;
                 }
                 JSONArray frameImage = new JSONArray(rs.getString("frames"));
@@ -936,7 +949,11 @@ public class Manager {
                     partFrame[i] = new PartFrame[smallPart.length()];
                     for (int k = 0; k < smallPart.length(); k++) {
                         JSONObject partData = smallPart.getJSONObject(k);
-                        PartFrame part = PartFrame.builder().idSmallImg((byte) partData.getInt("id")).dx((short) partData.getInt("dx")).dy((short) partData.getInt("dy")).onTop((byte) partData.getInt("onTop")).flip((byte) partData.getInt("flip")).xShadow((byte) partData.getInt("xShadow")).yShadow((byte) partData.getInt("yShadow")).build();
+                        PartFrame part = PartFrame.builder().idSmallImg((byte) partData.getInt("id"))
+                                .dx((short) partData.getInt("dx")).dy((short) partData.getInt("dy"))
+                                .onTop((byte) partData.getInt("onTop")).flip((byte) partData.getInt("flip"))
+                                .xShadow((byte) partData.getInt("xShadow")).yShadow((byte) partData.getInt("yShadow"))
+                                .build();
                         partFrame[i][k] = part;
                     }
                 }
@@ -955,16 +972,15 @@ public class Manager {
                     }
                     animatinos[i] = new Animation(data);
                 }
-                EffectData effectData = EffectData.builder().id(idEffect).idSpecial(idSpecial).typeEffect(typeEffect).imageInfo(imageInfo).frame(partFrame).arrFrame(sequence).animation(animatinos).build();
+                EffectData effectData = EffectData.builder().id(idEffect).idSpecial(idSpecial).typeEffect(typeEffect)
+                        .imageInfo(imageInfo).frame(partFrame).arrFrame(sequence).animation(animatinos).build();
                 effectData.setData();
                 EFFECT_DATA.add(effectData);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Effect Data [%s]", EFFECT_DATA.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Animal Template">
             rs = HikariCP.executeQuery("SELECT * FROM `animal_template`");
             while (rs.next()) {
                 JSONArray attributeJSON = new JSONArray(rs.getString("attributeSpecial"));
@@ -972,33 +988,35 @@ public class Manager {
                 for (int i = 0; i < attributeJSON.length(); i++) {
                     JSONArray arr = attributeJSON.getJSONArray(i);
                     short[] mValue = new short[1];
-                    ValueAttributeAnimal value = ValueAttributeAnimal.builder().id((short) arr.getInt(0)).maxValue(mValue).build();
+                    ValueAttributeAnimal value = ValueAttributeAnimal.builder().id((short) arr.getInt(0))
+                            .maxValue(mValue).build();
                     mValue[0] = (short) arr.getInt(1);
                     attribute.put(value.getId(), value);
                 }
-                AnimalTemplate animal = AnimalTemplate.builder().idTrung(rs.getShort("idTrung")).name(rs.getString("name")).idImage(rs.getShort("idImg")).type(rs.getByte("type")).nFrame(rs.getByte("nFrame")).attributeSpecial(attribute).build();
+                AnimalTemplate animal = AnimalTemplate.builder().idTrung(rs.getShort("idTrung"))
+                        .name(rs.getString("name")).idImage(rs.getShort("idImg")).type(rs.getByte("type"))
+                        .nFrame(rs.getByte("nFrame")).attributeSpecial(attribute).build();
                 ANIMAL_TEMPLATES.put(animal.getIdTrung(), animal);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Animal Templates [%s]", ANIMAL_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Npc Server">
             rs = HikariCP.executeQuery("SELECT * FROM `npc_server`");
             while (rs.next()) {
-                NpcServerTemplate npc = NpcServerTemplate.builder().id(rs.getShort("id")).name(rs.getString("name")).idImage(rs.getShort("idImg")).w0(rs.getShort("w0")).h0(rs.getShort("h0")).frame(rs.getByte("frame")).typeLimit(rs.getByte("typeLimit")).build();
+                NpcServerTemplate npc = NpcServerTemplate.builder().id(rs.getShort("id")).name(rs.getString("name"))
+                        .idImage(rs.getShort("idImg")).w0(rs.getShort("w0")).h0(rs.getShort("h0"))
+                        .frame(rs.getByte("frame")).typeLimit(rs.getByte("typeLimit")).build();
                 NPC_SERVER_TEMPLATES.put(npc.getId(), npc);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Npc Server Templates [%s]", NPC_SERVER_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Npc Shop">
             rs = HikariCP.executeQuery("SELECT * FROM `npc_shop`");
             while (rs.next()) {
-                NpcShop npc = NpcShop.builder().id(rs.getByte("id")).nameShop(rs.getString("nameShop")).typeShop(rs.getByte("typeShop")).build();
+                NpcShop npc = NpcShop.builder().id(rs.getByte("id")).nameShop(rs.getString("nameShop"))
+                        .typeShop(rs.getByte("typeShop")).build();
                 JSONArray listItem = new JSONArray(rs.getString("items"));
                 short[] id = new short[listItem.length()];
                 for (int i = 0; i < listItem.length(); i++) {
@@ -1008,14 +1026,13 @@ public class Manager {
                 SHOP_NPC_TEMPLATES.put(npc.getNameShop(), npc);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Npc Shop [%s]", SHOP_NPC_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Data Map">
             for (byte country = 0; country < 2; country++) {
                 ConcurrentHashMap<Short, IMap> listMaps = new ConcurrentHashMap<>();
-                rs = HikariCP.executeQuery(String.format("SELECT * FROM `maps` WHERE `id` != '%s';", country == Const.THANH_LONG ? 0 : 70));
+                rs = HikariCP.executeQuery(String.format("SELECT * FROM `maps` WHERE `id` != '%s';",
+                        country == Const.THANH_LONG ? 0 : 70));
                 while (rs.next()) {
                     short id = rs.getShort("id");
                     String name = Util.removeControlCharacters(rs.getString("name"));
@@ -1056,10 +1073,14 @@ public class Manager {
                                 for (int l = 0; l < indexs.length; l++) {
                                     indexs[l] = (short) idTitles.getInt(l);
                                 }
-                                Actor tile = Actor.builder().indexs(indexs).x((short) tileJSONArray.getInt(1)).sizeX(tileJSONArray.getInt(2)).sizeY(tileJSONArray.getInt(3)).plusY(tileJSONArray.getInt(4)).build();
+                                Actor tile = Actor.builder().indexs(indexs).x((short) tileJSONArray.getInt(1))
+                                        .sizeX(tileJSONArray.getInt(2)).sizeY(tileJSONArray.getInt(3))
+                                        .plusY(tileJSONArray.getInt(4)).build();
                                 tileTops.add(tile);
                             } else {
-                                Actor tile = Actor.builder().index(tileJSONArray.getInt(0)).x((short) tileJSONArray.getInt(1)).y((short) tileJSONArray.getInt(2)).sizeY(-1).build();
+                                Actor tile = Actor.builder().index(tileJSONArray.getInt(0))
+                                        .x((short) tileJSONArray.getInt(1)).y((short) tileJSONArray.getInt(2)).sizeY(-1)
+                                        .build();
                                 tileTops2.add(tile);
                             }
                         }
@@ -1068,14 +1089,16 @@ public class Manager {
                     JSONArray treeArray = new JSONArray(rs.getString("tree"));
                     for (int i = 0; i < treeArray.length(); i++) {
                         JSONArray arr = treeArray.getJSONArray(i);
-                        Actor tree = Actor.builder().index(arr.getInt(0)).x((short) arr.getInt(1)).y((short) arr.getInt(2)).build();
+                        Actor tree = Actor.builder().index(arr.getInt(0)).x((short) arr.getInt(1))
+                                .y((short) arr.getInt(2)).build();
                         trees.add(tree);
                     }
                     List<Player> npcsActor = new ArrayList<>();
                     JSONArray npcActorArray = new JSONArray(rs.getString("npcsActor"));
                     for (int i = 0; i < npcActorArray.length(); i++) {
                         JSONArray arr = npcActorArray.getJSONArray(i);
-                        Player npcActor = PlayerDAO.buildNpcActor(getNpcTemplate((short) arr.getInt(0)), (short) arr.getInt(1), (short) arr.getInt(2));
+                        Player npcActor = PlayerDAO.buildNpcActor(getNpcTemplate((short) arr.getInt(0)),
+                                (short) arr.getInt(1), (short) arr.getInt(2));
                         npcActor.setIdPlayer((short) (i - 32000));
                         npcsActor.add(npcActor);
                     }
@@ -1083,14 +1106,17 @@ public class Manager {
                     JSONArray npcArray = new JSONArray(rs.getString("npcs"));
                     for (int i = 0; i < npcArray.length(); i++) {
                         JSONArray arr = npcArray.getJSONArray(i);
-                        Actor npc = Actor.builder().index(arr.getInt(0)).x((short) arr.getInt(1)).y((short) arr.getInt(2)).build();
+                        Actor npc = Actor.builder().index(arr.getInt(0)).x((short) arr.getInt(1))
+                                .y((short) arr.getInt(2)).build();
                         npcs.add(npc);
                     }
                     List<LoctionWayPoint> locationWayPoints = new ArrayList<>();
                     JSONArray locationWpArray = new JSONArray(rs.getString("locationWayPoints"));
                     for (int i = 0; i < locationWpArray.length(); i++) {
                         JSONArray arr = locationWpArray.getJSONArray(i);
-                        LoctionWayPoint wp = LoctionWayPoint.builder().toMap((short) arr.getInt(0)).toX((short) arr.getInt(1)).toY((short) arr.getInt(2)).x((short) arr.getInt(3)).y((short) arr.getInt(4)).build();
+                        LoctionWayPoint wp = LoctionWayPoint.builder().toMap((short) arr.getInt(0))
+                                .toX((short) arr.getInt(1)).toY((short) arr.getInt(2)).x((short) arr.getInt(3))
+                                .y((short) arr.getInt(4)).build();
                         type[wp.getY() * w + wp.getX()] = 2000000000 + i;
                         locationWayPoints.add(wp);
                     }
@@ -1105,7 +1131,10 @@ public class Manager {
                             WayPoints[i][j] = new WayPoint[arr2.length()];
                             for (int k = 0; k < arr2.length(); k++) {
                                 JSONArray wpJSONArray = arr2.getJSONArray(k);
-                                WayPoint wp = WayPoint.builder().nameWayPoint(Util.removeControlCharacters(wpJSONArray.getString(0))).toMap((short) wpJSONArray.getInt(1)).toX((short) wpJSONArray.getInt(2)).toY((short) wpJSONArray.getInt(3)).build();
+                                WayPoint wp = WayPoint.builder()
+                                        .nameWayPoint(Util.removeControlCharacters(wpJSONArray.getString(0)))
+                                        .toMap((short) wpJSONArray.getInt(1)).toX((short) wpJSONArray.getInt(2))
+                                        .toY((short) wpJSONArray.getInt(3)).build();
                                 WayPoints[i][j][k] = wp;
                             }
                         }
@@ -1114,14 +1143,16 @@ public class Manager {
                     JSONArray chillArray = new JSONArray(rs.getString("childMap"));
                     for (int i = 0; i < chillArray.length(); i++) {
                         JSONArray arr = chillArray.getJSONArray(i);
-                        ChildMap chillMap = ChildMap.builder().id((short) arr.getInt(0)).name(Util.removeControlCharacters(arr.getString(1))).build();
+                        ChildMap chillMap = ChildMap.builder().id((short) arr.getInt(0))
+                                .name(Util.removeControlCharacters(arr.getString(1))).build();
                         childMaps.add(chillMap);
                     }
                     List<NpcServer> npcServers = new ArrayList<>();
                     JSONArray npcNArray = new JSONArray(rs.getString("npcServer"));
                     for (int i = 0; i < npcNArray.length(); i++) {
                         JSONArray arr = npcNArray.getJSONArray(i);
-                        NpcServer npc = NpcServer.builder().template(getNpcServerTemplate((short) arr.getInt(0))).x((short) arr.getInt(1)).y((short) arr.getInt(2)).build();
+                        NpcServer npc = NpcServer.builder().template(getNpcServerTemplate((short) arr.getInt(0)))
+                                .x((short) arr.getInt(1)).y((short) arr.getInt(2)).build();
                         npcServers.add(npc);
                     }
                     List<Monster> mobs = new ArrayList<>();
@@ -1130,11 +1161,18 @@ public class Manager {
                         JSONArray arr = mobArray.getJSONArray(i);
                         short idTemp = (short) arr.getInt(0);
                         MonsterTemplate template = getMobTemplate(idTemp);
-                        Monster mob = Monster.builder().id(i).x((short) arr.getInt(1)).hp(template.getMaxHp()).y((short) arr.getInt(2)).template(template).build();
+                        Monster mob = Monster.builder().id(i).x((short) arr.getInt(1)).hp(template.getMaxHp())
+                                .y((short) arr.getInt(2)).template(template).build();
                         mobs.add(mob);
                     }
-                    MapData mapData = MapData.builder().npcServer(npcServers).npcsActor(npcsActor).idHoaTieu(rs.getByte("idHoaTieu")).idXaPhu(rs.getByte("idXaPhu")).maxZone(rs.getByte("maxZone")).w((short) w).h((short) h).map(map).type(type).isOfflineMap(rs.getBoolean("isOfflineMap")).mobsOrigin(mobs).tileTops(tileTops).tileTops2(tileTops2).trees(trees).wayPoints(WayPoints).locationWayPoints(locationWayPoints).npcs(npcs).build();
-                    Map m = Map.builder().id(id).name(name).childMaps(childMaps).country(Const.THANH_LONG).mapData(mapData).build();
+                    MapData mapData = MapData.builder().npcServer(npcServers).npcsActor(npcsActor)
+                            .idHoaTieu(rs.getByte("idHoaTieu")).idXaPhu(rs.getByte("idXaPhu"))
+                            .maxZone(rs.getByte("maxZone")).w((short) w).h((short) h).map(map).type(type)
+                            .isOfflineMap(rs.getBoolean("isOfflineMap")).mobsOrigin(mobs).tileTops(tileTops)
+                            .tileTops2(tileTops2).trees(trees).wayPoints(WayPoints).locationWayPoints(locationWayPoints)
+                            .npcs(npcs).build();
+                    Map m = Map.builder().id(id).name(name).childMaps(childMaps).country(Const.THANH_LONG)
+                            .mapData(mapData).build();
                     m.initZone();
                     m.initChildMap();
                     m.startUpdateMap();
@@ -1143,13 +1181,11 @@ public class Manager {
                 MAPS.put(country, listMaps);
                 rs.close();
             }
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Map Thanh Long [%s]", MAPS.get(Const.THANH_LONG).size()));
 
             Printer.printGreen(String.format("Finish Load Map Hac Ho [%s]", MAPS.get(Const.HAC_HO).size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Hoa Tieu Template">
             rs = HikariCP.executeQuery("SELECT * FROM `hoa_tieu_template`");
             while (rs.next()) {
                 byte id = rs.getByte("id");
@@ -1184,15 +1220,14 @@ public class Manager {
                         mapIdChild[i][k + 1] = childMap.getMapId();
                     }
                 }
-                HoaTieuTemplate hoaTieuTemplate = HoaTieuTemplate.builder().id(id).mapId(mapIdChild).x(x).y(y).nameMapChild(mapNameChild).nameMap(mapName).build();
+                HoaTieuTemplate hoaTieuTemplate = HoaTieuTemplate.builder().id(id).mapId(mapIdChild).x(x).y(y)
+                        .nameMapChild(mapNameChild).nameMap(mapName).build();
                 HOA_TIEU_TEMPLATES.put(id, hoaTieuTemplate);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Hoa Tieu Templates [%s]", HOA_TIEU_TEMPLATES.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Clan">
             rs = HikariCP.executeQuery("SELECT * FROM `clan`");
             while (rs.next()) {
                 String nameLeader = rs.getString("nameLeader");
@@ -1208,15 +1243,17 @@ public class Manager {
                 long lastTimeEndDelete = rs.getLong("lastTimeEndDelete");
                 boolean solve = rs.getByte("dissolve") == 1;
                 List<Friend> members = PlayerDAO.buildListFriend(rs.getString("members"));
-                Clan clan = Clan.builder().nameLeader(nameLeader).name(nameClan).slogan(slogan).indexIcon(indexIcon).dissolve(solve).nationID(nationId).level(level).exp(exp).dedicationPoint(dedicationPoint).xu(xu).members(members).membersOnGame(new ArrayList<>()).messages(new ArrayList<>()).date(Util.convertTimeToString(lastTimeCreate)).lastTimeCreate(lastTimeCreate).lastTimeEndDelete(lastTimeEndDelete).build();
+                Clan clan = Clan.builder().nameLeader(nameLeader).name(nameClan).slogan(slogan).indexIcon(indexIcon)
+                        .dissolve(solve).nationID(nationId).level(level).exp(exp).dedicationPoint(dedicationPoint)
+                        .xu(xu).members(members).membersOnGame(new ArrayList<>()).messages(new ArrayList<>())
+                        .date(Util.convertTimeToString(lastTimeCreate)).lastTimeCreate(lastTimeCreate)
+                        .lastTimeEndDelete(lastTimeEndDelete).build();
                 ClanManager.CLANS.put(indexIcon, clan);
             }
             rs.close();
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Clan [%s]", ClanManager.CLANS.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Default Deposite">
             for (byte idNpc = NpcConst.NHAT_GIAP; idNpc <= NpcConst.NHAT_NGUU; idNpc++) {
                 for (byte i = 0; i < 3; i++) {
                     String name = String.format("%s_%s", idNpc, i);
@@ -1224,11 +1261,9 @@ public class Manager {
                     DEPOSITE.put(name, deposite);
                 }
             }
-            // </editor-fold>
 
             Printer.printGreen(String.format("Finish Load Default Deposite [%s]", DEPOSITE.size()));
 
-            // <editor-fold defaultstate="collapsed" desc="Load Icon Data">
             ICON_ANIMAL = Util.readFile("data\\image\\animal.png");
             ICON_POTION = Util.readFile("data\\image\\potion\\potion.png");
             ICON_ITEM = Util.readFile("data\\image\\potion\\item.png");
@@ -1238,7 +1273,8 @@ public class Manager {
             }
             File folder = new File("data\\image\\icon");
             for (File file : folder.listFiles()) {
-                IMAGES_DEFAULT.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())), Util.readFile(file));
+                IMAGES_DEFAULT.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())),
+                        Util.readFile(file));
             }
             Printer.printGreen(String.format("Finish Load Images Default [%s]", IMAGES_DEFAULT.size()));
 
@@ -1287,7 +1323,8 @@ public class Manager {
 
             folder = new File("data\\image\\weapon");
             for (File file : folder.listFiles()) {
-                IMAGES_WEAPON.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())), Util.readFileAndSplit(file));
+                IMAGES_WEAPON.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())),
+                        Util.readFileAndSplit(file));
             }
             Printer.printGreen(String.format("Finish Load Images Weapon [%s]", IMAGES_WEAPON.size()));
 
@@ -1301,12 +1338,12 @@ public class Manager {
                     clothes.put(id, data);
                 }
                 IMAGES_CLOTH.put(idParent, clothes);
-                Printer.printGreen(String.format("Finish Load Images Cloth Type %s [%s]", idParent, IMAGES_CLOTH.get(idParent).size()));
+                Printer.printGreen(String.format("Finish Load Images Cloth Type %s [%s]", idParent,
+                        IMAGES_CLOTH.get(idParent).size()));
             }
-            // </editor-fold>
 
-            // <editor-fold defaultstate="collapsed" desc="Build Data Effect">
-            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
+            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
                 dataOutputStream.writeByte(MOB_TEMPLATES.size());
                 dataOutputStream.writeShort(0);
                 @Cleanup("clear")
@@ -1362,15 +1399,15 @@ public class Manager {
                 }
                 DATA_EFFECT = byteArrayOutputStream.toByteArray();
             }
-            // </editor-fold>
 
-            // <editor-fold defaultstate="collapsed" desc="Build Data Map">
             for (byte l = 0; l < 2; l++) {
-                try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
+                try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
                     dataOutputStream.writeByte(5);
                     ConcurrentHashMap<Short, IMap> maps = Manager.MAPS.get(l);
                     @Cleanup("clear")
-                    List<IMap> list = maps.values().stream().sorted(Comparator.comparingInt(map -> map.getMapId())).collect(Collectors.toList());
+                    List<IMap> list = maps.values().stream().sorted(Comparator.comparingInt(map -> map.getMapId()))
+                            .collect(Collectors.toList());
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).getMapId() == 70) {
                             IMap im = list.remove(i);
@@ -1454,7 +1491,8 @@ public class Manager {
                 }
             }
 
-            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
+            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream)) {
                 dataOutputStream.writeByte(XA_PHU_TEMPLATE.size());
                 Enumeration<Byte> keysByte = Manager.XA_PHU_TEMPLATE.keys();
                 while (keysByte.hasMoreElements()) {
@@ -1477,7 +1515,6 @@ public class Manager {
                 }
                 DATA_XA_PHU_TEMPLATE = byteArrayOutputStream.toByteArray();
             }
-            // </editor-fold>
 
         } catch (Exception e) {
             Logger.logError("Lỗi Tải Dữ Liệu", e);

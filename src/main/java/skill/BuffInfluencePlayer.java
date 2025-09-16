@@ -1,13 +1,14 @@
 package skill;
 
 import java.io.IOException;
+
+import consts.BuffConst;
+import consts.ItemEquipConst;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Synchronized;
 import player.Player;
 import services.BuffService;
-import consts.BuffConst;
-import consts.ItemEquipConst;
 import utils.Util;
 
 /**
@@ -93,7 +94,8 @@ public class BuffInfluencePlayer {
         if (isPoisoned && (Util.canDoWithTime(lastTimePoisoned, secondOfPoisoned * 1000) || player.isDie())) {
             removeBuffPoisoned();
         }
-        if (isPoisoned && !player.isDie() && Util.canDoWithTime(lastTimeMinusHp, BuffConst.SECOND_SUB_HP_DOC_TO * 1000)) {
+        if (isPoisoned && !player.isDie()
+                && Util.canDoWithTime(lastTimeMinusHp, BuffConst.SECOND_SUB_HP_DOC_TO * 1000)) {
             lastTimeMinusHp = System.currentTimeMillis();
             short dame = (short) player.injured(docTo, true, ItemEquipConst.DAMAGE_MAGIC, false);
             if (dame > 0) {

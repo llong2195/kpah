@@ -1,5 +1,8 @@
 package services;
 
+import java.io.IOException;
+import java.util.List;
+
 import consts.AttributeConst;
 import consts.Const;
 import consts.ItemEquipConst;
@@ -16,9 +19,6 @@ import template.GemTemplate;
 import template.ItemEquipTemplate;
 import utils.CommandMessage;
 import utils.Util;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  *
@@ -46,13 +46,17 @@ public class ManufactureService {
             Service.instance.sendLogOut(player.getSession(), "Nguyên liệu không phù hợp");
             return;
         }
-        short idMaterial = ManufactureConst.MATERIAL_CREATE_ANIMAL_ARMOR[player.getManufacture().getColorAnimalArmorCreate()];
-        byte quantityMaterial = ManufactureConst.QUANTITY_MATERIAL_ANIMAL_ARMOR[player.getManufacture().getSelectedItemCreate()];
+        short idMaterial = ManufactureConst.MATERIAL_CREATE_ANIMAL_ARMOR[player.getManufacture()
+                .getColorAnimalArmorCreate()];
+        byte quantityMaterial = ManufactureConst.QUANTITY_MATERIAL_ANIMAL_ARMOR[player.getManufacture()
+                .getSelectedItemCreate()];
         byte typeDamage = player.getManufacture().getTypeDamageCreate();
         byte typeNguyenLieu = player.getManufacture().getTypeNguyenLieuCreate();
         byte colorCreate = player.getManufacture().getColorAnimalArmorCreate();
-        colorCreate = colorCreate == 3 ? ItemEquipConst.GREEN_COLOR : colorCreate == 2 ? ItemEquipConst.RED_COLOR : ItemEquipConst.BLUE_COLOR;
-        byte colorRequest = colorCreate == ItemEquipConst.GREEN_COLOR ? ItemEquipConst.RED_COLOR : colorCreate == ItemEquipConst.RED_COLOR ? ItemEquipConst.BLUE_COLOR : ItemEquipConst.NONE_COLOR;
+        colorCreate = colorCreate == 3 ? ItemEquipConst.GREEN_COLOR
+                : colorCreate == 2 ? ItemEquipConst.RED_COLOR : ItemEquipConst.BLUE_COLOR;
+        byte colorRequest = colorCreate == ItemEquipConst.GREEN_COLOR ? ItemEquipConst.RED_COLOR
+                : colorCreate == ItemEquipConst.RED_COLOR ? ItemEquipConst.BLUE_COLOR : ItemEquipConst.NONE_COLOR;
         byte levelArmorCreate = ManufactureConst.LEVEL_ANIMAL_ARMOR[player.getManufacture().getSelectedItemCreate()];
         byte numMaterial = -1;
         byte indexMaterial = -1;
@@ -68,7 +72,9 @@ public class ManufactureService {
             Service.instance.sendLogOut(player.getSession(), "Không tìm thấy nguyên liệu");
             return;
         }
-        ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial) : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial) : InventoryService.instance.findAllItemGem(player, idMaterial);
+        ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial)
+                : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial)
+                        : InventoryService.instance.findAllItemGem(player, idMaterial);
         if (gem == null || gem.getQuantity() < quantityMaterial) {
             Service.instance.sendLogOut(player.getSession(), "Không tìm thấy nguyên liệu");
             sendManufactureArmor(player);
@@ -77,7 +83,8 @@ public class ManufactureService {
         byte typeItemAnimalArmor = -1;
         for (int i = 0; i < idItem.length; i++) {
             ItemEquip item = InventoryService.instance.findItemBag(player, idItem[i]);
-            if (item == null || !item.isAnimalArmor() || item.getLevel() < 30 || item.getLevel() > levelArmorCreate + 5 || item.getLevel() < levelArmorCreate - 5 || item.getColorName() != colorRequest) {
+            if (item == null || !item.isAnimalArmor() || item.getLevel() < 30 || item.getLevel() > levelArmorCreate + 5
+                    || item.getLevel() < levelArmorCreate - 5 || item.getColorName() != colorRequest) {
                 Service.instance.sendLogOut(player.getSession(), "Trang bị không phù hợp");
                 return;
             }
@@ -116,15 +123,29 @@ public class ManufactureService {
             case ItemEquipConst.BLUE_COLOR -> {
                 switch (template.getType()) {
                     case 17 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
                     }
                     case 15 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR * (indexMaterial * 10) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 3,
+                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                        * (indexMaterial * 10) / 100)));
                     }
                     default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 10) / 100);
+                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
+                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 10) / 100);
                         itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                         itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
                     }
@@ -133,15 +154,29 @@ public class ManufactureService {
             case ItemEquipConst.RED_COLOR -> {
                 switch (template.getType()) {
                     case 17 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
                     }
                     case 15 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR * (indexMaterial * 13) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 3,
+                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                        * (indexMaterial * 13) / 100)));
                     }
                     default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 13) / 100);
+                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
+                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 13) / 100);
                         itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                         itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
                     }
@@ -150,30 +185,50 @@ public class ManufactureService {
             case ItemEquipConst.GREEN_COLOR -> {
                 switch (template.getType()) {
                     case 17 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) (ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 3,
+                                        (short) (ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
                         itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes().add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
+                            itemAdd.getItemAttributes()
+                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
                         }
                     }
                     case 15 -> {
-                        itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 0,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute((short) 3,
+                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
                         itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes().add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
+                            itemAdd.getItemAttributes()
+                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
                         }
                     }
                     default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100);
+                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
+                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100);
                         itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                         itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
                         short defPercent = (short) Util.nextInt(10, 20);
                         itemAdd.getItemAttributes().add(new Attribute((byte) 59, defPercent));
                         itemAdd.getItemAttributes().add(new Attribute((byte) 60, defPercent));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes().add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
+                            itemAdd.getItemAttributes()
+                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
                         }
                     }
                 }
@@ -181,7 +236,8 @@ public class ManufactureService {
         }
         itemAdd.subDefend();
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
-        Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s", template.getName(), Util.getColor(colorCreate)));
+        Service.instance.sendLogOut(player.getSession(),
+                String.format("Tạo thành công %s %s", template.getName(), Util.getColor(colorCreate)));
         InventoryService.instance.sendItemGem(player);
         InventoryService.instance.sendItemBag(player);
     }
@@ -195,7 +251,8 @@ public class ManufactureService {
             return;
         }
         short idItem = ManufactureConst.ITEM_ARMOR_CREATE[typeArmor][selectedItem];
-        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_ARMOR[typeArmor][typeArmor >= ManufactureConst.AO && typeArmor <= ManufactureConst.NON ? selectedItem / 2 : selectedItem];
+        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_ARMOR[typeArmor][typeArmor >= ManufactureConst.AO
+                && typeArmor <= ManufactureConst.NON ? selectedItem / 2 : selectedItem];
         byte typeNguyenLieu = player.getManufacture().getTypeNguyenLieuCreate();
         ItemEquipTemplate template = Manager.getItemEquipment(idItem);
         if (template == null) {
@@ -210,7 +267,9 @@ public class ManufactureService {
             for (int j = 0; j < quantity[i].length; j++) {
                 if (quantity[i][j] == nguyenLieu[i * 2 + 1]) {
                     short idMaterial = (short) (nguyenLieu[i * 2] + j);
-                    ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial) : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial) : InventoryService.instance.findAllItemGem(player, idMaterial);
+                    ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial)
+                            : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial)
+                                    : InventoryService.instance.findAllItemGem(player, idMaterial);
                     if (gem == null || gem.getQuantity() < nguyenLieu[i * 2 + 1]) {
                         Service.instance.sendLogOut(player.getSession(), "Không tìm thấy nguyên liệu");
                         sendManufactureArmor(player);
@@ -229,15 +288,19 @@ public class ManufactureService {
         boolean isLockItem = false;
         for (ItemMineral item : player.getManufacture().getItemMineral()) {
             if (item != null) {
-                ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, item.getIdTemplate()) : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, item.getIdTemplate()) : InventoryService.instance.findAllItemGem(player, item.getIdTemplate());
+                ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, item.getIdTemplate())
+                        : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, item.getIdTemplate())
+                                : InventoryService.instance.findAllItemGem(player, item.getIdTemplate());
                 if (!isLockItem && gem.isLock()) {
                     isLockItem = true;
                 }
                 InventoryService.instance.minusQuantityItemGem(player, gem, item.getQuantity());
             }
         }
-        byte levelCaoCap = itemMinerals.stream().filter(it -> it != null && it.isCaoCap()).findFirst().orElse(null).getLevel();
-        byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null).getLevel();
+        byte levelCaoCap = itemMinerals.stream().filter(it -> it != null && it.isCaoCap()).findFirst().orElse(null)
+                .getLevel();
+        byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null)
+                .getLevel();
         byte rankItem;
         byte colorItem;
         switch (levelCaoCap) {
@@ -285,10 +348,12 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
         itemAdd.setDamageType(typeDamage);
-        short defPercent = (short) (colorItem == ItemEquipConst.NONE_COLOR ? Util.nextInt(1, 3) : colorItem == ItemEquipConst.BLUE_COLOR ? Util.nextInt(4, 6) : colorItem == ItemEquipConst.RED_COLOR ? Util.nextInt(7, 10) : Util.nextInt(15, 20));
+        short defPercent = (short) (colorItem == ItemEquipConst.NONE_COLOR ? Util.nextInt(1, 3)
+                : colorItem == ItemEquipConst.BLUE_COLOR ? Util.nextInt(4, 6)
+                        : colorItem == ItemEquipConst.RED_COLOR ? Util.nextInt(7, 10) : Util.nextInt(15, 20));
         switch (typeArmor) {
             case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN,
-                 ManufactureConst.GANG -> {
+                    ManufactureConst.GANG -> {
                 short def = (short) Util.nextInt(160, 200);
                 itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                 itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
@@ -330,7 +395,8 @@ public class ManufactureService {
             }
         }
         itemAdd.subDefend();
-        Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s", itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
+        Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s",
+                itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
         InventoryService.instance.sendItemBag(player);
         InventoryService.instance.sendItemGem(player);
@@ -359,7 +425,9 @@ public class ManufactureService {
             for (int j = 0; j < quantity[i].length; j++) {
                 if (quantity[i][j] == nguyenLieu[i * 2 + 1]) {
                     short idMaterial = (short) (nguyenLieu[i * 2] + j);
-                    ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial) : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial) : InventoryService.instance.findAllItemGem(player, idMaterial);
+                    ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, idMaterial)
+                            : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, idMaterial)
+                                    : InventoryService.instance.findAllItemGem(player, idMaterial);
                     if (gem == null || gem.getQuantity() < nguyenLieu[i * 2 + 1]) {
                         Service.instance.sendLogOut(player.getSession(), "Không tìm thấy nguyên liệu");
                         sendManufactureWeapon(player);
@@ -378,15 +446,19 @@ public class ManufactureService {
         boolean isLockItem = false;
         for (ItemMineral item : player.getManufacture().getItemMineral()) {
             if (item != null) {
-                ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, item.getIdTemplate()) : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, item.getIdTemplate()) : InventoryService.instance.findAllItemGem(player, item.getIdTemplate());
+                ItemGem gem = typeNguyenLieu == 0 ? InventoryService.instance.findItemGem(player, item.getIdTemplate())
+                        : typeNguyenLieu == 1 ? InventoryService.instance.findItemGemLock(player, item.getIdTemplate())
+                                : InventoryService.instance.findAllItemGem(player, item.getIdTemplate());
                 if (!isLockItem && gem.isLock()) {
                     isLockItem = true;
                 }
                 InventoryService.instance.minusQuantityItemGem(player, gem, item.getQuantity());
             }
         }
-        byte levelCaoCap = itemMinerals.stream().filter(it -> it != null && it.isCaoCap()).findFirst().orElse(null).getLevel();
-        byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null).getLevel();
+        byte levelCaoCap = itemMinerals.stream().filter(it -> it != null && it.isCaoCap()).findFirst().orElse(null)
+                .getLevel();
+        byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null)
+                .getLevel();
         byte rankItem;
         byte colorItem;
         switch (levelCaoCap) {
@@ -440,7 +512,8 @@ public class ManufactureService {
         itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
         addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
         itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
-        Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s", itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
+        Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s",
+                itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
         InventoryService.instance.sendItemBag(player);
         InventoryService.instance.sendItemGem(player);
@@ -470,55 +543,68 @@ public class ManufactureService {
             item.getItemAttributes().add(new Attribute(idAttribute, valueAn));
         }
         item.getItemAttributes().add(new Attribute((short) Util.getOne(33, 34), levelCaoCap == 6 ? 9 : levelCaoCap));
-        short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0, ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
+        short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
+                ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
         item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(1, 3)));
         if (Util.isTrue(60.9, 100.0)) {
             short idRandom2;
             do {
-                idRandom2 = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0, ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
+                idRandom2 = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
+                        ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
             } while (idRandom2 == idRandom);
             item.getItemAttributes().add(new Attribute(idRandom2, (short) Util.nextInt(1, 3)));
         }
-        item.getItemAttributes().add(new Attribute((short) Util.nextInt(43, item.getClassChar() == Const.PHAP_SU ? 57 : 55), (short) 1));
+        item.getItemAttributes().add(
+                new Attribute((short) Util.nextInt(43, item.getClassChar() == Const.PHAP_SU ? 57 : 55), (short) 1));
     }
 
     public void sendManufactureArmor(@NonNull Player player) throws IOException {
         byte typeArmor = player.getManufacture().getTypeArmorCreate();
         byte selectedItem = player.getManufacture().getSelectedItemCreate();
         short idItem = ManufactureConst.ITEM_ARMOR_CREATE[typeArmor][selectedItem];
-        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_ARMOR[typeArmor][typeArmor >= ManufactureConst.AO && typeArmor <= ManufactureConst.NON ? selectedItem / 2 : selectedItem];
+        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_ARMOR[typeArmor][typeArmor >= ManufactureConst.AO
+                && typeArmor <= ManufactureConst.NON ? selectedItem / 2 : selectedItem];
         ItemEquipTemplate template = Manager.getItemEquipment(idItem);
         if (template == null) {
             return;
         }
         player.getManufacture().setNguyenLieuCreate(nguyenLieu);
-        sendManufacture(player, ManufactureConst.CHE_TAO_GIAP, player.getManufacture().getTypeNguyenLieuCreate(), nguyenLieu, template);
+        sendManufacture(player, ManufactureConst.CHE_TAO_GIAP, player.getManufacture().getTypeNguyenLieuCreate(),
+                nguyenLieu, template);
     }
 
     public void sendManufactureWeapon(@NonNull Player player) throws IOException {
         short typeWeapon = player.getManufacture().getClassCharCreateEquip();
         short idItem = ManufactureConst.ITEM_WEAPON_CREATE[typeWeapon][player.getManufacture().getSelectedItemCreate()];
-        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_WEAPON[typeWeapon][player.getManufacture().getSelectedItemCreate()];
+        short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_WEAPON[typeWeapon][player.getManufacture()
+                .getSelectedItemCreate()];
         ItemEquipTemplate template = Manager.getItemEquipment(idItem);
         if (template == null) {
             return;
         }
         player.getManufacture().setNguyenLieuCreate(nguyenLieu);
-        sendManufacture(player, ManufactureConst.CHE_TAO_VU_KHI, player.getManufacture().getTypeNguyenLieuCreate(), nguyenLieu, template);
+        sendManufacture(player, ManufactureConst.CHE_TAO_VU_KHI, player.getManufacture().getTypeNguyenLieuCreate(),
+                nguyenLieu, template);
     }
 
     public void sendManafactureAnimalArmor(@NonNull Player player) throws IOException {
         Message msg = new Message(CommandMessage.ANIMAL_COMBINED);
-        msg.writer().writeByte(player.getManufacture().getColorAnimalArmorCreate() == 3 ? 2 : player.getManufacture().getColorAnimalArmorCreate() == 2 ? 3 : player.getManufacture().getColorAnimalArmorCreate());
+        msg.writer()
+                .writeByte(player.getManufacture().getColorAnimalArmorCreate() == 3 ? 2
+                        : player.getManufacture().getColorAnimalArmorCreate() == 2 ? 3
+                                : player.getManufacture().getColorAnimalArmorCreate());
         msg.writer().writeByte(ManufactureConst.LEVEL_ANIMAL_ARMOR[player.getManufacture().getSelectedItemCreate()]);
-        msg.writer().writeByte(ManufactureConst.QUANTITY_MATERIAL_ANIMAL_ARMOR[player.getManufacture().getSelectedItemCreate()]);
-        msg.writer().writeShort(ManufactureConst.MATERIAL_CREATE_ANIMAL_ARMOR[player.getManufacture().getColorAnimalArmorCreate()]);
+        msg.writer().writeByte(
+                ManufactureConst.QUANTITY_MATERIAL_ANIMAL_ARMOR[player.getManufacture().getSelectedItemCreate()]);
+        msg.writer().writeShort(
+                ManufactureConst.MATERIAL_CREATE_ANIMAL_ARMOR[player.getManufacture().getColorAnimalArmorCreate()]);
         msg.writer().writeByte(player.getManufacture().getTypeDamageCreate());
         msg.writer().writeByte(player.getManufacture().getTypeNguyenLieuCreate());
         player.getSession().sendMessage(msg);
     }
 
-    private void sendManufacture(@NonNull Player player, byte typeCheDo, byte typeNguyenLieu, short[] nguyenLieu, ItemEquipTemplate itemTemplate) throws IOException {
+    private void sendManufacture(@NonNull Player player, byte typeCheDo, byte typeNguyenLieu, short[] nguyenLieu,
+            ItemEquipTemplate itemTemplate) throws IOException {
         player.getManufacture().getItemMineral().clear();
         Message msg = new Message(CommandMessage.CHE_DO);
         msg.writer().writeUTF(itemTemplate.getName());

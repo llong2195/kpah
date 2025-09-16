@@ -17,7 +17,8 @@ import manager.Settings;
  */
 public class HikariCP {
 
-    private static final String DB_URL = "jdbc:mysql://" + Settings.HOST + "/" + Settings.DATABASE + "?useUnicode=true&characterEncoding=utf-8";
+    private static final String DB_URL = "jdbc:mysql://" + Settings.HOST + "/" + Settings.DATABASE
+            + "?useUnicode=true&characterEncoding=utf-8";
     private static final HikariConfig config = new HikariConfig();
     private static final HikariDataSource dataSource;
 
@@ -49,13 +50,16 @@ public class HikariCP {
     }
 
     public static ResultSetImpl executeQuery(final String sql) throws SQLException {
-        try (final Connection con = getConnection(); final Statement ps = con.createStatement(); final ResultSet rs = ps.executeQuery(sql)) {
+        try (final Connection con = getConnection();
+                final Statement ps = con.createStatement();
+                final ResultSet rs = ps.executeQuery(sql)) {
             return new ResultSetImpl(rs);
         }
     }
 
     public static ResultSetImpl executeQuery(final String sql, final Object... objs) throws SQLException {
-        try (Connection connection = dataSource.getConnection(); PreparedStatement ps = connection.prepareStatement(sql);) {
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql);) {
             for (int i = 0; i < objs.length; ++i) {
                 ps.setObject(i + 1, objs[i]);
             }
@@ -71,7 +75,8 @@ public class HikariCP {
     }
 
     public static int execute(final String sql, final int id, final Object... objs) throws SQLException {
-        try (Connection connection = dataSource.getConnection(); PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);) {
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);) {
             for (int i = 0; i < objs.length; ++i) {
                 ps.setObject(i + 1, objs[i]);
             }
@@ -105,10 +110,12 @@ public class HikariCP {
     }
 
     public static int executeExist(final String sql) throws SQLException {
-        try (Connection connection = dataSource.getConnection(); PreparedStatement s = connection.prepareStatement(sql); ResultSet rs = s.executeQuery()) {
-//            rs.first();
-//            return rs.getInt(1);
-            if (rs.next()) {                // ✅ dùng next()
+        try (Connection connection = dataSource.getConnection();
+                PreparedStatement s = connection.prepareStatement(sql);
+                ResultSet rs = s.executeQuery()) {
+            // rs.first();
+            // return rs.getInt(1);
+            if (rs.next()) { // ✅ dùng next()
                 return rs.getInt(1);
             }
             return 0; // hoặc throw exception

@@ -1,22 +1,30 @@
 package services;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import clan.Clan;
 import consts.Const;
 import consts.HorseConst;
 import interfaces.IMap;
-import item.*;
+import item.Attribute;
+import item.ItemAnimal;
+import item.ItemEquip;
+import item.ItemMap;
+import item.ItemPotion;
 import lombok.NonNull;
 import lombok.Synchronized;
 import manager.Manager;
-import map.*;
+import map.Actor;
+import map.LoctionWayPoint;
+import map.Monster;
+import map.NpcServer;
+import map.Zone;
 import network.Message;
 import player.Player;
 import template.NpcTemplate;
 import utils.CommandMessage;
 import utils.Util;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  *
@@ -69,7 +77,8 @@ public class MapService {
         if (itemMap == null || itemMap.getItemCatagory() != Const.CATEGORY_ITEM) {
             return;
         }
-        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(), itemMap.getY()) > 35) {
+        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(),
+                itemMap.getY()) > 35) {
             return;
         }
         if (itemMap.getIdPlayerDrop() != -1 && itemMap.getIdPlayerDrop() != player.getIdPlayer()) {
@@ -114,7 +123,8 @@ public class MapService {
         if (itemMap == null || itemMap.getItemCatagory() != Const.CATEGORY_GEM_ITEM) {
             return;
         }
-        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(), itemMap.getY()) > 35) {
+        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(),
+                itemMap.getY()) > 35) {
             return;
         }
         if (itemMap.getIdPlayerDrop() != -1 && itemMap.getIdPlayerDrop() != player.getIdPlayer()) {
@@ -126,7 +136,8 @@ public class MapService {
             return;
         }
         ItemService.instance.removeItemGemFromGround(player, itemMap);
-        InventoryService.instance.addItemGem(player, ItemService.instance.createNewItemGem(itemMap.getItemTemplateID(), itemMap.getQuantity()));
+        InventoryService.instance.addItemGem(player,
+                ItemService.instance.createNewItemGem(itemMap.getItemTemplateID(), itemMap.getQuantity()));
         InventoryService.instance.sendItemGem(player);
     }
 
@@ -138,7 +149,8 @@ public class MapService {
         if (itemMap == null || itemMap.getItemCatagory() != Const.CATEGORY_POTION) {
             return;
         }
-        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(), itemMap.getY()) > 35) {
+        if (Util.getDistance(player.getLocation().getX(), player.getLocation().getY(), itemMap.getX(),
+                itemMap.getY()) > 35) {
             return;
         }
         if (itemMap.getIdPlayerDrop() != -1 && itemMap.getIdPlayerDrop() != player.getIdPlayer()) {
@@ -182,15 +194,19 @@ public class MapService {
         if (pl.getSundry().isComeHome()) {
             pl.getSundry().setComeHome(false);
         }
-        if (Math.abs(pl.getLocation().getX() - pl.getLocation().getLastX()) > pl.getPoint().getSpeed() || Math.abs(pl.getLocation().getY() - pl.getLocation().getLastY()) > pl.getPoint().getSpeed()) {
+        if (Math.abs(pl.getLocation().getX() - pl.getLocation().getLastX()) > pl.getPoint().getSpeed()
+                || Math.abs(pl.getLocation().getY() - pl.getLocation().getLastY()) > pl.getPoint().getSpeed()) {
             return;
         }
-        if (pl.getLocation().isStopCollectMessageMove() && (!Util.checkSuperiorOrInferior(x, pl.getLocation().getLastX(), pl.getPoint().getSpeed()) || !Util.checkSuperiorOrInferior(y, pl.getLocation().getLastY(), pl.getPoint().getSpeed()))) {
+        if (pl.getLocation().isStopCollectMessageMove()
+                && (!Util.checkSuperiorOrInferior(x, pl.getLocation().getLastX(), pl.getPoint().getSpeed())
+                        || !Util.checkSuperiorOrInferior(y, pl.getLocation().getLastY(), pl.getPoint().getSpeed()))) {
             sendPosPlayer(pl, pl.getLocation().getLastX(), pl.getLocation().getLastY());
             return;
         }
         IMap map = pl.getLocation().getZone().getMap();
-        if (tileTypeAtPixel(pl, x, y, 2) || y / 16 * map.getMapData().getW() + x / 16 >= map.getMapData().getType().length) {
+        if (tileTypeAtPixel(pl, x, y, 2)
+                || y / 16 * map.getMapData().getW() + x / 16 >= map.getMapData().getType().length) {
             pl.getLocation().setStopCollectMessageMove(true);
             sendPosPlayer(pl, pl.getLocation().getLastX(), pl.getLocation().getLastY());
             return;
@@ -211,7 +227,8 @@ public class MapService {
         }
         if (!pl.getInventory().isFullInventory()) {
             if (pl.getHorse().getAnimalUse() == null) {
-                InventoryService.instance.addItemPotion(pl, ItemService.instance.createNewItemPotion(pl.getHorse().getIdItem(), 1));
+                InventoryService.instance.addItemPotion(pl,
+                        ItemService.instance.createNewItemPotion(pl.getHorse().getIdItem(), 1));
                 InventoryService.instance.sendItemPotion(pl);
             } else {
                 InventoryService.instance.addItemAnimal(pl, pl.getHorse().getAnimalUse());
@@ -361,7 +378,9 @@ public class MapService {
                     msg.writer().writeByte(0);
                 }
             }
-            msg.writer().writeShort(playerView.getInfo().getClan() == null ? -1 : playerView.getInfo().getClan().getIndexIcon()); // id clan
+            msg.writer().writeShort(
+                    playerView.getInfo().getClan() == null ? -1 : playerView.getInfo().getClan().getIndexIcon()); // id
+                                                                                                                  // clan
             msg.writer().writeByte(-1); // id fashion
             for (int k = 0; k < 5; k++) {
                 msg.writer().writeShort(-1);
@@ -449,11 +468,11 @@ public class MapService {
         msg.writer().writeByte(me.getPoint().getSpeed());
         Clan clan = me.getInfo().getClan();
         msg.writer().writeShort(clan == null ? -1 : clan.getIndexIcon());
-        msg.writer().writeByte(me.isNpc() ? -(me.getIdDatabase() + 1) : -1); //id boss
+        msg.writer().writeByte(me.isNpc() ? -(me.getIdDatabase() + 1) : -1); // id boss
         if (clan != null) {
             msg.writer().writeByte(me.getSundry().getClanMember().getIsMaster());
         }
-        msg.writer().writeByte(0); //id fashion
+        msg.writer().writeByte(0); // id fashion
         if (me.isNpc()) {
             NpcTemplate npcTemplate = Manager.getNpcTemplate((short) me.getIdDatabase());
             for (int k = 0; k < 5; k++) {
@@ -509,7 +528,7 @@ public class MapService {
                 if (clan != null) {
                     msg.writer().writeByte(plInMap.getSundry().getClanMember().getIsMaster());
                 }
-                msg.writer().writeByte(0); //id fashion
+                msg.writer().writeByte(0); // id fashion
                 if (plInMap.isNpc()) {
                     NpcTemplate npcTemplate = Manager.getNpcTemplate((short) plInMap.getIdDatabase());
                     for (int k = 0; k < 5; k++) {
@@ -595,7 +614,8 @@ public class MapService {
         int distanceLoad = pl.getSession().getDistanceLoad();
         for (ItemMap item : zone.getItems()) {
             if (item != null) {
-                if (Util.getDistance(pl.getLocation().getX(), pl.getLocation().getY(), item.getX(), item.getY()) < distanceLoad) {
+                if (Util.getDistance(pl.getLocation().getX(), pl.getLocation().getY(), item.getX(),
+                        item.getY()) < distanceLoad) {
                     if (!pl.getOtherItemMapInside().contains(item.getItemMapId())) {
                         pl.getOtherItemMapInside().add(item.getItemMapId());
                         ItemService.instance.sendItemInMap(pl, item);
@@ -625,7 +645,8 @@ public class MapService {
                 return;
             }
             if (pl.getLocation().getZone().getMap().isOfflineMap()) {
-                ChangeMapService.instance.changeMap(pl, pl.getLocation().getLastZone(), pl.getLocation().getLastX(), pl.getLocation().getLastY());
+                ChangeMapService.instance.changeMap(pl, pl.getLocation().getLastZone(), pl.getLocation().getLastX(),
+                        pl.getLocation().getLastY());
                 return;
             }
             IMap map = Manager.getMap(pl.getLocation().getInCountry(), toMap);
@@ -642,7 +663,8 @@ public class MapService {
                 byte yCheck = Manager.Y_CHECK[i];
                 short newX = (short) (pl.getLocation().getX() + Manager.X_FOWARD[i]);
                 short newY = (short) (pl.getLocation().getY() + Manager.Y_FOWARD[i]);
-                if (isInWayPoint(pl, newX + xCheck, newY + yCheck) || isInWayPoint(pl, newX + xCheck * 2, newY + yCheck * 2)) {
+                if (isInWayPoint(pl, newX + xCheck, newY + yCheck)
+                        || isInWayPoint(pl, newX + xCheck * 2, newY + yCheck * 2)) {
                     ChangeMapService.instance.changeMap(pl, toMap, (short) (toX * 16 + 8), (short) (toY * 16 + 8));
                     return;
                 }
@@ -743,10 +765,16 @@ public class MapService {
 
     public boolean isInWayPoint(@NonNull Player pl, int px, int py) {
         IMap map = pl.getLocation().getZone().getMap();
-        if ((py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP) >= map.getMapData().getType().length || (py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP) < 0) {
+        if ((py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP) >= map.getMapData().getType().length
+                || (py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP) < 0) {
             return false;
         }
-        return (map.getMapData().getType()[(py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP)] < 2000000000) ? false : (map.getMapData().getLocationWayPoints().get(map.getMapData().getType()[(py >> Const.SIP) * map.getMapData().getW() + (px >> Const.SIP)] - 2000000000)) != null;
+        return (map.getMapData().getType()[(py >> Const.SIP) * map.getMapData().getW()
+                + (px >> Const.SIP)] < 2000000000)
+                        ? false
+                        : (map.getMapData().getLocationWayPoints()
+                                .get(map.getMapData().getType()[(py >> Const.SIP) * map.getMapData().getW()
+                                        + (px >> Const.SIP)] - 2000000000)) != null;
     }
 
     public boolean tileTypeAtPixel(@NonNull Player pl, int px, int py, int t) {
@@ -758,7 +786,8 @@ public class MapService {
     public void sendAllPlayerInMap(@NonNull Monster mob, @NonNull Message msg) {
         for (int i = 0; i < mob.getZone().getPlayers().size(); i++) {
             Player plInMap = mob.getZone().getPlayers().get(i);
-            if (plInMap != null && plInMap.isPlayer() && Util.getDistance(plInMap, mob) <= plInMap.getSession().getDistanceLoad()) {
+            if (plInMap != null && plInMap.isPlayer()
+                    && Util.getDistance(plInMap, mob) <= plInMap.getSession().getDistanceLoad()) {
                 plInMap.getSession().sendMessage(msg);
             }
         }
@@ -767,7 +796,8 @@ public class MapService {
     public void sendAllPlayerInMap(@NonNull Player pl, @NonNull Message msg) {
         for (int i = 0; i < pl.getLocation().getZone().getPlayers().size(); i++) {
             Player plInMap = pl.getLocation().getZone().getPlayers().get(i);
-            if (plInMap != null && plInMap.isPlayer() && Util.getDistance(pl, plInMap) <= pl.getSession().getDistanceLoad()) {
+            if (plInMap != null && plInMap.isPlayer()
+                    && Util.getDistance(pl, plInMap) <= pl.getSession().getDistanceLoad()) {
                 plInMap.getSession().sendMessage(msg);
             }
         }
@@ -785,7 +815,8 @@ public class MapService {
     public void sendAnotherNotMeInMap(@NonNull Player pl, @NonNull Message msg) {
         for (int i = 0; i < pl.getLocation().getZone().getPlayers().size(); i++) {
             Player plInMap = pl.getLocation().getZone().getPlayers().get(i);
-            if (plInMap != null && plInMap.getIdPlayer() != pl.getIdPlayer() && plInMap.isPlayer() && Util.getDistance(pl, plInMap) <= pl.getSession().getDistanceLoad()) {
+            if (plInMap != null && plInMap.getIdPlayer() != pl.getIdPlayer() && plInMap.isPlayer()
+                    && Util.getDistance(pl, plInMap) <= pl.getSession().getDistanceLoad()) {
                 plInMap.getSession().sendMessage(msg);
             }
         }

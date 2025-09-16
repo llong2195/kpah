@@ -55,10 +55,13 @@ public class Monster implements Cloneable {
     }
 
     private boolean isPlayerAttackable(@NonNull Player player) {
-        return !player.getSundry().isNewlyRevived() && !player.isDie() && ClientManager.containsPlayers(player) && player.getLocation().getZone().equals(this.zone) && Util.getDistance(player, this) <= Settings.DISTANCE_MOB_CAN_ATTACK;
+        return !player.getSundry().isNewlyRevived() && !player.isDie() && ClientManager.containsPlayers(player)
+                && player.getLocation().getZone().equals(this.zone)
+                && Util.getDistance(player, this) <= Settings.DISTANCE_MOB_CAN_ATTACK;
     }
 
-    public int injured(@NonNull Player plAtt, int damage, boolean isXuyenGiap, boolean isInjuredByEffect, boolean x2) throws IOException {
+    public int injured(@NonNull Player plAtt, int damage, boolean isXuyenGiap, boolean isInjuredByEffect, boolean x2)
+            throws IOException {
         if (!this.isDie()) {
             if (!isKhoangSan()) {
                 if (this.template.getLevel() - 2 > plAtt.getInfo().getLevel()) {
@@ -188,7 +191,8 @@ public class Monster implements Cloneable {
         if (!pl.getParty().isEmpty()) {
             int expParty = Math.max(1, tnPl * Settings.PERCENT_EXP_PARTY / 100);
             for (Player member : pl.getParty().getMembers()) {
-                if (member.getIdPlayer() == pl.getIdPlayer() || !member.getLocation().getZone().equals(pl.getLocation().getZone())) {
+                if (member.getIdPlayer() == pl.getIdPlayer()
+                        || !member.getLocation().getZone().equals(pl.getLocation().getZone())) {
                     continue;
                 }
                 member.getPoint().plusExp(expParty);
@@ -220,30 +224,39 @@ public class Monster implements Cloneable {
     public List<ItemMap> getItemDrop(@NonNull Player plAttack) {
         List<ItemMap> its = new ArrayList<>();
         if (Util.isTrue(0.8, 100.0)) {
-            its.add(ItemService.instance.createNewItemMap((short) Util.nextInt(1, 6), (short) Util.nextInt(1, 3), Const.CATEGORY_POTION, x, y, plAttack.getIdPlayer(), zone));
+            its.add(ItemService.instance.createNewItemMap((short) Util.nextInt(1, 6), (short) Util.nextInt(1, 3),
+                    Const.CATEGORY_POTION, x, y, plAttack.getIdPlayer(), zone));
         }
         if (Util.isTrue(1.3 + plAttack.getPoint().getPercentDropXu(), 100.0)) {
             short quantity = (short) Util.nextInt(this.template.getLevel() * 15, (this.template.getLevel() + 10) * 15);
-            its.add(ItemService.instance.createNewItemMap((short) 0, quantity, Const.CATEGORY_POTION, x, y, plAttack.getIdPlayer(), zone));
+            its.add(ItemService.instance.createNewItemMap((short) 0, quantity, Const.CATEGORY_POTION, x, y,
+                    plAttack.getIdPlayer(), zone));
         }
         if (Util.isTrue(0.45 + plAttack.getPoint().getPercentDropEquip(), 100.0)) {
-            short idItemEquipment = Manager.randomItemEquipment((byte) this.template.getLevel(), (byte) Util.getOne(plAttack.getInfo().getGender(), 0));
+            short idItemEquipment = Manager.randomItemEquipment((byte) this.template.getLevel(),
+                    (byte) Util.getOne(plAttack.getInfo().getGender(), 0));
             if (idItemEquipment != -1) {
-                its.add(ItemService.instance.createNewItemMap(idItemEquipment, (short) 1, Const.CATEGORY_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                its.add(ItemService.instance.createNewItemMap(idItemEquipment, (short) 1, Const.CATEGORY_ITEM, x, y,
+                        plAttack.getIdPlayer(), zone));
             }
         }
         if (isKhoangSan()) {
             switch (template.getId()) {
                 case 85 ->
-                    its.add(ItemService.instance.createNewItemMap((short) 81, (short) 1, Const.CATEGORY_GEM_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                    its.add(ItemService.instance.createNewItemMap((short) 81, (short) 1, Const.CATEGORY_GEM_ITEM, x, y,
+                            plAttack.getIdPlayer(), zone));
                 case 86 ->
-                    its.add(ItemService.instance.createNewItemMap((short) 67, (short) 1, Const.CATEGORY_GEM_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                    its.add(ItemService.instance.createNewItemMap((short) 67, (short) 1, Const.CATEGORY_GEM_ITEM, x, y,
+                            plAttack.getIdPlayer(), zone));
                 case 87 ->
-                    its.add(ItemService.instance.createNewItemMap((short) 88, (short) 1, Const.CATEGORY_GEM_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                    its.add(ItemService.instance.createNewItemMap((short) 88, (short) 1, Const.CATEGORY_GEM_ITEM, x, y,
+                            plAttack.getIdPlayer(), zone));
                 case 88 ->
-                    its.add(ItemService.instance.createNewItemMap((short) 95, (short) 1, Const.CATEGORY_GEM_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                    its.add(ItemService.instance.createNewItemMap((short) 95, (short) 1, Const.CATEGORY_GEM_ITEM, x, y,
+                            plAttack.getIdPlayer(), zone));
                 case 89 ->
-                    its.add(ItemService.instance.createNewItemMap((short) 74, (short) 1, Const.CATEGORY_GEM_ITEM, x, y, plAttack.getIdPlayer(), zone));
+                    its.add(ItemService.instance.createNewItemMap((short) 74, (short) 1, Const.CATEGORY_GEM_ITEM, x, y,
+                            plAttack.getIdPlayer(), zone));
             }
         }
         return its;

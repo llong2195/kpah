@@ -99,7 +99,8 @@ public class Sundry {
     }
 
     public DepositeItemEquip findItemEquipDeposite(short id) {
-        return depositeItemEquips.stream().filter(it -> it != null && it.getItem().getIdItem() == id).findFirst().orElse(null);
+        return depositeItemEquips.stream().filter(it -> it != null && it.getItem().getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public void addDepositeItemGem(@NonNull DepositeItemGem itemGem) {
@@ -140,7 +141,8 @@ public class Sundry {
     }
 
     public ItemPotion findItemPotion(short id) {
-        return itemPotionTrade.stream().filter(it -> it != null && it.getTemplate().getId() == id).findFirst().orElse(null);
+        return itemPotionTrade.stream().filter(it -> it != null && it.getTemplate().getId() == id).findFirst()
+                .orElse(null);
     }
 
     public void dispose() {

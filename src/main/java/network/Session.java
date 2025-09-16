@@ -1,14 +1,6 @@
 package network;
 
-import services.Service;
-import manager.ClientManager;
-import player.Player;
-import daos.PlayerDAO;
-import database.HikariCP;
-import database.ResultSetImpl;
-import interfaces.IMessageSendCollect;
-import interfaces.ISession;
-import java.io.*;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -16,12 +8,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import lombok.Synchronized;
-import manager.ExecutorVirtualThread;
-import manager.Settings;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import daos.PlayerDAO;
+import database.HikariCP;
+import database.ResultSetImpl;
+import interfaces.IMessageSendCollect;
+import interfaces.ISession;
+import lombok.Synchronized;
+import manager.ClientManager;
+import manager.ExecutorVirtualThread;
+import manager.Settings;
+import player.Player;
 import services.LoginService;
+import services.Service;
 import utils.CommandMessage;
 import utils.Logger;
 import utils.Printer;
@@ -91,8 +93,10 @@ public class Session implements ISession {
 
     @Override
     public void initThreadSession() {
-        this.tSender = ((this.sender != null) ? this.sender.setSocket(this.socket) : (this.sender = new Sender(this, this.socket)));
-        this.tCollector = ((this.collector != null) ? this.collector.setSocket(this.socket) : (this.collector = new Collector(this, this.socket)));
+        this.tSender = ((this.sender != null) ? this.sender.setSocket(this.socket)
+                : (this.sender = new Sender(this, this.socket)));
+        this.tCollector = ((this.collector != null) ? this.collector.setSocket(this.socket)
+                : (this.collector = new Collector(this, this.socket)));
     }
 
     @Override
@@ -241,7 +245,8 @@ public class Session implements ISession {
             distanceLoad = w / 2 + 120;
             msg.reader().readByte();
             msg.reader().readByte();
-            ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM `users` WHERE `username` = ? and password= ? LIMIT 1;", username, pass);
+            ResultSetImpl rs = HikariCP.executeQuery(
+                    "SELECT * FROM `users` WHERE `username` = ? and password= ? LIMIT 1;", username, pass);
             if (!rs.next()) {
                 Service.instance.sendLogOut(this, "Tài khoản hoặc mật khẩu không chính xác! Vui lòng thử lại!");
                 return;
@@ -294,7 +299,8 @@ public class Session implements ISession {
         for (int i = 0; i < this.listChar.size(); i++) {
             js.put(this.listChar.get(i).getIdDatabase());
         }
-        HikariCP.executeUpdate("UPDATE `users` SET `chars` = '" + js.toString() + "' WHERE `username` = '" + this.username + "'");
+        HikariCP.executeUpdate(
+                "UPDATE `users` SET `chars` = '" + js.toString() + "' WHERE `username` = '" + this.username + "'");
     }
 
     @Override
@@ -382,7 +388,8 @@ public class Session implements ISession {
 
     @Override
     public Player findPlayer(int id) throws SQLException {
-        int result = HikariCP.executeExist(String.format("SELECT EXISTS(SELECT * FROM `players` WHERE `id` = '%s')", id));
+        int result = HikariCP
+                .executeExist(String.format("SELECT EXISTS(SELECT * FROM `players` WHERE `id` = '%s')", id));
         if (result == 0) {
             return null;
         }

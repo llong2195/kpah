@@ -1,5 +1,7 @@
 package services;
 
+import java.io.IOException;
+
 import consts.Const;
 import consts.NpcConst;
 import deposite.Deposite;
@@ -8,7 +10,6 @@ import deposite.DepositeItemGem;
 import item.Attribute;
 import item.ItemEquip;
 import item.ItemGem;
-import java.io.IOException;
 import lombok.NonNull;
 import manager.Manager;
 import network.Message;
@@ -33,7 +34,8 @@ public class DepositeService {
     private static final byte VU_KHI = 1;
     private static final byte GIAP = 2;
 
-    public void requestSellItem(@NonNull Player player, boolean isSell, byte typeNpc, byte indexShop, short idItem, int price, byte typeItem) throws IOException {
+    public void requestSellItem(@NonNull Player player, boolean isSell, byte typeNpc, byte indexShop, short idItem,
+            int price, byte typeItem) throws IOException {
         String nameDeposite = String.format("%s_%s", typeNpc, indexShop);
         Deposite deposite = Manager.getDeposite(nameDeposite);
         if (deposite == null) {
@@ -68,8 +70,10 @@ public class DepositeService {
                         Service.instance.sendLogOut(player.getSession(), "Cửa hàng chỉ bán giáp");
                         return;
                     }
-                    if (typeItemSell == TRANG_SUC && (!itemEquip.isJewelry() || (itemEquip.getTemplate().getId() >= 720 && itemEquip.getTemplate().getId() <= 722))) {
-                        Service.instance.sendLogOut(player.getSession(), "Cửa hàng chỉ bán trang sức, trứng thú cưng, tụ hồn đan, huyết bồ đề, huyết linh thảo, sách kỹ năng pet và các vật phẩm khác: luyện kim dược, ngọc khảm...");
+                    if (typeItemSell == TRANG_SUC && (!itemEquip.isJewelry()
+                            || (itemEquip.getTemplate().getId() >= 720 && itemEquip.getTemplate().getId() <= 722))) {
+                        Service.instance.sendLogOut(player.getSession(),
+                                "Cửa hàng chỉ bán trang sức, trứng thú cưng, tụ hồn đan, huyết bồ đề, huyết linh thảo, sách kỹ năng pet và các vật phẩm khác: luyện kim dược, ngọc khảm...");
                         return;
                     }
                     player.getSundry().setCategoryDeposite(Const.CATEGORY_ITEM);
@@ -117,7 +121,8 @@ public class DepositeService {
         }
     }
 
-    public void onDepositeItem(@NonNull Player player, byte type, short idPlayer, byte npcType, byte indexShop) throws IOException {
+    public void onDepositeItem(@NonNull Player player, byte type, short idPlayer, byte npcType, byte indexShop)
+            throws IOException {
         String nameDeposite = String.format("%s_%s", npcType, indexShop);
         Deposite deposite = Manager.getDeposite(nameDeposite);
         if (deposite == null) {
@@ -213,12 +218,14 @@ public class DepositeService {
         pl.getSession().sendMessage(msg);
     }
 
-    public void sendItemDeposite(@NonNull Player pl, @NonNull Player playerDeposite, String nameDeposite) throws IOException {
+    public void sendItemDeposite(@NonNull Player pl, @NonNull Player playerDeposite, String nameDeposite)
+            throws IOException {
         Message msg = new Message(CommandMessage.GET_DEPOSITE_ITEM);
         msg.writer().writeByte(SELL);
         msg.writer().writeByte(playerDeposite.getSundry().getIdNpcOpen());
         msg.writer().writeByte(playerDeposite.getSundry().getIndexShopDeposite());
-        msg.writer().writeByte((int) playerDeposite.getSundry().getDepositeItemEquips().stream().filter(i -> i != null && i.getNameDeposite().equals(nameDeposite)).count());
+        msg.writer().writeByte((int) playerDeposite.getSundry().getDepositeItemEquips().stream()
+                .filter(i -> i != null && i.getNameDeposite().equals(nameDeposite)).count());
         msg.writer().writeShort(playerDeposite.getIdPlayer());
         for (int i = 0; i < playerDeposite.getSundry().getDepositeItemEquips().size(); i++) {
             DepositeItemEquip item = playerDeposite.getSundry().getDepositeItemEquips().get(i);
@@ -247,7 +254,8 @@ public class DepositeService {
                 msg.writer().writeUTF(item.getItem().getNameCharSeal());
             }
         }
-        msg.writer().writeByte((int) playerDeposite.getSundry().getDepositeItemGems().stream().filter(i -> i != null && i.getNameDeposite().equals(nameDeposite)).count());
+        msg.writer().writeByte((int) playerDeposite.getSundry().getDepositeItemGems().stream()
+                .filter(i -> i != null && i.getNameDeposite().equals(nameDeposite)).count());
         for (int i = 0; i < playerDeposite.getSundry().getDepositeItemGems().size(); i++) {
             DepositeItemGem item = playerDeposite.getSundry().getDepositeItemGems().get(i);
             if (item != null && item.getNameDeposite().equals(nameDeposite)) {

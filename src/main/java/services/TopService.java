@@ -1,8 +1,8 @@
 package services;
 
-import clan.Clan;
-import item.ItemFriend;
 import java.io.IOException;
+
+import item.ItemFriend;
 import lombok.NonNull;
 import manager.TopManager;
 import network.Message;

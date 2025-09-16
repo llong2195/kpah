@@ -44,7 +44,8 @@ public class ItemAnimal {
                     case 26 ->
                         st.append("Tỷ lệ nhận x2: ").append(att.getValue()).append("%\n");
                     case 81 ->
-                        st.append("Hấp thu ").append(att.getValue()).append("%").append(" sát thương tỷ lệ: ").append(att.getValue()).append("%\n");
+                        st.append("Hấp thu ").append(att.getValue()).append("%").append(" sát thương tỷ lệ: ")
+                                .append(att.getValue()).append("%\n");
                     case 28 ->
                         st.append("Tỉ lệ giảm sát thương: ").append(att.getValue()).append("%\n");
                     case 36 ->
@@ -53,9 +54,11 @@ public class ItemAnimal {
                         String name = att.getTemplate().getName();
                         if (name.startsWith("Tăng ")) {
                             name = name.replace("Tăng ", "");
-                            st.append(Util.capitalizeFirstLetter(name)).append(" tăng: ").append(att.getValue()).append((att.getTemplate().getIsPercent() != 0 ? " %\n" : "\n"));
+                            st.append(Util.capitalizeFirstLetter(name)).append(" tăng: ").append(att.getValue())
+                                    .append((att.getTemplate().getIsPercent() != 0 ? " %\n" : "\n"));
                         } else {
-                            st.append(Util.capitalizeFirstLetter(name)).append(": ").append(att.getValue()).append((att.getTemplate().getIsPercent() != 0 ? " %\n" : "\n"));
+                            st.append(Util.capitalizeFirstLetter(name)).append(": ").append(att.getValue())
+                                    .append((att.getTemplate().getIsPercent() != 0 ? " %\n" : "\n"));
                         }
                     }
                 }

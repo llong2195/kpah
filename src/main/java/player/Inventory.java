@@ -87,7 +87,9 @@ public class Inventory {
         int num2 = 0;
         for (int i = 0; i < itemBody.size(); i++) {
             ItemEquip item = itemBody.get(i);
-            if (item.getTemplate().getType() == 3 || item.getTemplate().getType() == 4 || item.getTemplate().getType() == 5 || item.getTemplate().getType() == 6 || item.getTemplate().getType() == 7) {
+            if (item.getTemplate().getType() == 3 || item.getTemplate().getType() == 4
+                    || item.getTemplate().getType() == 5 || item.getTemplate().getType() == 6
+                    || item.getTemplate().getType() == 7) {
                 num2 += item.getTemplate().getPrice() / 10;
             } else {
                 num += item.getTemplate().getPrice() / 10;
@@ -156,7 +158,8 @@ public class Inventory {
     }
 
     public int fullInventory() {
-        return itemBody.size() + itemPotion.size() + itemQuest.size() + itemGem.size() + itemGemLock.size() + itemAnimal.size() + itemAnimalExpiry.size();
+        return itemBody.size() + itemPotion.size() + itemQuest.size() + itemGem.size() + itemGemLock.size()
+                + itemAnimal.size() + itemAnimalExpiry.size();
     }
 
     public void dispose() {

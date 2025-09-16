@@ -68,7 +68,10 @@ public class PlayerDAO {
         Info info = buildInfo(idSelect, rs.getString("info"));
         Location location = buildLocation(rs.getString("location"), info.getIdNation());
         Point point = buildPoint(rs.getString("point"));
-        Inventory inventory = buildInventory(rs.getString("inventory"), rs.getString("itemBody"), rs.getString("itemBag"), rs.getString("itemBox"), rs.getString("itemPotion"), rs.getString("itemQuest"), rs.getString("itemGem"), rs.getString("itemSpecial"), rs.getString("itemGemLock"), rs.getString("itemSold"), rs.getString("itemAnimal"), rs.getString("itemAnimalExpiry"));
+        Inventory inventory = buildInventory(rs.getString("inventory"), rs.getString("itemBody"),
+                rs.getString("itemBag"), rs.getString("itemBox"), rs.getString("itemPotion"), rs.getString("itemQuest"),
+                rs.getString("itemGem"), rs.getString("itemSpecial"), rs.getString("itemGemLock"),
+                rs.getString("itemSold"), rs.getString("itemAnimal"), rs.getString("itemAnimalExpiry"));
         Skill skill = buildSkill(rs.getString("skills"));
         Horse horse = buildHorse(rs.getString("horse"));
         List<Friend> friends = buildListFriend(rs.getString("friends"));
@@ -111,19 +114,33 @@ public class PlayerDAO {
         String horse = player.getHorse().toString();
         String animal = player.getInventory().getItemAnimal().toString();
         String animalExpiry = player.getInventory().getItemAnimalExpiry().toString();
-        if (Util.isNullOrEmpty(location) || Util.isNullOrEmpty(friends) || Util.isNullOrEmpty(animal) || Util.isNullOrEmpty(animalExpiry) || Util.isNullOrEmpty(horse) || Util.isNullOrEmpty(itemGemLock) || Util.isNullOrEmpty(itemSold) || Util.isNullOrEmpty(itemGem) || Util.isNullOrEmpty(itemBox) || Util.isNullOrEmpty(info) || Util.isNullOrEmpty(skill) || Util.isNullOrEmpty(itemBag) || Util.isNullOrEmpty(point) || Util.isNullOrEmpty(itemBody) || Util.isNullOrEmpty(itemPotion) || Util.isNullOrEmpty(inventory)) {
+        if (Util.isNullOrEmpty(location) || Util.isNullOrEmpty(friends) || Util.isNullOrEmpty(animal)
+                || Util.isNullOrEmpty(animalExpiry) || Util.isNullOrEmpty(horse) || Util.isNullOrEmpty(itemGemLock)
+                || Util.isNullOrEmpty(itemSold) || Util.isNullOrEmpty(itemGem) || Util.isNullOrEmpty(itemBox)
+                || Util.isNullOrEmpty(info) || Util.isNullOrEmpty(skill) || Util.isNullOrEmpty(itemBag)
+                || Util.isNullOrEmpty(point) || Util.isNullOrEmpty(itemBody) || Util.isNullOrEmpty(itemPotion)
+                || Util.isNullOrEmpty(inventory)) {
             Printer.printRed("Lỗi lưu dữ liệu: " + player.getName());
             return;
         }
-        HikariCP.executeUpdate(String.format("UPDATE `players` SET `location` = '%s',`info` ='%s',`point` ='%s' ,`itemBody` ='%s',`itemPotion` ='%s',`inventory`='%s',`itemBag` = '%s',`skills` = '%s',`itemBox`='%s',`itemGem` = '%s',`itemSold`='%s',`itemGemLock`='%s',`friends`='%s',`horse`='%s',`itemAnimal`='%s',`itemAnimalExpiry`='%s',`lastTimeEndDelete` ='%s',`lastTimeLogout` ='%s' WHERE `id` = '%s'", location, info, point, itemBody, itemPotion, inventory, itemBag, skill, itemBox, itemGem, itemSold, itemGemLock, friends, horse, animal, animalExpiry, player.getSundry().getLastTimeEndDelete(), System.currentTimeMillis(), player.getIdDatabase()));
+        HikariCP.executeUpdate(String.format(
+                "UPDATE `players` SET `location` = '%s',`info` ='%s',`point` ='%s' ,`itemBody` ='%s',`itemPotion` ='%s',`inventory`='%s',`itemBag` = '%s',`skills` = '%s',`itemBox`='%s',`itemGem` = '%s',`itemSold`='%s',`itemGemLock`='%s',`friends`='%s',`horse`='%s',`itemAnimal`='%s',`itemAnimalExpiry`='%s',`lastTimeEndDelete` ='%s',`lastTimeLogout` ='%s' WHERE `id` = '%s'",
+                location, info, point, itemBody, itemPotion, inventory, itemBag, skill, itemBox, itemGem, itemSold,
+                itemGemLock, friends, horse, animal, animalExpiry, player.getSundry().getLastTimeEndDelete(),
+                System.currentTimeMillis(), player.getIdDatabase()));
     }
 
-    public static void createPlayer(@NonNull ISession session, String name, byte clazz, byte head, byte gender, byte idNation) throws SQLException, JSONException, IOException {
+    public static void createPlayer(@NonNull ISession session, String name, byte clazz, byte head, byte gender,
+            byte idNation) throws SQLException, JSONException, IOException {
         ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM players WHERE name='" + name + "'");
         if (!rs.first()) {
             gender++;
             int idPlayer = HikariCP.executeExist("SELECT IFNULL(MAX(`idPlayer`), -31000) AS `maxId` FROM `players`;");
-            int id = HikariCP.execute("INSERT INTO `players` (`idPlayer`,`name`, `info`,`location`,`point`,`itemBody`,`itemPotion`,`inventory`,`skills`) VALUES (?,?, ?,?,?,?,?,?,?)", 1, ++idPlayer, name, getDefaultInfo(clazz, head, gender, idNation), getDefaultLocation(idNation), getDefaultPoint(clazz), getDefaultItemWeapon(clazz, gender), getDefaultItemPotion(), getDefaultInventory(), getDefaultSkillLevels(clazz));
+            int id = HikariCP.execute(
+                    "INSERT INTO `players` (`idPlayer`,`name`, `info`,`location`,`point`,`itemBody`,`itemPotion`,`inventory`,`skills`) VALUES (?,?, ?,?,?,?,?,?,?)",
+                    1, ++idPlayer, name, getDefaultInfo(clazz, head, gender, idNation), getDefaultLocation(idNation),
+                    getDefaultPoint(clazz), getDefaultItemWeapon(clazz, gender), getDefaultItemPotion(),
+                    getDefaultInventory(), getDefaultSkillLevels(clazz));
             Player pl = PlayerDAO.setupPlayer(id);
             if (pl != null) {
                 session.addChar(pl);
@@ -139,20 +156,23 @@ public class PlayerDAO {
     }
 
     public static void deletePlayer(@NonNull ISession session, int playerId) throws IOException, SQLException {
-        ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM users WHERE JSON_CONTAINS(chars, ?) AND username = ?", playerId, session.getUsername());
+        ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM users WHERE JSON_CONTAINS(chars, ?) AND username = ?",
+                playerId, session.getUsername());
         if (!rs.next()) {
             Service.instance.sendLogOut(session, "Không tìm thấy nhân vật, vui lòng thử lại!");
             return;
         }
         rs.close();
         Player player = session.findPlayer(playerId);
-        player.getSundry().setLastTimeEndDelete(Util.plusDayToTimeStamp(System.currentTimeMillis(), Settings.DAY_WAIT_FOR_DELETE));
+        player.getSundry().setLastTimeEndDelete(
+                Util.plusDayToTimeStamp(System.currentTimeMillis(), Settings.DAY_WAIT_FOR_DELETE));
         session.reloadChar(playerId);
         LoginService.instance.sendListChar(session);
     }
 
     public static void restorePlayer(@NonNull ISession session, int playerId) throws IOException, SQLException {
-        ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM users WHERE JSON_CONTAINS(chars, ?) AND username = ?", playerId, session.getUsername());
+        ResultSetImpl rs = HikariCP.executeQuery("SELECT * FROM users WHERE JSON_CONTAINS(chars, ?) AND username = ?",
+                playerId, session.getUsername());
         if (!rs.next()) {
             Service.instance.sendLogOut(session, "Không tìm thấy nhân vật, vui lòng thử lại!");
             return;
@@ -164,14 +184,19 @@ public class PlayerDAO {
         LoginService.instance.sendListChar(session);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Builder">
     public static Player buildNpcActor(@NonNull NpcTemplate npcTemplate, short x, short y) {
         List<ItemEquip> itemsBody = new ArrayList<>();
         for (int i = 0; i < npcTemplate.getItemEquipment().length; i++) {
             ItemEquip item = ItemService.instance.createNewItemEquipment(npcTemplate.getItemEquipment()[i], (byte) 0);
             itemsBody.add(item);
         }
-        Player player = Player.builder().horse(Horse.builder().build()).buffInfluence(BuffInfluencePlayer.builder().build()).skillBuff(SkillBuff.builder().build()).sundry(Sundry.builder().build()).skill(Skill.builder().build()).inventory(Inventory.builder().itemBody(itemsBody).build()).point(Point.builder().build()).location(Location.builder().x(x).y(y).build()).info(Info.builder().classPlayer(Const.KIEM_KHACH).head((byte) npcTemplate.getHead()).gender(Const.MALE).build()).idDatabase(npcTemplate.getId()).isNpc(true).name(npcTemplate.getName()).build();
+        Player player = Player.builder().horse(Horse.builder().build())
+                .buffInfluence(BuffInfluencePlayer.builder().build()).skillBuff(SkillBuff.builder().build())
+                .sundry(Sundry.builder().build()).skill(Skill.builder().build())
+                .inventory(Inventory.builder().itemBody(itemsBody).build()).point(Point.builder().build())
+                .location(Location.builder().x(x).y(y).build()).info(Info.builder().classPlayer(Const.KIEM_KHACH)
+                        .head((byte) npcTemplate.getHead()).gender(Const.MALE).build())
+                .idDatabase(npcTemplate.getId()).isNpc(true).name(npcTemplate.getName()).build();
         return player;
     }
 
@@ -184,9 +209,15 @@ public class PlayerDAO {
             Friend friend;
             Player playerOnGame = ClientManager.getPlayer(idFriend);
             if (playerOnGame != null) {
-                friend = Friend.builder().id(idFriend).name(friendData.getString(1)).head(playerOnGame.getInfo().getHead()).level(playerOnGame.getInfo().getLevel()).idClan((short) friendData.getInt(4)).isMaster((byte) friendData.getInt(5)).items(loadDataItemFriend(playerOnGame.getInventory().getItemBody())).build();
+                friend = Friend.builder().id(idFriend).name(friendData.getString(1))
+                        .head(playerOnGame.getInfo().getHead()).level(playerOnGame.getInfo().getLevel())
+                        .idClan((short) friendData.getInt(4)).isMaster((byte) friendData.getInt(5))
+                        .items(loadDataItemFriend(playerOnGame.getInventory().getItemBody())).build();
             } else {
-                friend = Friend.builder().id(idFriend).name(friendData.getString(1)).head((byte) friendData.getInt(2)).level((byte) friendData.getInt(3)).idClan((short) friendData.getInt(4)).isMaster((byte) friendData.getInt(5)).items(loadDataItemFriend(friendData.getJSONArray(6))).build();
+                friend = Friend.builder().id(idFriend).name(friendData.getString(1)).head((byte) friendData.getInt(2))
+                        .level((byte) friendData.getInt(3)).idClan((short) friendData.getInt(4))
+                        .isMaster((byte) friendData.getInt(5)).items(loadDataItemFriend(friendData.getJSONArray(6)))
+                        .build();
             }
             friends.add(friend);
         }
@@ -232,7 +263,8 @@ public class PlayerDAO {
     private static Location buildLocation(String locationString, byte idNation) throws JSONException {
         JSONArray locationArray = new JSONArray(locationString);
         byte inCountry = (byte) locationArray.getInt(3);
-        Zone zone = MapService.instance.getValidZone(Manager.getMap(inCountry, (short) locationArray.getInt(0)), (byte) 0);
+        Zone zone = MapService.instance.getValidZone(Manager.getMap(inCountry, (short) locationArray.getInt(0)),
+                (byte) 0);
         Location location = Location.builder()
                 .zone(zone)
                 .x((short) locationArray.getInt(1))
@@ -261,7 +293,9 @@ public class PlayerDAO {
                 .build();
     }
 
-    private static Inventory buildInventory(String inventoryString, String itemBodyString, String itemBagString, String itemBoxString, String itemPotionString, String itemQuestString, String itemGem, String itemSpecial, String itemGemLock, String itemSold, String animal, String animalExpiry) throws JSONException {
+    private static Inventory buildInventory(String inventoryString, String itemBodyString, String itemBagString,
+            String itemBoxString, String itemPotionString, String itemQuestString, String itemGem, String itemSpecial,
+            String itemGemLock, String itemSold, String animal, String animalExpiry) throws JSONException {
         JSONArray inventoryArray = new JSONArray(inventoryString);
         return Inventory.builder()
                 .luong(inventoryArray.getInt(0))
@@ -297,9 +331,7 @@ public class PlayerDAO {
                 .timeLastUseSkills(lastTimeUse)
                 .build();
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Load Item">
     private static List<ItemEquip> loadDataItemEquipment(String data) throws JSONException {
         List<ItemEquip> listItem = new ArrayList<>();
         JSONArray arrAll = new JSONArray(data);
@@ -385,7 +417,9 @@ public class PlayerDAO {
         List<ItemFriend> listItem = new ArrayList<>();
         for (int i = 0; i < arrAll.length(); i++) {
             JSONArray dataItem = arrAll.getJSONArray(i);
-            ItemFriend item = ItemFriend.builder().idTemplate((short) dataItem.getInt(0)).classChar((byte) dataItem.getInt(1)).level((byte) dataItem.getInt(2)).plusTemplate((byte) dataItem.getInt(3)).build();
+            ItemFriend item = ItemFriend.builder().idTemplate((short) dataItem.getInt(0))
+                    .classChar((byte) dataItem.getInt(1)).level((byte) dataItem.getInt(2))
+                    .plusTemplate((byte) dataItem.getInt(3)).build();
             listItem.add(item);
         }
         return listItem;
@@ -407,7 +441,8 @@ public class PlayerDAO {
         JSONArray arrAll = new JSONArray(data);
         for (int i = 0; i < arrAll.length(); i++) {
             JSONArray dataItem = arrAll.getJSONArray(i);
-            ItemGem item = ItemService.instance.createNewItemGem((short) dataItem.getInt(1), (short) dataItem.getInt(2));
+            ItemGem item = ItemService.instance.createNewItemGem((short) dataItem.getInt(1),
+                    (short) dataItem.getInt(2));
             item.setIdItem((short) dataItem.getInt(0));
             item.setLock(isLock);
             listItem.add(item);
@@ -420,14 +455,13 @@ public class PlayerDAO {
         JSONArray arrAll = new JSONArray(data);
         for (int i = 0; i < arrAll.length(); i++) {
             JSONArray dataItem = arrAll.getJSONArray(i);
-            ItemQuest item = ItemService.instance.createNewItemQuest((byte) dataItem.getInt(0), (short) dataItem.getInt(1));
+            ItemQuest item = ItemService.instance.createNewItemQuest((byte) dataItem.getInt(0),
+                    (short) dataItem.getInt(1));
             listItem.add(item);
         }
         return listItem;
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Default Data Player">
     private static String getDefaultInfo(byte clazz, byte head, byte gender, byte idNation) {
         return String.format("[%s,%s,%s,%s,%s,%s,-1,0]", clazz, head, gender, idNation, Util.getHe(clazz), 1);
     }
@@ -444,7 +478,8 @@ public class PlayerDAO {
     }
 
     private static String getDefaultInventory() {
-        return String.format("[%s,%s,%s,%s,%s]", Const.LUONG_START, Const.LUONG_KHOA_START, Const.XU_START, 5, Short.MIN_VALUE + 2);
+        return String.format("[%s,%s,%s,%s,%s]", Const.LUONG_START, Const.LUONG_KHOA_START, Const.XU_START, 5,
+                Short.MIN_VALUE + 2);
     }
 
     private static String getDefaultPoint(byte clazz) {
@@ -516,5 +551,5 @@ public class PlayerDAO {
         }
         return "[]";
     }
-    // </editor-fold>
+
 }

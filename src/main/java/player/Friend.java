@@ -29,7 +29,7 @@ public class Friend {
         this.name = player.getName();
         this.head = player.getInfo().getHead();
         this.level = player.getInfo().getLevel();
-        this.idClan = player.getInfo().getClan() == null ? - 1 : player.getInfo().getClan().getIndexIcon();
+        this.idClan = player.getInfo().getClan() == null ? -1 : player.getInfo().getClan().getIndexIcon();
         this.isMaster = player.getSundry().getClanMember().isMaster;
         this.items.clear();
         for (ItemEquip item : player.getInventory().getItemBody()) {

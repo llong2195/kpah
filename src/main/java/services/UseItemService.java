@@ -1,11 +1,12 @@
 package services;
 
+import java.io.IOException;
+
 import consts.Const;
 import consts.HorseConst;
 import item.ItemAnimal;
 import item.ItemEquip;
 import item.ItemPotion;
-import java.io.IOException;
 import lombok.NonNull;
 import manager.Manager;
 import network.Message;
@@ -62,7 +63,8 @@ public class UseItemService {
                         Service.instance.sendLogOut(player.getSession(), "Không thể đeo khăn khi đang phạm tội");
                         return;
                     }
-                    if (player.getSundry().getPk() != 0 && Util.canDoWithTime(player.getSundry().getLastTimeChangePk(), 180000)) {
+                    if (player.getSundry().getPk() != 0
+                            && Util.canDoWithTime(player.getSundry().getLastTimeChangePk(), 180000)) {
                         player.getSundry().setPk((byte) 0);
                         onUseItemPk(player);
                         return;
@@ -191,16 +193,20 @@ public class UseItemService {
         if (equipment == null) {
             return;
         }
-        if (equipment.getTemplate().getGender() != 0 && equipment.getTemplate().getGender() != player.getInfo().getGender()) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.", (equipment.getTemplate().getGender() == Const.MALE ? "nam" : "nữ")));
+        if (equipment.getTemplate().getGender() != 0
+                && equipment.getTemplate().getGender() != player.getInfo().getGender()) {
+            Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.",
+                    (equipment.getTemplate().getGender() == Const.MALE ? "nam" : "nữ")));
             return;
         }
         if (equipment.getClassChar() != -1 && equipment.getClassChar() != player.getInfo().getClassPlayer()) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ dành cho %s.", Const.NAME_CLASS_CHAR[equipment.getClassChar()]));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Vật phẩm này chỉ dành cho %s.", Const.NAME_CLASS_CHAR[equipment.getClassChar()]));
             return;
         }
         if (equipment.getLevel() > equipment.getLevel()) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Bạn phải đạt cấp %s để có thể dùng.", equipment.getLevel()));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Bạn phải đạt cấp %s để có thể dùng.", equipment.getLevel()));
             return;
         }
         if (equipment.isAnimalArmor()) {
@@ -208,7 +214,8 @@ public class UseItemService {
                 Service.instance.sendLogOut(player.getSession(), String.format("Vui lòng mang linh thú để sử dụng"));
                 return;
             }
-            ItemEquip hasEquipment = InventoryService.instance.findItemAnimalBodyByType(player, equipment.getTemplate().getType());
+            ItemEquip hasEquipment = InventoryService.instance.findItemAnimalBodyByType(player,
+                    equipment.getTemplate().getType());
             if (hasEquipment != null) {
                 InventoryService.instance.swapItemBagToBodyAnimal(player, equipment, hasEquipment);
             } else {
@@ -223,7 +230,8 @@ public class UseItemService {
                 MenuOptionService.instance.sendMenuUseNhan(player);
                 return;
             }
-            ItemEquip hasEquipment = InventoryService.instance.findItemBodyByType(player, equipment.getTemplate().getType());
+            ItemEquip hasEquipment = InventoryService.instance.findItemBodyByType(player,
+                    equipment.getTemplate().getType());
             if (hasEquipment != null) {
                 InventoryService.instance.swapItemBagToBody(player, equipment, hasEquipment);
             } else {

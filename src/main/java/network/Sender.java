@@ -1,16 +1,15 @@
 package network;
 
-import interfaces.IMessageSendCollect;
-import interfaces.ISession;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import lombok.NonNull;
 
-import utils.Printer;
+import interfaces.IMessageSendCollect;
+import interfaces.ISession;
+import lombok.NonNull;
 
 /**
  *

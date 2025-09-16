@@ -87,20 +87,21 @@ public class Server implements Runnable {
     private void activeCommandLine() {
         Thread.ofVirtual().start(() -> {
             try {
-                Scanner sc = new Scanner(System.in);
-                while (true) {
-                    String line = sc.nextLine();
-                    switch (line) {
-                        case "baotri" -> {
-                            isBaoTri = true;
-                            closeServer();
+                try (Scanner sc = new Scanner(System.in)) {
+                    while (true) {
+                        String line = sc.nextLine();
+                        switch (line) {
+                            case "baotri" -> {
+                                isBaoTri = true;
+                                closeServer();
+                            }
+                            case "thread" ->
+                                Printer.printRed("Thread count: " + Thread.activeCount());
+                            case "player" ->
+                                Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
+                            case "session" ->
+                                Printer.printRed("Session connect: " + ClientManager.getClients().size());
                         }
-                        case "thread" ->
-                            Printer.printRed("Thread count: " + Thread.activeCount());
-                        case "player" ->
-                            Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
-                        case "session" ->
-                            Printer.printRed("Session connect: " + ClientManager.getClients().size());
                     }
                 }
             } catch (Exception e) {

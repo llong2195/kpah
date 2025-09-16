@@ -1,11 +1,12 @@
 package services;
 
-import clan.Clan;
 import java.io.IOException;
+
+import clan.Clan;
+import consts.ClanConst;
 import lombok.NonNull;
 import network.Message;
 import player.Player;
-import consts.ClanConst;
 import utils.CommandMessage;
 import utils.Util;
 
@@ -32,7 +33,8 @@ public class PopupService {
         switch (typePop) {
             case REVIVAL -> {
                 if (player.isDie()) {
-                    sendPopupOkCancel(player, String.format("Bạn có muốn hồi sinh tại chỗ. Chi phí %s xu", Util.formatNumber(player.getPoint().getXuRevive())), CONFIRM_REVIVAL);
+                    sendPopupOkCancel(player, String.format("Bạn có muốn hồi sinh tại chỗ. Chi phí %s xu",
+                            Util.formatNumber(player.getPoint().getXuRevive())), CONFIRM_REVIVAL);
                 }
             }
             case CONFIRM_REVIVAL -> {
@@ -41,7 +43,8 @@ public class PopupService {
                         MapService.instance.revivePlayer(player, (byte) 100);
                         InventoryService.instance.sendItemPotion(player);
                     } else {
-                        Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(player.getPoint().getXuRevive())));
+                        Service.instance.sendLogOut(player.getSession(),
+                                String.format("Không đủ %s xu", Util.formatNumber(player.getPoint().getXuRevive())));
                     }
                 }
             }
@@ -51,7 +54,8 @@ public class PopupService {
                     return;
                 }
                 if (!clan.minusDedicationPoint(player.getSundry().getXuQuyenGop() * 100)) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s điểm cống hiến", Util.formatNumber(player.getSundry().getXuQuyenGop() * 100)));
+                    Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s điểm cống hiến",
+                            Util.formatNumber(player.getSundry().getXuQuyenGop() * 100)));
                     return;
                 }
                 player.getInventory().minusXu(player.getSundry().getXuQuyenGop());
@@ -66,11 +70,18 @@ public class PopupService {
     }
 
     public void sendPopupConfirmQuyenGop(@NonNull Player player) throws IOException {
-        sendPopupOkCancel(player, String.format("Bạn có muốn dùng %s điểm cống hiến để quyên góp nhanh %s xu vào bang không?", player.getSundry().getXuQuyenGop() * 100, player.getSundry().getXuQuyenGop()), CONFIRM_QUYEN_GOP);
+        sendPopupOkCancel(player,
+                String.format("Bạn có muốn dùng %s điểm cống hiến để quyên góp nhanh %s xu vào bang không?",
+                        player.getSundry().getXuQuyenGop() * 100, player.getSundry().getXuQuyenGop()),
+                CONFIRM_QUYEN_GOP);
     }
 
     public void sendPopupConfirmRegClan(@NonNull Player player) throws IOException {
-        sendPopupOkCancel(player, String.format("Chi phí tạo bang là %s xu và phải đạt 10 thành viên trong 3 ngày tính từ thời điểm tạo bang", Util.formatNumber(ClanConst.XU_NEED_TO_REGISTER)), CONFIRM_REGISTER_CLAN);
+        sendPopupOkCancel(player,
+                String.format(
+                        "Chi phí tạo bang là %s xu và phải đạt 10 thành viên trong 3 ngày tính từ thời điểm tạo bang",
+                        Util.formatNumber(ClanConst.XU_NEED_TO_REGISTER)),
+                CONFIRM_REGISTER_CLAN);
     }
 
     private void sendPopupOkCancel(@NonNull Player player, String text, byte id) throws IOException {

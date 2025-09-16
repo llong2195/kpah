@@ -120,7 +120,8 @@ public class AttributeConst {
     public static final short CHI_SO_VU_KHI_TANG = 116; // isPercent: 2; Chỉ số vũ khí tăng
     public static final short TY_LE_GAY_SAT_THUONG_CHUAN = 117; // isPercent: 2; Tỷ lệ gây sát thương chuẩn
     public static final short GIAM_SAT_THUONG_CUOI = 118; // isPercent: 2; Giảm sát thương cuối
-    public static final short NGUYET_ANH_GAY_ST_10_15_TL_XUAT_HIEN = 119; // isPercent: 2; Nguyệt ảnh gây st(10%-15%) tl xuất hiện
+    public static final short NGUYET_ANH_GAY_ST_10_15_TL_XUAT_HIEN = 119; // isPercent: 2; Nguyệt ảnh gây st(10%-15%) tl
+                                                                          // xuất hiện
     public static final short KHANG_HOA = 120; // isPercent: 2; Kháng hoả
     public static final short KHANG_THUY = 121; // isPercent: 2; Kháng thuỷ
     public static final short KHANG_MOC = 122; // isPercent: 2; Kháng mộc

@@ -1,26 +1,27 @@
 package services;
 
-import item.ItemEquip;
-import item.ItemBuyNpc;
-import item.ItemGem;
-import item.ItemPotion;
 import java.io.IOException;
-import lombok.NonNull;
-import manager.Manager;
-import network.Message;
-import player.Player;
-import shop.NpcShop;
-import template.GemTemplate;
-import template.ShopTemplate;
-import utils.CommandMessage;
+
 import consts.Const;
 import consts.NpcConst;
 import deposite.Deposite;
 import deposite.DepositeItemEquip;
 import deposite.DepositeItemGem;
+import item.ItemBuyNpc;
+import item.ItemEquip;
+import item.ItemGem;
+import item.ItemPotion;
+import lombok.NonNull;
 import manager.ClientManager;
+import manager.Manager;
+import network.Message;
+import player.Player;
+import shop.NpcShop;
+import template.GemTemplate;
 import template.ItemEquipTemplate;
 import template.PotionTemplate;
+import template.ShopTemplate;
+import utils.CommandMessage;
 import utils.Printer;
 import utils.Util;
 
@@ -46,33 +47,39 @@ public class ShopService {
         int price = shopTemplate.getPrice();
         if (shopTemplate.getTypeMoney() == 1) {
             if (!player.getInventory().minusXu(price)) {
-                Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
+                Service.instance.sendLogOut(player.getSession(),
+                        String.format("Không đủ %s xu", Util.formatNumber(price)));
                 return;
             }
         } else {
             if (shopTemplate.getShopType() == 0 || shopTemplate.getShopType() == 1) {
                 if (!player.getInventory().minusLuong(price)) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(price)));
+                    Service.instance.sendLogOut(player.getSession(),
+                            String.format("Không đủ %s lượng", Util.formatNumber(price)));
                     return;
                 }
             } else {
                 if (!player.getInventory().minusLuongKhoa(price)) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng khóa", Util.formatNumber(price)));
+                    Service.instance.sendLogOut(player.getSession(),
+                            String.format("Không đủ %s lượng khóa", Util.formatNumber(price)));
                     return;
                 }
             }
 
         }
         if (shopTemplate.getIdItemEquip() != -1) {
-            ItemEquip itemEquipment = ItemService.instance.createNewItemEquipment(shopTemplate.getIdItemEquip(), player.getInfo().getClassPlayer());
+            ItemEquip itemEquipment = ItemService.instance.createNewItemEquipment(shopTemplate.getIdItemEquip(),
+                    player.getInfo().getClassPlayer());
             InventoryService.instance.addItemBagEquipment(player, itemEquipment);
             InventoryService.instance.sendItemBag(player);
         } else if (shopTemplate.getIdItemPotion() != -1) {
-            ItemPotion potion = ItemService.instance.createNewItemPotion(shopTemplate.getIdItemPotion(), shopTemplate.getValue());
+            ItemPotion potion = ItemService.instance.createNewItemPotion(shopTemplate.getIdItemPotion(),
+                    shopTemplate.getValue());
             InventoryService.instance.addItemPotion(player, potion);
             InventoryService.instance.sendItemPotion(player);
         } else if (shopTemplate.getIdItemGem() != -1) {
-            ItemGem itemGem = ItemService.instance.createNewItemGem(shopTemplate.getIdItemGem(), shopTemplate.getValue());
+            ItemGem itemGem = ItemService.instance.createNewItemGem(shopTemplate.getIdItemGem(),
+                    shopTemplate.getValue());
             if (shopTemplate.isGemLock()) {
                 InventoryService.instance.addItemGemLock(player, itemGem);
                 InventoryService.instance.sendItemGemLock(player);
@@ -135,14 +142,17 @@ public class ShopService {
                     if (item.getCategory() == Const.CATEGORY_ITEM) {
                         ItemEquipTemplate template = Manager.getItemEquipment(item.getIdItem());
                         if (!player.getInventory().minusXu(template.getPrice())) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(template.getPrice())));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Không đủ %s xu", Util.formatNumber(template.getPrice())));
                             return;
                         }
                         if (template.getNdayLoan() != 0 && !player.getInventory().minusLuong(template.getPrice())) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(template.getPrice())));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Không đủ %s lượng", Util.formatNumber(template.getPrice())));
                             return;
                         }
-                        ItemEquip itemEquipment = ItemService.instance.createNewItemEquipment(item.getIdItem(), item.getClassChar(), typeDamage);
+                        ItemEquip itemEquipment = ItemService.instance.createNewItemEquipment(item.getIdItem(),
+                                item.getClassChar(), typeDamage);
                         if (template.getNdayLoan() != 0) {
                             itemEquipment.setDayUse(template.getNdayLoan());
                         }
@@ -159,12 +169,14 @@ public class ShopService {
                         }
                         if (gemTemplate.getTypeMoney() == Const.XU) {
                             if (!player.getInventory().minusXu(gemTemplate.getPrice())) {
-                                Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(gemTemplate.getPrice())));
+                                Service.instance.sendLogOut(player.getSession(),
+                                        String.format("Không đủ %s xu", Util.formatNumber(gemTemplate.getPrice())));
                                 return;
                             }
                         } else if (gemTemplate.getTypeMoney() == Const.LUONG) {
                             if (!player.getInventory().minusLuong(gemTemplate.getPrice())) {
-                                Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s lượng", Util.formatNumber(gemTemplate.getPrice())));
+                                Service.instance.sendLogOut(player.getSession(),
+                                        String.format("Không đủ %s lượng", Util.formatNumber(gemTemplate.getPrice())));
                                 return;
                             }
                         }
@@ -179,7 +191,8 @@ public class ShopService {
                             Service.instance.sendLogOut(player.getSession(), "Chỉ có thể mua tối đa 1000");
                             return;
                         }
-                        ItemPotion potion = ItemService.instance.createNewItemPotion(item.getIdItem(), item.getQuantity());
+                        ItemPotion potion = ItemService.instance.createNewItemPotion(item.getIdItem(),
+                                item.getQuantity());
                         InventoryService.instance.addItemPotion(player, potion);
                     }
                 }
@@ -194,7 +207,8 @@ public class ShopService {
         }
     }
 
-    public void buyItemDeposite(@NonNull Player player, byte npcId, byte indexShop, short idPlayer, short idItem, byte type) throws IOException {
+    public void buyItemDeposite(@NonNull Player player, byte npcId, byte indexShop, short idPlayer, short idItem,
+            byte type) throws IOException {
         switch (npcId) {
             case NpcConst.THAY_NGU_HANH -> {
                 if (idPlayer != player.getIdPlayer() || type != 0) {
@@ -210,7 +224,8 @@ public class ShopService {
                     return;
                 }
                 if (!player.getInventory().minusXu(price)) {
-                    Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
+                    Service.instance.sendLogOut(player.getSession(),
+                            String.format("Không đủ %s xu", Util.formatNumber(price)));
                     return;
                 }
                 InventoryService.instance.sendItemPotion(player);
@@ -218,13 +233,16 @@ public class ShopService {
                 InventoryService.instance.addItemBagEquipment(player, itemSold);
                 InventoryService.instance.sendItemBag(player);
                 sendSuccessBuyItemDeposite(player, idPlayer, idItem, type);
-                Service.instance.sendLogOut(player.getSession(), String.format("Đã mua %s với giá %s xu", itemSold.getTemplate().getName(), Util.formatNumber(price)));
+                Service.instance.sendLogOut(player.getSession(), String.format("Đã mua %s với giá %s xu",
+                        itemSold.getTemplate().getName(), Util.formatNumber(price)));
             }
-            case NpcConst.NHAT_GIAP, NpcConst.NHI_GIAP, NpcConst.TAM_GIAP, NpcConst.TU_GIAP, NpcConst.NGU_GIAP, NpcConst.NHAT_NGUU -> {
+            case NpcConst.NHAT_GIAP, NpcConst.NHI_GIAP, NpcConst.TAM_GIAP, NpcConst.TU_GIAP, NpcConst.NGU_GIAP,
+                    NpcConst.NHAT_NGUU -> {
                 if (player.getIdPlayer() == idPlayer) {
                     return;
                 }
-                String depositeName = String.format("%s_%s", player.getSundry().getNpcTypeDeposite(), player.getSundry().getIndexShopDeposite());
+                String depositeName = String.format("%s_%s", player.getSundry().getNpcTypeDeposite(),
+                        player.getSundry().getIndexShopDeposite());
                 Deposite deposite = Manager.getDeposite(depositeName);
                 if (deposite == null) {
                     return;
@@ -238,18 +256,21 @@ public class ShopService {
                     case DepositeService.EQUIP -> {
                         DepositeItemEquip item = playerSell.getSundry().findItemEquipDeposite(idItem);
                         if (item == null) {
-                            Service.instance.sendLogOut(player.getSession(), "Vật phẩm đã có người mua hoặc không còn trong hành trang");
+                            Service.instance.sendLogOut(player.getSession(),
+                                    "Vật phẩm đã có người mua hoặc không còn trong hành trang");
                             sendSuccessBuyItemDeposite(player, playerSell.getIdPlayer(), idItem, DepositeService.EQUIP);
                             return;
                         }
                         ItemEquip itemEquip = InventoryService.instance.findItemBag(playerSell, idItem);
                         if (itemEquip == null) {
-                            Service.instance.sendLogOut(player.getSession(), "Vật phẩm đã có người mua hoặc không còn trong hành trang");
+                            Service.instance.sendLogOut(player.getSession(),
+                                    "Vật phẩm đã có người mua hoặc không còn trong hành trang");
                             sendSuccessBuyItemDeposite(player, playerSell.getIdPlayer(), idItem, DepositeService.EQUIP);
                             return;
                         }
                         if (!item.getPlayerCanBuy().equals(player.getName())) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ bán cho %s", item.getPlayerCanBuy()));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Vật phẩm này chỉ bán cho %s", item.getPlayerCanBuy()));
                             return;
                         }
                         if (player.getInventory().isFullInventory()) {
@@ -258,11 +279,13 @@ public class ShopService {
                         }
                         int price = item.getPriceDeposite();
                         if (!player.getInventory().minusXu(price)) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Không đủ %s xu", Util.formatNumber(price)));
                             return;
                         }
                         InventoryService.instance.removeItemBagEquipment(playerSell, itemEquip);
-                        InventoryService.instance.addItemBagEquipment(player, ItemService.instance.createNewItemEquipment(itemEquip));
+                        InventoryService.instance.addItemBagEquipment(player,
+                                ItemService.instance.createNewItemEquipment(itemEquip));
                         itemEquip.dispose();
                         InventoryService.instance.sendItemBag(player);
                         InventoryService.instance.sendItemBag(playerSell);
@@ -273,18 +296,22 @@ public class ShopService {
                     case DepositeService.GEM -> {
                         DepositeItemGem item = playerSell.getSundry().findItemGemDeposite(idItem);
                         if (item == null) {
-                            Service.instance.sendLogOut(player.getSession(), "Vật phẩm đã có người mua hoặc không còn trong hành trang");
+                            Service.instance.sendLogOut(player.getSession(),
+                                    "Vật phẩm đã có người mua hoặc không còn trong hành trang");
                             sendSuccessBuyItemDeposite(player, playerSell.getIdPlayer(), idItem, DepositeService.GEM);
                             return;
                         }
-                        ItemGem itemGem = InventoryService.instance.findItemGemByItemId(playerSell, item.getItem().getIdItem());
+                        ItemGem itemGem = InventoryService.instance.findItemGemByItemId(playerSell,
+                                item.getItem().getIdItem());
                         if (itemGem == null) {
-                            Service.instance.sendLogOut(player.getSession(), "Vật phẩm đã có người mua hoặc không còn trong hành trang");
+                            Service.instance.sendLogOut(player.getSession(),
+                                    "Vật phẩm đã có người mua hoặc không còn trong hành trang");
                             sendSuccessBuyItemDeposite(player, playerSell.getIdPlayer(), idItem, DepositeService.GEM);
                             return;
                         }
                         if (!item.getPlayerCanBuy().equals(player.getName())) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Vật phẩm này chỉ bán cho %s", item.getPlayerCanBuy()));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Vật phẩm này chỉ bán cho %s", item.getPlayerCanBuy()));
                             return;
                         }
                         if (player.getInventory().isFullInventory()) {
@@ -293,11 +320,13 @@ public class ShopService {
                         }
                         int price = item.getPriceDeposite();
                         if (!player.getInventory().minusXu(price)) {
-                            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
+                            Service.instance.sendLogOut(player.getSession(),
+                                    String.format("Không đủ %s xu", Util.formatNumber(price)));
                             return;
                         }
                         InventoryService.instance.minusQuantityItemGem(player, itemGem, (short) 1);
-                        InventoryService.instance.addItemGem(player, ItemService.instance.createNewItemGem(itemGem.getTemplate().getId(), (short) 1));
+                        InventoryService.instance.addItemGem(player,
+                                ItemService.instance.createNewItemGem(itemGem.getTemplate().getId(), (short) 1));
                         InventoryService.instance.sendItemGem(player);
                         InventoryService.instance.sendItemGem(playerSell);
                         InventoryService.instance.sendItemPotion(player);
@@ -318,7 +347,8 @@ public class ShopService {
         }
         PotionTemplate veTau = Manager.getPotionTemplate((short) 20);
         if (!player.getInventory().minusXu(veTau.getPrice())) {
-            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(veTau.getPrice())));
+            Service.instance.sendLogOut(player.getSession(),
+                    String.format("Không đủ %s xu", Util.formatNumber(veTau.getPrice())));
             return;
         }
         ItemPotion item = ItemService.instance.createNewItemPotion((short) 20, 1);
@@ -332,7 +362,8 @@ public class ShopService {
             return;
         }
         ItemEquip item = InventoryService.instance.findItemBag(player, indexItem);
-        if (item.getTemplate().getNdayLoan() != 0 || item.isLock() || item.getTemplate().getAttribute()[Const.ATTRIBUTE_CLOTH] == 1) {
+        if (item.getTemplate().getNdayLoan() != 0 || item.isLock()
+                || item.getTemplate().getAttribute()[Const.ATTRIBUTE_CLOTH] == 1) {
             InventoryService.instance.sendItemBag(player);
             return;
         }
@@ -386,7 +417,8 @@ public class ShopService {
         player.getSession().sendMessage(msg);
     }
 
-    private void sendSuccessBuyItemDeposite(@NonNull Player pl, short idChar, short idItem, byte type) throws IOException {
+    private void sendSuccessBuyItemDeposite(@NonNull Player pl, short idChar, short idItem, byte type)
+            throws IOException {
         Message msg = new Message(CommandMessage.BUY_DEPOSITE_ITEM);
         msg.writer().writeShort(idItem);
         msg.writer().writeShort(idChar);

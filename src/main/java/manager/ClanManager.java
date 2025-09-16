@@ -25,7 +25,8 @@ public class ClanManager {
                     for (Short key : CLANS.keySet()) {
                         Clan clan = CLANS.getOrDefault(key, null);
                         if (clan != null && clan.getLastTimeEndDelete() != 0) {
-                            int second = Util.getSecondDifference(clan.getLastTimeEndDelete(), System.currentTimeMillis());
+                            int second = Util.getSecondDifference(clan.getLastTimeEndDelete(),
+                                    System.currentTimeMillis());
                             if ((clan.isDissolve() && second <= 0) || (clan.getMembers().size() < 10 && second <= 0)) {
                                 CLANS.remove(key).dispose();
                             }
@@ -44,7 +45,12 @@ public class ClanManager {
         HikariCP.execute("DELETE FROM `clan`");
         for (Short key : ClanManager.CLANS.keySet()) {
             Clan clan = ClanManager.CLANS.remove(key);
-            HikariCP.execute(String.format("INSERT INTO `clan`(`nameLeader`, `name`, `slogan`, `indexIcon`, `nationID`, `level`, `exp`, `dedicationPoint`, `xu`, `members`, `dissolve`, `lastTimeCreate`, `lastTimeEndDelete`) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", clan.getNameLeader(), clan.getName(), clan.getSlogan(), clan.getIndexIcon(), clan.getNationID(), clan.getLevel(), clan.getExp(), clan.getDedicationPoint(), clan.getXu(), clan.getMembers().toString(), clan.isDissolve() ? 1 : 0, clan.getLastTimeCreate(), clan.getLastTimeEndDelete()));
+            HikariCP.execute(String.format(
+                    "INSERT INTO `clan`(`nameLeader`, `name`, `slogan`, `indexIcon`, `nationID`, `level`, `exp`, `dedicationPoint`, `xu`, `members`, `dissolve`, `lastTimeCreate`, `lastTimeEndDelete`) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+                    clan.getNameLeader(), clan.getName(), clan.getSlogan(), clan.getIndexIcon(), clan.getNationID(),
+                    clan.getLevel(), clan.getExp(), clan.getDedicationPoint(), clan.getXu(),
+                    clan.getMembers().toString(), clan.isDissolve() ? 1 : 0, clan.getLastTimeCreate(),
+                    clan.getLastTimeEndDelete()));
         }
     }
 

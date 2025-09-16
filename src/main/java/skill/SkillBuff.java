@@ -1,6 +1,8 @@
 package skill;
 
 import java.io.IOException;
+
+import consts.BuffConst;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Synchronized;
@@ -8,7 +10,6 @@ import manager.Manager;
 import player.Player;
 import services.BuffService;
 import services.MapService;
-import consts.BuffConst;
 import utils.Util;
 
 /**
@@ -21,13 +22,13 @@ public class SkillBuff {
 
     private Player player;
     @Builder.Default
-    private final byte[] idBuff = new byte[]{-1, -1, -1, -1, -1, -1, -1};
+    private final byte[] idBuff = new byte[] { -1, -1, -1, -1, -1, -1, -1 };
     @Builder.Default
-    private final short[] coolDown = new short[]{-1, -1, -1, -1, -1, -1, -1};
+    private final short[] coolDown = new short[] { -1, -1, -1, -1, -1, -1, -1 };
     @Builder.Default
-    private final long[] lastTimeStartBuff = new long[]{-1, -1, -1, -1, -1, -1, -1};
+    private final long[] lastTimeStartBuff = new long[] { -1, -1, -1, -1, -1, -1, -1 };
     @Builder.Default
-    private final short[] percentDame = new short[]{-1, -1, -1, -1, -1, -1, -1};
+    private final short[] percentDame = new short[] { -1, -1, -1, -1, -1, -1, -1 };
 
     @Synchronized
     public boolean isExistBuff(byte id) {

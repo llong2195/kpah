@@ -2,7 +2,6 @@
   <configuration default="false" name="KPAH Server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="server.Server" />
     <module name="kpah-server" />
-    <option name="VM_PARAMETERS" value="--enable-preview" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="server.*" />

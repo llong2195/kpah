@@ -1,20 +1,21 @@
 package services;
 
-import item.ItemMap;
 import java.io.IOException;
 import java.util.List;
+
+import consts.Const;
+import consts.ItemEquipConst;
+import item.ItemMap;
 import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.Synchronized;
 import manager.Manager;
 import manager.Settings;
 import map.Monster;
-import player.Player;
 import network.Message;
+import player.Player;
 import template.MonsterTemplate;
 import utils.CommandMessage;
-import consts.Const;
-import consts.ItemEquipConst;
 import utils.Util;
 
 /**
@@ -111,7 +112,8 @@ public class MonsterService {
 
     public void sendMonsterInfo(@NonNull Player pl, short id) throws IOException {
         for (Monster monster : pl.getLocation().getZone().getMobs()) {
-            if (monster != null && Util.getDistance(pl, monster) < pl.getSession().getDistanceLoad() && !monster.isDie() && monster.getId() == id) {
+            if (monster != null && Util.getDistance(pl, monster) < pl.getSession().getDistanceLoad() && !monster.isDie()
+                    && monster.getId() == id) {
                 Message m = new Message(CommandMessage.MONSTER_INFO);
                 m.writer().writeShort(id);
                 m.writer().writeByte(monster.getTemplate().getId());

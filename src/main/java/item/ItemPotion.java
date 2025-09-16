@@ -2,7 +2,6 @@ package item;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Synchronized;
 import org.json.JSONArray;
 import template.PotionTemplate;
 

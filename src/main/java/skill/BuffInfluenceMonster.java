@@ -1,13 +1,14 @@
 package skill;
 
 import java.io.IOException;
+
+import consts.BuffConst;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Synchronized;
 import map.Monster;
 import player.Player;
 import services.BuffService;
-import consts.BuffConst;
 import utils.Util;
 
 /**

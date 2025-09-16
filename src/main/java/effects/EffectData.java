@@ -30,7 +30,8 @@ public class EffectData {
         if (typeEffect == Const.NORMAL_EFFECT) {
             imageData = Util.readFile(String.format("data//image//effect//map//%s.png", id));
         }
-        try (ByteArrayOutputStream bas = new ByteArrayOutputStream(); DataOutputStream dos = new DataOutputStream(bas)) {
+        try (ByteArrayOutputStream bas = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(bas)) {
             dos.writeByte(imageInfo.length);
             for (ImageInfo imageInfo1 : imageInfo) {
                 dos.writeByte(imageInfo1.getID());

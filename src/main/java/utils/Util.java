@@ -1,13 +1,10 @@
 package utils;
 
-import consts.Const;
-import consts.ItemEquipConst;
-import lombok.Synchronized;
-import manager.Manager;
-import map.Monster;
-import player.Player;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
@@ -17,15 +14,38 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+
+import consts.Const;
+import consts.ItemEquipConst;
+import lombok.Synchronized;
+import manager.Manager;
+import map.Monster;
+import player.Player;
 
 public class Util {
 
     private static final Random RANDOM = new Random();
     private static final ZoneId VIET_NAM_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
-    private static final String[] FROM_CHARS = {"à", "á", "ả", "ã", "ạ", "â", "ầ", "ấ", "ẩ", "ẫ", "ậ", "ă", "ằ", "ắ", "ẳ", "ẵ", "ặ", "è", "é", "ẻ", "ẽ", "ẹ", "ê", "ề", "ế", "ể", "ễ", "ệ", "ì", "í", "ỉ", "ĩ", "ị", "ò", "ó", "ỏ", "õ", "ọ", "ô", "ồ", "ố", "ổ", "ỗ", "ộ", "ơ", "ờ", "ớ", "ở", "ỡ", "ợ", "ù", "ú", "ủ", "ũ", "ụ", "ư", "ừ", "ứ", "ử", "ữ", "ự", "ỳ", "ý", "ỷ", "ỹ", "ỵ", "đ", "À", "Á", "Ả", "Ã", "Ạ", "Â", "Ầ", "Ấ", "Ẩ", "Ẫ", "Ậ", "Ă", "Ằ", "Ắ", "Ẳ", "Ẵ", "Ặ", "È", "É", "Ẻ", "Ẽ", "Ẹ", "Ê", "Ề", "Ế", "Ể", "Ễ", "Ệ", "Ì", "Í", "Ỉ", "Ĩ", "Ị", "Ò", "Ó", "Ỏ", "Õ", "Ọ", "Ô", "Ồ", "Ố", "Ổ", "Ỗ", "Ộ", "Ơ", "Ờ", "Ớ", "Ở", "Ỡ", "Ợ", "Ù", "Ú", "Ủ", "Ũ", "Ụ", "Ư", "Ừ", "Ứ", "Ử", "Ữ", "Ự", "Ỳ", "Ý", "Ỷ", "Ỹ", "Ỵ", "Đ"};
-    private static final String[] TO_CHARS = {"a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y", "d", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y", "d"};
+    private static final String[] FROM_CHARS = { "à", "á", "ả", "ã", "ạ", "â", "ầ", "ấ", "ẩ", "ẫ", "ậ", "ă", "ằ", "ắ",
+            "ẳ", "ẵ", "ặ", "è", "é", "ẻ", "ẽ", "ẹ", "ê", "ề", "ế", "ể", "ễ", "ệ", "ì", "í", "ỉ", "ĩ", "ị", "ò", "ó",
+            "ỏ", "õ", "ọ", "ô", "ồ", "ố", "ổ", "ỗ", "ộ", "ơ", "ờ", "ớ", "ở", "ỡ", "ợ", "ù", "ú", "ủ", "ũ", "ụ", "ư",
+            "ừ", "ứ", "ử", "ữ", "ự", "ỳ", "ý", "ỷ", "ỹ", "ỵ", "đ", "À", "Á", "Ả", "Ã", "Ạ", "Â", "Ầ", "Ấ", "Ẩ", "Ẫ",
+            "Ậ", "Ă", "Ằ", "Ắ", "Ẳ", "Ẵ", "Ặ", "È", "É", "Ẻ", "Ẽ", "Ẹ", "Ê", "Ề", "Ế", "Ể", "Ễ", "Ệ", "Ì", "Í", "Ỉ",
+            "Ĩ", "Ị", "Ò", "Ó", "Ỏ", "Õ", "Ọ", "Ô", "Ồ", "Ố", "Ổ", "Ỗ", "Ộ", "Ơ", "Ờ", "Ớ", "Ở", "Ỡ", "Ợ", "Ù", "Ú",
+            "Ủ", "Ũ", "Ụ", "Ư", "Ừ", "Ứ", "Ử", "Ữ", "Ự", "Ỳ", "Ý", "Ỷ", "Ỹ", "Ỵ", "Đ" };
+    private static final String[] TO_CHARS = { "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",
+            "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i", "o", "o",
+            "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u", "u", "u", "u", "u",
+            "u", "u", "u", "u", "u", "y", "y", "y", "y", "y", "d", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",
+            "a", "a", "a", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i",
+            "i", "i", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u",
+            "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y", "d" };
     private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance(Locale.US);
 
     public static long roundNumber(long number) {
@@ -110,13 +130,14 @@ public class Util {
     }
 
     public static byte[] concatenate(byte[] dataImage, byte[] data) {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); DataOutputStream outputStream = new DataOutputStream(byteArrayOutputStream)) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                DataOutputStream outputStream = new DataOutputStream(byteArrayOutputStream)) {
             outputStream.writeShort(dataImage.length);
             outputStream.write(dataImage);
             outputStream.writeShort(data.length);
             outputStream.write(data);
             return byteArrayOutputStream.toByteArray();
-        } catch (Exception _) {
+        } catch (Exception e) {
         }
         return null;
     }
@@ -245,7 +266,7 @@ public class Util {
             byte[] ab = new byte[fis.available()];
             fis.read(ab, 0, ab.length);
             return ab;
-        } catch (Exception _) {
+        } catch (Exception e) {
         }
         return null;
     }
@@ -268,7 +289,7 @@ public class Util {
             byte[] ab2 = new byte[(int) (fileSize - halfLength)];
             buffer1.get(ab1);
             buffer2.get(ab2);
-            return new byte[][]{ab1, ab2};
+            return new byte[][] { ab1, ab2 };
         }
     }
 
@@ -282,7 +303,7 @@ public class Util {
             byte[] ab2 = new byte[(int) (fileSize - halfLength)];
             buffer1.get(ab1);
             buffer2.get(ab2);
-            return new byte[][]{ab1, ab2};
+            return new byte[][] { ab1, ab2 };
         }
     }
 
@@ -310,7 +331,7 @@ public class Util {
             byte[] ab2 = new byte[(int) (fileSize - halfLength)];
             buffer1.get(ab1);
             buffer2.get(ab2);
-            return new byte[][]{ab1, ab2};
+            return new byte[][] { ab1, ab2 };
         }
     }
 
@@ -340,7 +361,8 @@ public class Util {
     }
 
     public static int getDistance(Player pl1, Player pl2) {
-        return getDistance(pl1.getLocation().getX(), pl1.getLocation().getY(), pl2.getLocation().getX(), pl2.getLocation().getY());
+        return getDistance(pl1.getLocation().getX(), pl1.getLocation().getY(), pl2.getLocation().getX(),
+                pl2.getLocation().getY());
     }
 
     public static int getDistance(int x, int y, int x2, int y2) {

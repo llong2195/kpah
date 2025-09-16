@@ -1,9 +1,17 @@
 package services;
 
+import java.io.IOException;
+import java.util.stream.Stream;
+
 import consts.Const;
 import consts.ItemEquipConst;
 import consts.NpcConst;
-import item.*;
+import item.Attribute;
+import item.ItemAnimal;
+import item.ItemEquip;
+import item.ItemGem;
+import item.ItemPotion;
+import item.ItemQuest;
 import lombok.NonNull;
 import lombok.Synchronized;
 import manager.Manager;
@@ -12,9 +20,6 @@ import player.Player;
 import template.NpcTemplate;
 import utils.CommandMessage;
 import utils.Util;
-
-import java.io.IOException;
-import java.util.stream.Stream;
 
 /**
  *
@@ -31,7 +36,8 @@ public class InventoryService {
         addItemBagEquipment(player, itemBody);
     }
 
-    public void swapItemBagToBodyAnimal(@NonNull Player player, @NonNull ItemEquip itemBag, @NonNull ItemEquip itemBody) {
+    public void swapItemBagToBodyAnimal(@NonNull Player player, @NonNull ItemEquip itemBag,
+            @NonNull ItemEquip itemBody) {
         removeItemBagEquipment(player, itemBag);
         removeItemAnimalBodyEquipment(player, itemBody);
         addItemAnimalBodyEquipment(player, itemBag);
@@ -75,7 +81,9 @@ public class InventoryService {
             case ItemEquipConst.REPAIR_EQUIP -> {
                 for (int i = 0; i < player.getInventory().getItemBody().size(); i++) {
                     ItemEquip item = player.getInventory().getItemBody().get(i);
-                    if (item.getTemplate().getType() == 3 || item.getTemplate().getType() == 4 || item.getTemplate().getType() == 5 || item.getTemplate().getType() == 6 || item.getTemplate().getType() == 7) {
+                    if (item.getTemplate().getType() == 3 || item.getTemplate().getType() == 4
+                            || item.getTemplate().getType() == 5 || item.getTemplate().getType() == 6
+                            || item.getTemplate().getType() == 7) {
                         continue;
                     }
                     short mDurable = item.getTemplate().getDurable();
@@ -253,71 +261,90 @@ public class InventoryService {
 
     public ItemAnimal findItemAnimal(@NonNull Player player, short id, byte type) {
         if (type == 0) {
-            return player.getInventory().getItemAnimal().stream().filter(it -> it != null && it.getId() == id).findFirst().orElse(null);
+            return player.getInventory().getItemAnimal().stream().filter(it -> it != null && it.getId() == id)
+                    .findFirst().orElse(null);
         } else {
-            return player.getInventory().getItemAnimalExpiry().stream().filter(it -> it != null && it.getId() == id).findFirst().orElse(null);
+            return player.getInventory().getItemAnimalExpiry().stream().filter(it -> it != null && it.getId() == id)
+                    .findFirst().orElse(null);
         }
     }
 
     public ItemGem findItemGemLock(@NonNull Player player, short id) {
-        return player.getInventory().getItemGemLock().stream().filter(it -> it != null && it.getTemplate().getId() == id).findFirst().orElse(null);
+        return player.getInventory().getItemGemLock().stream()
+                .filter(it -> it != null && it.getTemplate().getId() == id).findFirst().orElse(null);
     }
 
     public ItemGem findAllItemGem(@NonNull Player player, short id) {
-        return Stream.concat(player.getInventory().getItemGemLock().stream(), player.getInventory().getItemGem().stream())
+        return Stream
+                .concat(player.getInventory().getItemGemLock().stream(), player.getInventory().getItemGem().stream())
                 .filter(it -> it != null && it.getTemplate().getId() == id)
                 .findFirst().orElse(null);
     }
 
     public ItemGem findItemGem(@NonNull Player player, short id) {
-        return player.getInventory().getItemGem().stream().filter(it -> it != null && it.getTemplate().getId() == id).findFirst().orElse(null);
+        return player.getInventory().getItemGem().stream().filter(it -> it != null && it.getTemplate().getId() == id)
+                .findFirst().orElse(null);
     }
 
     public ItemGem findItemGemByItemId(@NonNull Player player, short id) {
-        return player.getInventory().getItemGem().stream().filter(it -> it != null && it.getIdItem() == id).findFirst().orElse(null);
+        return player.getInventory().getItemGem().stream().filter(it -> it != null && it.getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public ItemPotion findItemPotion(@NonNull Player player, short id) {
-        return player.getInventory().getItemPotion().stream().filter(it -> it != null && it.getTemplate().getId() == id).findFirst().orElse(null);
+        return player.getInventory().getItemPotion().stream().filter(it -> it != null && it.getTemplate().getId() == id)
+                .findFirst().orElse(null);
     }
 
     public ItemEquip findItemSold(@NonNull Player player, short id) {
-        return player.getInventory().getItemSold().stream().filter(it -> it != null && it.getIdItem() == id).findFirst().orElse(null);
+        return player.getInventory().getItemSold().stream().filter(it -> it != null && it.getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemBox(@NonNull Player player, short id) {
-        return player.getInventory().getItemBox().stream().filter(it -> it != null && it.getIdItem() == id).findFirst().orElse(null);
+        return player.getInventory().getItemBox().stream().filter(it -> it != null && it.getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemBag(@NonNull Player player, short id) {
-        return player.getInventory().getItemBag().stream().filter(it -> it != null && it.getIdItem() == id).findFirst().orElse(null);
+        return player.getInventory().getItemBag().stream().filter(it -> it != null && it.getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemBody(@NonNull Player player, short id) {
-        return player.getInventory().getItemBody().stream().filter(it -> it != null && it.getIdItem() == id).findFirst().orElse(null);
+        return player.getInventory().getItemBody().stream().filter(it -> it != null && it.getIdItem() == id).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemAnimalBodyByType(@NonNull Player player, byte type) {
-        return player.getHorse().getAnimalUse().getItemBody().stream().filter(it -> it != null && it.getTemplate().getType() == type).findFirst().orElse(null);
+        return player.getHorse().getAnimalUse().getItemBody().stream()
+                .filter(it -> it != null && it.getTemplate().getType() == type).findFirst().orElse(null);
     }
 
     public ItemEquip findItemBodyByType(@NonNull Player player, byte type) {
-        return player.getInventory().getItemBody().stream().filter(it -> it != null && it.getTemplate().getType() == type).findFirst().orElse(null);
+        return player.getInventory().getItemBody().stream()
+                .filter(it -> it != null && it.getTemplate().getType() == type).findFirst().orElse(null);
     }
 
     public ItemEquip findItemBodyByTypeHe(@NonNull Player player, byte type, byte he, byte viTriVe) {
-        return player.getInventory().getItemBody().stream().filter(it -> it != null && it.getTemplate().getType() == type && it.getHe() == he && it.getViTriVe() == viTriVe).findFirst().orElse(null);
+        return player.getInventory().getItemBody().stream().filter(it -> it != null
+                && it.getTemplate().getType() == type && it.getHe() == he && it.getViTriVe() == viTriVe).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemBodyAnimalByHe(@NonNull Player player, byte type, byte he) {
         if (player.getHorse().getAnimalUse() == null) {
             return null;
         }
-        return player.getHorse().getAnimalUse().getItemBody().stream().filter(it -> it != null && it.getTemplate().getType() == type && it.getHe() == he).findFirst().orElse(null);
+        return player.getHorse().getAnimalUse().getItemBody().stream()
+                .filter(it -> it != null && it.getTemplate().getType() == type && it.getHe() == he).findFirst()
+                .orElse(null);
     }
 
     public ItemEquip findItemBodyByViTri(@NonNull Player player, byte vitrive) {
-        return player.getInventory().getItemBody().stream().filter(it -> it != null && it.getTemplate().getType() == 8 && it.getViTriVe() == vitrive).findFirst().orElse(null);
+        return player.getInventory().getItemBody().stream()
+                .filter(it -> it != null && it.getTemplate().getType() == 8 && it.getViTriVe() == vitrive).findFirst()
+                .orElse(null);
     }
 
     public int sumAttributeValueForId(@NonNull Player player, short attributeId) {
