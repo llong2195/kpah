@@ -18,6 +18,7 @@ import player.Player;
 import template.GemTemplate;
 import template.ItemEquipTemplate;
 import utils.CommandMessage;
+import utils.Printer;
 import utils.Util;
 
 /**
@@ -44,6 +45,11 @@ public class ManufactureService {
     public void manufactureAnimalArmor(@NonNull Player player, short[] idItem, byte[] idMaterials) throws IOException {
         if (idItem.length != 5 || idMaterials.length != 6) {
             Service.instance.sendLogOut(player.getSession(), "Nguyên liệu không phù hợp");
+            return;
+        }
+        if (player == null || player.getManufacture() == null) {
+            Service.instance.sendLogOut(player.getSession(), "Có lỗi xảy ra");
+            Printer.printYellow("ManufactureService.manufactureAnimalArmor: player or manufacture is null");
             return;
         }
         short idMaterial = ManufactureConst.MATERIAL_CREATE_ANIMAL_ARMOR[player.getManufacture()

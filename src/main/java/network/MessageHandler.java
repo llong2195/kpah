@@ -45,6 +45,7 @@ public class MessageHandler {
     public void onMessage(@NonNull ISession session, @NonNull Message msg) {
         try {
             Player player = session.getPlayer();
+            System.out.println("Received command: " + msg.command);
             switch (msg.command) {
                 case CommandMessage.ANIMAL_COMBINED -> {
                     if (player != null) {

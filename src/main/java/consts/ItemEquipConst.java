@@ -59,8 +59,8 @@ public class ItemEquipConst {
         public static final byte NGOC = 12;
         public static final byte CUOC = 13;
         public static final byte ANIMAL_GIAP = 14;
-        public static final byte ANIMAL_HO_UYEN = 15;
-        public static final byte ANIMAL_NON = 16;
+        public static final byte ANIMAL_QUAN = 15;
+        public static final byte ANIMAL_MU = 16;
         public static final byte ANIMAL_BAN_DAP = 17;
         public static final byte ANIMAL_YEN = 18;
         public static final byte ANIMAL_PHI_LONG = 19;

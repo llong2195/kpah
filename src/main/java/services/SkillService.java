@@ -166,14 +166,43 @@ public class SkillService {
                 x2);
         BuffService.instance.onPlayerInjured(player, playerTarget);
 
-        if (playerTarget.isDie()) {
-            player.getInfo().plusKiller((byte) 1);
-            MapService.instance.sendKiller(player);
-        }
-
         if (dameHit == 0) {
             effAttack = Const.MISS_EFFECT;
             isXuyenGiap = false;
+        }
+
+        if (typeSkill == 3) {
+            // số tia bắn ra = level skill - 1, tối thiểu 3 tia
+            int multi = Math.max(3, player.getSkill().getLevelSkill()[typeSkill]) - 1;
+            System.out.println("Multi: " + multi);
+            for (int i = 1; i < multi; i++) {
+                playerTarget.injured(damePlayer, false,
+                        ((player.getInfo().getClassPlayer() == Const.PHAP_SU
+                                || player.getInfo().getClassPlayer() == Const.CUNG_THU) ? ItemEquipConst.DAMAGE_MAGIC
+                                        : ItemEquipConst.DAMAGE_PHYSIC),
+                        x2);
+                Message msg = new Message(CommandMessage.PLAYER_ATTACK_PLAYER);
+                msg.writer().writeShort(player.getIdPlayer());
+                msg.writer().writeShort(playerTarget.getIdPlayer());
+                msg.writer().writeByte(typeSkill);
+                msg.writer().writeInt(dameHit);
+                msg.writer().writeInt(playerTarget.getPoint().getHp());
+                msg.writer().writeByte(effAttack);
+                msg.writer().writeByte(x2 ? 2 : 1);
+                msg.writer().writeByte(isXuyenGiap ? 0 : 1);
+                msg.writer().writeByte(player.getSkill().getLevelSkill()[typeSkill]);
+                MapService.instance.sendAllPlayerInMap(player, msg);
+            }
+            if (playerTarget.isDie()) {
+                player.getInfo().plusKiller((byte) 1);
+                MapService.instance.sendKiller(player);
+            }
+            return;
+        }
+
+        if (playerTarget.isDie()) {
+            player.getInfo().plusKiller((byte) 1);
+            MapService.instance.sendKiller(player);
         }
 
         Message msg = new Message(CommandMessage.PLAYER_ATTACK_PLAYER);
@@ -214,7 +243,27 @@ public class SkillService {
             effAttack = Const.MISS_EFFECT;
             isXuyenGiap = false;
         }
-        // nếu là skill nhiều tia thì dùng dameHit * Min(3, level skill)
+        // nếu là skill nhiều tia thì dùng x(Max(3, level skill)) -1 lần
+        if (typeSkill == 3) {
+            // số tia bắn ra = level skill - 1, tối thiểu 3 tia
+            int multi = Math.max(3, player.getSkill().getLevelSkill()[typeSkill]) - 1;
+            System.out.println("Multi: " + multi);
+            for (int i = 1; i < multi; i++) {
+                mob.injured(player, dameAttack, isXuyenGiap, false, x2);
+                Message msg = new Message(CommandMessage.PLAYER_ATTACK_MONSTER);
+                msg.writer().writeShort(player.getIdPlayer());
+                msg.writer().writeShort(mob.getId());
+                msg.writer().writeByte(typeSkill);
+                msg.writer().writeInt(dameHit);
+                msg.writer().writeInt(mob.getHp());
+                msg.writer().writeByte(effAttack);
+                msg.writer().writeByte(x2 ? 2 : 1);
+                msg.writer().writeByte(isXuyenGiap ? 0 : 1);
+                msg.writer().writeByte(player.getSkill().getLevelSkill()[typeSkill]);
+                MapService.instance.sendAllPlayerInMap(player, msg);
+            }
+            return;
+        }
 
         Message msg = new Message(CommandMessage.PLAYER_ATTACK_MONSTER);
         msg.writer().writeShort(player.getIdPlayer());

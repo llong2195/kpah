@@ -43,11 +43,15 @@ public class Monster implements Cloneable {
     }
 
     public boolean playerCanNotAttack() {
-        return template.getId() >= 36 && template.getId() <= 46;
+        // return template.getId() >= 36 && template.getId() <= 46;
+        // check if the monster is a non-attackable type
+        return false;
     }
 
     public boolean canNotAttackPlayer() {
-        return (template.getId() >= 85 && template.getId() <= 89) || (template.getId() >= 36 && template.getId() <= 46);
+        // return (template.getId() >= 85 && template.getId() <= 89) ||
+        // (template.getId() >= 36 && template.getId() <= 46);
+        return (template.getId() >= 85 && template.getId() <= 89) || template.getLevel() == 999;
     }
 
     public boolean isKhoangSan() {
@@ -55,13 +59,15 @@ public class Monster implements Cloneable {
     }
 
     private boolean isPlayerAttackable(@NonNull Player player) {
-        return !player.getSundry().isNewlyRevived() && !player.isDie() && ClientManager.containsPlayers(player)
+        return player != null && player.getSundry() != null && !player.getSundry().isNewlyRevived() && !player.isDie()
+                && ClientManager.containsPlayers(player)
                 && player.getLocation().getZone().equals(this.zone)
                 && Util.getDistance(player, this) <= Settings.DISTANCE_MOB_CAN_ATTACK;
     }
 
     public int injured(@NonNull Player plAtt, int damage, boolean isXuyenGiap, boolean isInjuredByEffect, boolean x2)
             throws IOException {
+        System.out.println("Monster injured called with damage: " + damage);
         if (!this.isDie()) {
             if (!isKhoangSan()) {
                 if (this.template.getLevel() - 2 > plAtt.getInfo().getLevel()) {
@@ -87,6 +93,7 @@ public class Monster implements Cloneable {
             }
             this.minusHp(plAtt, damage);
         }
+        System.out.println("Monster injured completed. Current HP: " + this.hp + ", Damage taken: " + damage);
         return damage;
     }
 
@@ -275,6 +282,7 @@ public class Monster implements Cloneable {
     public void update() throws IOException {
         if (this.isDie() && Util.canDoWithTime(lastTimeDie, Settings.TIME_LIVE_MOB)) {
             this.hp = template.getMaxHp();
+            System.out.println("Respawning monster ID: " + this.id);
         }
         buffInfluence.update();
         if (!canNotAttackPlayer()) {

@@ -1,17 +1,19 @@
 package item;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import consts.AttributeConst;
 import consts.ItemEquipConst;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 import player.Player;
 import services.InventoryService;
 import template.ItemEquipTemplate;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  *
@@ -52,7 +54,10 @@ public class ItemEquip {
             return isKichNguHanh = false;
         }
         byte heKich = ItemEquipConst.KICH_HE[he];
-        if (rank > 0 && rank < 5 && template.getType() < 13 && template.getType() != 8) {
+        // nếu là trang bị thường và rank từ nhất phẩm đến tứ phẩm và không phải nhẫn
+        // thì kiểm tra kích ngũ hành
+        if (rank > ItemEquipConst.NONE_RANK && rank < ItemEquipConst.NGU_PHAM && template.getType() < 13
+                && template.getType() != ItemEquipConst.NHAN) {
             String[] groupKich2 = ItemEquipConst.GROUP_KICH[template.getType()][viTriVe != 1 && template.getType() == 8
                     ? 3
                     : 1].split("_");
@@ -67,7 +72,9 @@ public class ItemEquip {
             ItemEquip item = InventoryService.instance.findItemBodyByTypeHe(player, typeKich1, heKich, viTri1);
             ItemEquip item2 = InventoryService.instance.findItemBodyByTypeHe(player, typeKich2, heKich, viTri2);
             return isKichNguHanh = item != null || item2 != null;
-        } else if (rank > 0 && rank < 5 && isAnimalArmor()) {
+        } else if (rank > ItemEquipConst.NONE_RANK && rank < ItemEquipConst.NGU_PHAM && isAnimalArmor()) {
+            // nếu là trang bị thú cưỡi và rank từ nhất phẩm đến tứ phẩm thì kiểm tra kích
+            // ngũ hành
             byte typeKich = ItemEquipConst.GROUP_KICH_ANIMAL[template.getType() - 14];
             ItemEquip item = InventoryService.instance.findItemBodyAnimalByHe(player, typeKich, heKich);
             return isKichNguHanh = item != null;
@@ -91,7 +98,7 @@ public class ItemEquip {
     }
 
     public boolean isAnimalArmor() {
-        return Arrays.asList(ItemEquipConst.ANIMAL_GIAP, ItemEquipConst.ANIMAL_HO_UYEN, ItemEquipConst.ANIMAL_NON,
+        return Arrays.asList(ItemEquipConst.ANIMAL_GIAP, ItemEquipConst.ANIMAL_QUAN, ItemEquipConst.ANIMAL_MU,
                 ItemEquipConst.ANIMAL_BAN_DAP, ItemEquipConst.ANIMAL_YEN).contains(template.getType());
     }
 
@@ -102,20 +109,20 @@ public class ItemEquip {
         // (template.getType() < 2) || (template.getType() == 10) || (template.getType()
         // == 11) || isAnimalArmor()
         if (equipTypeDefs.contains(template.getType()) || isAnimalArmor()) {
-            short thuVat = getValue((byte) 1);
+            short thuVat = getValue((byte) AttributeConst.THU_VAT);
             if (damageType == ItemEquipConst.DAMAGE_MAGIC) {
-                setValue((byte) 6, thuVat);
-                setValue((byte) 1, (short) (thuVat / 10));
+                setValue((byte) AttributeConst.THU_MA, thuVat);
+                setValue((byte) AttributeConst.THU_VAT, (short) (thuVat / 10));
             } else if (damageType == ItemEquipConst.DAMAGE_PHYSIC) {
-                setValue((byte) 6, (short) (thuVat / 10));
+                setValue((byte) AttributeConst.THU_MA, (short) (thuVat / 10));
             }
         }
     }
 
     public short getValue(short idAtt) {
         for (Attribute attribute : itemAttributes) {
-            System.out.println(attribute.getInfo());
             if (attribute.getTemplate().getId() == idAtt) {
+                System.out.println(attribute.getInfo());
                 if (attribute.getTemplate().getColorPaint() == 1 && !isKichNguHanh) {
                     return 0;
                 }

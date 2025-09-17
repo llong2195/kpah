@@ -91,11 +91,18 @@ public class Player {
             int def = (typeDame == ItemEquipConst.DAMAGE_MAGIC ? this.point.getDefendMagic() : this.point.getDefend());
             byte classPlayer = this.info.getClassPlayer();
             byte skillLevel = this.skill.getLevelSkill()[classPlayer == Const.DAU_SI ? 5 : 4];
-            if (classPlayer == Const.DAU_SI) {
-                def += def * (Manager.getSkillDamPercent(classPlayer, BuffConst.BUFF_PHONG_THU, skillLevel) / 100);
-            }
-            if (classPlayer == Const.CHIEN_BINH && skillBuff.isExistBuff(BuffConst.CUONG_THAN_GIAP)) {
-                def += def * skillBuff.getPercentDame(BuffConst.CUONG_THAN_GIAP) / 100;
+            switch (classPlayer) {
+                case Const.DAU_SI: {
+                    def += def * (Manager.getSkillDamPercent(classPlayer, BuffConst.BUFF_PHONG_THU, skillLevel) / 100);
+                    break;
+                }
+                case Const.CHIEN_BINH: {
+                    if (skillBuff.isExistBuff(BuffConst.CUONG_THAN_GIAP)) {
+                        def += def * skillBuff.getPercentDame(BuffConst.CUONG_THAN_GIAP) / 100;
+                    }
+                }
+                default:
+                    break;
             }
             damage -= def;
             if (Util.isTrue((double) this.point.getHapThu(), 100.0)) {
