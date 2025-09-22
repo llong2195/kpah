@@ -1,37 +1,33 @@
 package org.kpah.server;
 
-import org.kpah.manager.Manager;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
+import org.kpah.manager.*;
+import org.kpah.network.MessageHandler;
+import org.kpah.network.MessageSendCollect;
 import org.kpah.network.Session;
-import org.kpah.manager.ClientManager;
+import org.kpah.utils.Logger;
+import org.kpah.utils.Printer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
 import java.util.Scanner;
-import org.kpah.manager.ClanManager;
-import org.kpah.manager.ExecutorVirtualThread;
-import org.kpah.manager.Settings;
-import org.kpah.manager.TopManager;
-import org.kpah.network.MessageHandler;
-import org.kpah.network.MessageSendCollect;
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
-import org.kpah.utils.Logger;
-import org.kpah.utils.Printer;
 
 public class Server implements Runnable {
 
     private ServerSocketChannel serverChannel;
     private boolean isBaoTri;
 
-    public void init() {
-        new Thread(this,  "Server Socket Thread").start();
-    }
-
     public static void main(String[] args) {
         Server server = new Server();
         server.init();
+    }
+
+    public void init() {
+        new Thread(this, "Server Socket Thread").start();
     }
 
     @Override
@@ -85,34 +81,38 @@ public class Server implements Runnable {
     }
 
     private void activeCommandLine() {
-        Thread.ofVirtual().start(() -> {
-            try {
-                try (Scanner sc = new Scanner(System.in)) {
-                    while (true) {
-                        String line = sc.nextLine();
-                        switch (line) {
-                            case "baotri" -> {
-                                isBaoTri = true;
-                                closeServer();
-                            }
-                            case "thread" ->
-                                Printer.printRed("Thread count: " + Thread.activeCount());
-                            case "player" ->
-                                Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
-                            case "session" ->
-                                Printer.printRed("Session connect: " + ClientManager.getClients().size());
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                Logger.logError("Lỗi command line", e);
-            }
-        });
+        Thread.ofVirtual().start(this::commandLineHandle);
     }
 
-    private void closeServer() throws SQLException {
+    private void closeServer() throws SQLException, IOException {
         ClanManager.saveDataClan();
         ClientManager.close();
-        System.exit(0);
+        if (serverChannel != null) {
+            serverChannel.close();
+        }
+    }
+
+    private void commandLineHandle() {
+        try {
+            try (Scanner sc = new Scanner(System.in)) {
+                while (sc.hasNextLine()) {
+                    String line;
+                    line = sc.nextLine();
+                    System.out.println("line :" + line);
+                    switch (line) {
+                        case "baotri" -> {
+                            isBaoTri = true;
+                            closeServer();
+                        }
+                        case "thread" -> Printer.printRed("Thread count: " + Thread.activeCount());
+                        case "player" -> Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
+                        case "session" -> Printer.printRed("Session connect: " + ClientManager.getClients().size());
+                        default -> Printer.printRed("Unknown command: " + line);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Logger.logError("Lỗi command line", e);
+        }
     }
 }

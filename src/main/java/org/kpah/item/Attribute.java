@@ -34,6 +34,18 @@ public class Attribute {
         return builder.toString();
     }
 
+    public short getValuePlane() {
+        switch (template.getIsPercent()) {
+            case 1:
+                return (short) (value * 100);
+            case 2:
+                return (short) (value * 10);
+            case 0:
+            default:
+                return value;
+        }
+    }
+
     public void dispose() {
         template = null;
     }

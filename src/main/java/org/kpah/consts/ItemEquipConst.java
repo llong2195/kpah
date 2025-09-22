@@ -100,4 +100,13 @@ public class ItemEquipConst {
         public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI = new short[] { 83, 84, 85, 86, 87, 92, 78, 79, 88 };
         public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI_VU_KHI = new short[] { 80, 82, 109 };
         public static final short[] ATTRIBUTE_RANDOM_DONG_AN = new short[] { 28, 29, 30, 31, 32 };
+
+        public static final short[] VU_KHI = new short[] {
+                        VU_KHI_KIEM,
+                        VU_KHI_DAO,
+                        VU_KHI_BUT,
+                        VU_KHI_BUA,
+                        VU_KHI_CUNG,
+                        CUOC
+        };
 }

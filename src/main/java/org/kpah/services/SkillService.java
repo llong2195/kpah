@@ -6,9 +6,6 @@ import java.util.List;
 import org.kpah.consts.Const;
 import org.kpah.consts.ItemEquipConst;
 import org.kpah.item.ItemEquip;
-import lombok.Cleanup;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.manager.Manager;
 import org.kpah.manager.Settings;
 import org.kpah.map.Monster;
@@ -17,6 +14,10 @@ import org.kpah.player.Player;
 import org.kpah.template.SkillNewTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.Cleanup;
+import lombok.NonNull;
+import lombok.Synchronized;
 
 /**
  *
@@ -83,12 +84,15 @@ public class SkillService {
         if (pl.isDie()) {
             return;
         }
-        if (idMobs == null || idMobs.length <= 0 || idMobs.length > 11) {
+        if (idMobs == null || idMobs.length <= 0 || idMobs.length > 20) {
+            System.out.println("Id mobs null or > 11:" + idMobs.length + " idMobs: " + idMobs.toString() + " player: "
+                    + pl.getIdPlayer());
             return;
         }
         ItemEquip weapon = InventoryService.instance.findItemBodyByType(pl, (byte) (3 + pl.getInfo().getClassPlayer()));
-        ItemEquip cuoc = InventoryService.instance.findItemBodyByType(pl, (byte) 13);
+        ItemEquip cuoc = InventoryService.instance.findItemBodyByType(pl, (byte) ItemEquipConst.CUOC);
         if (weapon == null || weapon.getDurable() <= 0) {
+            Service.instance.sendLogOut(pl.getSession(), "Vũ khí hoặc vũ khí hỏng");
             return;
         }
         boolean isSkillAeo = Manager.isSkillAeo(pl.getInfo().getClassPlayer(), typeSkill);
@@ -110,10 +114,11 @@ public class SkillService {
         }
         Monster mobTarget = pl.getLocation().getZone().findMob(idMobs[0]);
         if (mobTarget == null || mobTarget.isDie() || mobTarget.playerCanNotAttack()) {
+            System.out.println("Không tìm thấy mob hoặc mob đã chết");
             return;
         }
         int range = Manager.getSkillRange(pl.getInfo().getClassPlayer(), typeSkill);
-        if (Util.getDistance(pl, mobTarget) > range + Settings.DISTANCE_MOB_CAN_ATTACK + 60) {
+        if (Util.getDistance(pl, mobTarget) > range + Settings.DISTANCE_MOB_CAN_ATTACK + 100) {
             return;
         }
         weapon.minusDurable();
@@ -124,7 +129,7 @@ public class SkillService {
         if (isSkillAeo && !mobTarget.isKhoangSan()) {
             @Cleanup("clear")
             List<Monster> mobsNear = pl.getLocation().getZone().findMobNear(pl, idMobs,
-                    range + Settings.DISTANCE_MOB_CAN_ATTACK + 60);
+                    range + Settings.DISTANCE_MOB_CAN_ATTACK + 100);
             onPlayerAttackMultiMob(pl, mobsNear);
         } else {
             if (mobTarget.isKhoangSan()) {
@@ -247,7 +252,6 @@ public class SkillService {
         if (typeSkill == 3) {
             // số tia bắn ra = level skill - 1, tối thiểu 3 tia
             int multi = Math.max(3, player.getSkill().getLevelSkill()[typeSkill]) - 1;
-            System.out.println("Multi: " + multi);
             for (int i = 1; i < multi; i++) {
                 mob.injured(player, dameAttack, isXuyenGiap, false, x2);
                 Message msg = new Message(CommandMessage.PLAYER_ATTACK_MONSTER);
