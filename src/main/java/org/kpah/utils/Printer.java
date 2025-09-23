@@ -4,10 +4,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 import org.fusesource.jansi.Ansi;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class Printer {
 
     public static void printAscii(String[] asciiArt, Ansi.Color color) {

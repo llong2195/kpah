@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 public class Manufacture {
 

@@ -21,10 +21,6 @@ import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ClanService {
 
     public static final ClanService instance = new ClanService();

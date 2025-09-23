@@ -11,10 +11,6 @@ import org.kpah.player.Player;
 import org.kpah.services.BuffService;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class BuffInfluencePlayer {

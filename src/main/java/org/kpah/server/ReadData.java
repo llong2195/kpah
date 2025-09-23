@@ -28,10 +28,6 @@ import org.json.JSONObject;
 import org.kpah.consts.Const;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ReadData {
 
     public static void main(String[] args) {

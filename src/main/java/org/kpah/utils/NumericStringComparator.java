@@ -4,10 +4,6 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class NumericStringComparator implements Comparator<String> {
 
     private static final Pattern PATTERN = Pattern.compile("\\d+");

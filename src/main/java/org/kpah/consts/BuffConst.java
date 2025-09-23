@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class BuffConst {
 
     public static final byte PASSIVE_BUFF = -1;

@@ -18,10 +18,6 @@ import org.kpah.template.MonsterTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class MonsterService {
 
     public static final MonsterService instance = new MonsterService();

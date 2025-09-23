@@ -15,10 +15,6 @@ import org.kpah.utils.Util;
 
 import java.io.IOException;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Point {
@@ -111,7 +107,7 @@ public class Point {
         int dameAttack = (int) (this.attack * (isAttackMob ? 2.5 : 2));
         dameAttack += dameAttack
                 * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(),
-                player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
+                        player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
         if (isCrit || isBaoKich) {
             dameAttack *= 2;
         }

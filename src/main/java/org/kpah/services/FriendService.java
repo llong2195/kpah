@@ -12,10 +12,6 @@ import org.kpah.player.Friend;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class FriendService {
 
     public static final FriendService instance = new FriendService();

@@ -11,10 +11,6 @@ import java.sql.Statement;
 
 import org.kpah.manager.Settings;
 
-/**
- *
- * @author Dev Duy
- */
 public class HikariCP {
 
     private static final String DB_URL = "jdbc:mysql://" + Settings.HOST + "/" + Settings.DATABASE

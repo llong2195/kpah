@@ -8,10 +8,6 @@ import org.kpah.services.ItemService;
 import org.kpah.consts.Const;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @AllArgsConstructor
 public class ItemMap {

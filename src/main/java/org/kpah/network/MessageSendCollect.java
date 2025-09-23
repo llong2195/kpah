@@ -8,10 +8,6 @@ import lombok.NonNull;
 
 import org.kpah.manager.Settings;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class MessageSendCollect implements IMessageSendCollect {
 
     @Override

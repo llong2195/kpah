@@ -4,10 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.json.JSONArray;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class WayPoint {

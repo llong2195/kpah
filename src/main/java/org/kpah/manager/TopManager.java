@@ -19,10 +19,6 @@ import org.kpah.top.TopPlayer;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Printer;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class TopManager {
 
     public static List<ClanInfo> TOP_CLANS = new ArrayList<>();

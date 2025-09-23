@@ -25,10 +25,6 @@ import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ShopService {
 
     public static final ShopService instance = new ShopService();

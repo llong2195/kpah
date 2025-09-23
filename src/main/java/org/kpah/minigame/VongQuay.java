@@ -7,10 +7,6 @@ import lombok.Synchronized;
 import org.kpah.player.Player;
 import org.kpah.services.Service;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class VongQuay {
 
     private final ConcurrentHashMap<Short, Long> playersNormal = new ConcurrentHashMap<>();

@@ -15,10 +15,6 @@ import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class UseItemService {
 
     public static final UseItemService instance = new UseItemService();

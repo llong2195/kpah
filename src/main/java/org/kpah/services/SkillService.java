@@ -19,10 +19,6 @@ import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.Synchronized;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class SkillService {
 
     public static final SkillService instance = new SkillService();

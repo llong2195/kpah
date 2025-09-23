@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class HorseConst {
 
     public static final byte NON_HORSE = 0;

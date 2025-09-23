@@ -8,10 +8,6 @@ import lombok.Synchronized;
 import org.kpah.manager.ClientManager;
 import org.kpah.player.Player;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Deposite {

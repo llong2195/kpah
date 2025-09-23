@@ -12,10 +12,6 @@ import org.kpah.consts.Const;
 import org.kpah.consts.ItemEquipConst;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class BuffService {
 
     public static final BuffService instance = new BuffService();

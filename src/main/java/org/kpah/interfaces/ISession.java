@@ -7,10 +7,6 @@ import java.util.List;
 import org.kpah.network.Message;
 import org.kpah.network.MessageHandler;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public interface ISession {
 
     ISession setSendCollect(final IMessageSendCollect collect);

@@ -5,10 +5,6 @@ import org.kpah.manager.Manager;
 import org.json.JSONArray;
 import org.kpah.template.AttributeEquipTemplate;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 public class Attribute {
 

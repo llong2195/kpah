@@ -5,10 +5,6 @@ import lombok.Data;
 import org.kpah.map.Zone;
 import org.json.JSONArray;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Location {

@@ -5,10 +5,6 @@ import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @AllArgsConstructor
 public class Animation {

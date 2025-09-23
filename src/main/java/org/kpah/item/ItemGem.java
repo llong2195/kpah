@@ -5,10 +5,6 @@ import lombok.Data;
 import org.json.JSONArray;
 import org.kpah.template.GemTemplate;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ItemGem {

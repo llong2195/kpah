@@ -8,10 +8,6 @@ import lombok.Data;
 import org.kpah.consts.Const;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class EffectData {

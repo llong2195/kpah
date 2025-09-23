@@ -6,10 +6,6 @@ import java.io.IOException;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class TreeInfo {

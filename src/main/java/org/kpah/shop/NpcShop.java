@@ -3,10 +3,6 @@ package org.kpah.shop;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class NpcShop {

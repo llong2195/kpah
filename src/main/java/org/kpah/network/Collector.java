@@ -10,10 +10,6 @@ import lombok.NonNull;
 
 import org.kpah.utils.CommandMessage;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public final class Collector implements Runnable {
 
     @NonNull

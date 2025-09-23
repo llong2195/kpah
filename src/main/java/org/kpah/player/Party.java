@@ -7,10 +7,6 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.Synchronized;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 public class Party {
 

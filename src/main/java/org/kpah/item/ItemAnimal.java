@@ -8,10 +8,6 @@ import org.json.JSONException;
 import org.kpah.template.AnimalTemplate;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ItemAnimal {

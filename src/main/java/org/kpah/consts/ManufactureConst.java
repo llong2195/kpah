@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ManufactureConst {
 
         public static final byte CHE_TAO_VU_KHI = 0;

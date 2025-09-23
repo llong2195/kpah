@@ -45,10 +45,6 @@ import org.kpah.player.Horse;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class PlayerDAO {
 
     public static Player setupPlayer(int idSelect) throws SQLException, JSONException {

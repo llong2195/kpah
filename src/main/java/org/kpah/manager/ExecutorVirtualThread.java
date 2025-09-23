@@ -3,10 +3,6 @@ package org.kpah.manager;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ExecutorVirtualThread {
 
     private static final ExecutorService excutorSession = Executors.newVirtualThreadPerTaskExecutor();

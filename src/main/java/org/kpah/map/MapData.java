@@ -6,10 +6,6 @@ import lombok.Data;
 import lombok.NonNull;
 import org.kpah.player.Player;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class MapData {

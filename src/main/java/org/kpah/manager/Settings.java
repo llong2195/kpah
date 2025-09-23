@@ -1,9 +1,5 @@
 package org.kpah.manager;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class Settings {
 
         public static final int MAX_PLAYER = 40000; // không được vượt quá 60000

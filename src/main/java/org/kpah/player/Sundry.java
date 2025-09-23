@@ -12,10 +12,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Sundry {

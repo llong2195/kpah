@@ -4,10 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.kpah.template.NpcServerTemplate;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class NpcServer {

@@ -26,10 +26,6 @@ import org.kpah.template.NpcTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class MapService {
 
     public static final MapService instance = new MapService();

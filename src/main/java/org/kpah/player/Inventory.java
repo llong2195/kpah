@@ -12,10 +12,6 @@ import lombok.Data;
 import org.kpah.manager.Manager;
 import org.json.JSONArray;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Inventory {

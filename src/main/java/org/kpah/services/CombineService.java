@@ -13,10 +13,6 @@ import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class CombineService {
 
     public static final CombineService instance = new CombineService();

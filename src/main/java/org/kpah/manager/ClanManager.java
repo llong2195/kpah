@@ -10,10 +10,6 @@ import lombok.Synchronized;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ClanManager {
 
     public static ConcurrentHashMap<Short, Clan> CLANS = new ConcurrentHashMap<>();

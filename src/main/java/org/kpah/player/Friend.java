@@ -9,10 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.kpah.services.ItemService;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Builder
 @Data
 public class Friend {

@@ -5,10 +5,6 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class TopPlayer {

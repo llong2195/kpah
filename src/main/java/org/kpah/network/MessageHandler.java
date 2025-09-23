@@ -1,44 +1,45 @@
 package org.kpah.network;
 
-import org.kpah.services.Service;
-import org.kpah.player.Player;
+import org.kpah.consts.ClanConst;
+import org.kpah.consts.CombineConst;
+import org.kpah.consts.Const;
+import org.kpah.consts.ItemEquipConst;
+import org.kpah.consts.NpcConst;
 import org.kpah.daos.PlayerDAO;
 import org.kpah.interfaces.ISession;
 import org.kpah.item.ItemBuyNpc;
-import lombok.NonNull;
+import org.kpah.item.ItemEquip;
+import org.kpah.player.Player;
 import org.kpah.services.BuffService;
+import org.kpah.services.ChangeMapService;
 import org.kpah.services.ChatService;
 import org.kpah.services.ClanService;
+import org.kpah.services.CombineService;
+import org.kpah.services.DepositeService;
 import org.kpah.services.FriendService;
 import org.kpah.services.InventoryService;
 import org.kpah.services.ItemService;
 import org.kpah.services.LoginService;
+import org.kpah.services.ManufactureService;
 import org.kpah.services.MapService;
 import org.kpah.services.MenuOptionService;
 import org.kpah.services.MonsterService;
 import org.kpah.services.NpcService;
 import org.kpah.services.PartyService;
 import org.kpah.services.PopupService;
+import org.kpah.services.Service;
 import org.kpah.services.ShopService;
 import org.kpah.services.SkillService;
+import org.kpah.services.TextBoxService;
 import org.kpah.services.TopService;
 import org.kpah.services.TradeService;
 import org.kpah.services.UseItemService;
-import org.kpah.consts.ClanConst;
-import org.kpah.consts.CombineConst;
 import org.kpah.utils.CommandMessage;
-import org.kpah.consts.Const;
-import org.kpah.consts.ItemEquipConst;
-import org.kpah.consts.NpcConst;
-import org.kpah.item.ItemEquip;
-import org.kpah.services.ChangeMapService;
-import org.kpah.services.ManufactureService;
-import org.kpah.services.CombineService;
-import org.kpah.services.DepositeService;
-import org.kpah.services.TextBoxService;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class MessageHandler {
 
@@ -380,6 +381,49 @@ public class MessageHandler {
                 case CommandMessage.REPAIR_ITEM -> {
                     if (player != null) {
                         InventoryService.instance.repairItem(player, msg.reader().readByte());
+                    }
+                }
+                case CommandMessage.IMBUE_ITEM -> {
+                    if (player != null) {
+                        // log all data for debug
+                        // byte sizeItem = msg.reader().readByte();
+                        // System.out.println("sizeItem: " + sizeItem);
+                        // short[] idItem = new short[sizeItem];
+                        // for (int i = 0; i < sizeItem; i++) {
+                        // idItem[i] = msg.reader().readShort();
+                        // System.out.println("idItem[" + i + "]: " + idItem[i]);
+                        // }
+                        // byte[] idMaterial = new byte[6];
+                        // for (int i = 0; i < 6; i++) {
+                        // idMaterial[i] = msg.reader().readByte();
+                        // }
+                        // byte imbueType = msg.reader().readByte();
+                        // byte isLock = msg.reader().readByte();
+                        // CombineService.instance.doImbueItem(player, idItem, idMaterial, imbueType,
+                        // isLock == 1);
+                        // InventoryService.instance.repairItem(player, msg.reader().readByte());
+                    }
+                }
+                case CommandMessage.CMD_AUTO_IMBUE -> {
+                    if (player != null) {
+                        while (msg.reader().available() > 0) {
+                            System.out.println(msg.reader().read());
+                        }
+                        // 128
+                        // 34
+                        // 1
+                        // 3
+                        // 0
+                        // 10 : luyện kim dược
+                        // 0
+                        // 0
+                        // 4 : bảo hiểm 90%
+                        // 0
+                        // 0
+                        // 7 : đá may mắn
+                        // 0
+                        // 255
+                        // InventoryService.instance.repairItem(player, msg.reader().readByte());
                     }
                 }
                 case CommandMessage.GIVE_ITEM_TO_GROUND -> {

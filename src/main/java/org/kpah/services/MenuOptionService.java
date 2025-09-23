@@ -23,10 +23,6 @@ import org.kpah.template.HoaTieuTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class MenuOptionService {
 
     public static final MenuOptionService instance = new MenuOptionService();

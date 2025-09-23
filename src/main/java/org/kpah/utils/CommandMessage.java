@@ -1,9 +1,5 @@
 package org.kpah.utils;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class CommandMessage {
 
     public static final byte REQUEST_KEY = -40;

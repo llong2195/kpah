@@ -10,10 +10,6 @@ import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ChatService {
 
     public static final ChatService instance = new ChatService();

@@ -8,10 +8,6 @@ import lombok.Data;
 import org.kpah.manager.ExecutorVirtualThread;
 import org.kpah.utils.Logger;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ChildMap implements IMap {

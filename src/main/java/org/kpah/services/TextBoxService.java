@@ -16,10 +16,6 @@ import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class TextBoxService {
 
     public static final TextBoxService instance = new TextBoxService();

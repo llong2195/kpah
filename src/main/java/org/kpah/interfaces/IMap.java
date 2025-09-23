@@ -5,10 +5,6 @@ import org.kpah.map.ChildMap;
 import org.kpah.map.MapData;
 import org.kpah.map.Zone;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public interface IMap {
 
     short getMapId();

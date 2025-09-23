@@ -12,10 +12,6 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Builder
 @Data
 public class Zone {

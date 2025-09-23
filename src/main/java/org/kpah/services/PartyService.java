@@ -9,10 +9,6 @@ import org.kpah.player.Party;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class PartyService {
 
     public static final PartyService instance = new PartyService();

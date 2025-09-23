@@ -11,10 +11,6 @@ import org.kpah.player.Player;
 import org.kpah.template.XaPhuTemplate;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ChangeMapService {
 
     public static final ChangeMapService instance = new ChangeMapService();

@@ -3,10 +3,6 @@ package org.kpah.item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @AllArgsConstructor
 @Data
 public class ItemBuyNpc {

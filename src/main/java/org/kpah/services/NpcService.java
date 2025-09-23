@@ -8,10 +8,6 @@ import lombok.NonNull;
 import org.kpah.player.Player;
 import org.kpah.utils.Printer;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class NpcService {
 
     public static final NpcService instance = new NpcService();

@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class CombineConst {
 
         public static final byte NGUYEN_BOT = 4;

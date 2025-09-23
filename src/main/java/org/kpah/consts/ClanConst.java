@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ClanConst {
 
     public static final long XU_NEED_TO_REGISTER = 100000000;

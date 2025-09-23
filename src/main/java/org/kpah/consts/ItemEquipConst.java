@@ -1,9 +1,5 @@
 package org.kpah.consts;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class ItemEquipConst {
         public static final byte NONE_RANK = 0;
         public static final byte NHAT_PHAM = 1;

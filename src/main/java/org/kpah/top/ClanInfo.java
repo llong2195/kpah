@@ -3,10 +3,6 @@ package org.kpah.top;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ClanInfo {

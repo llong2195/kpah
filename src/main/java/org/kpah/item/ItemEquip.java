@@ -15,10 +15,6 @@ import org.kpah.player.Player;
 import org.kpah.services.InventoryService;
 import org.kpah.template.ItemEquipTemplate;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ItemEquip {

@@ -4,10 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import org.kpah.network.Message;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public interface IMessageSendCollect {
 
     Message readMessage(final ISession p0, final DataInputStream p1) throws Exception;

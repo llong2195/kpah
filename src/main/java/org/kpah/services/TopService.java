@@ -12,10 +12,6 @@ import org.kpah.top.TopPlayer;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class TopService {
 
     public static final TopService instance = new TopService();

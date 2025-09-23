@@ -11,10 +11,6 @@ import org.kpah.interfaces.IMessageSendCollect;
 import org.kpah.interfaces.ISession;
 import lombok.NonNull;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public final class Sender implements Runnable {
 
     @NonNull

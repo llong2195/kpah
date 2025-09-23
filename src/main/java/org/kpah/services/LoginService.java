@@ -25,10 +25,6 @@ import org.kpah.template.SkillNewTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class LoginService {
 
     public static final LoginService instance = new LoginService();

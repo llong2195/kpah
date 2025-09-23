@@ -6,10 +6,6 @@ import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class Horse {

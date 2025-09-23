@@ -16,10 +16,6 @@ import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class DepositeService {
 
     public static final DepositeService instance = new DepositeService();

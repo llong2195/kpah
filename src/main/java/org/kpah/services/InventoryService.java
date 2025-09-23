@@ -12,8 +12,6 @@ import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
 import org.kpah.item.ItemPotion;
 import org.kpah.item.ItemQuest;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
@@ -21,10 +19,9 @@ import org.kpah.template.NpcTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
+import lombok.NonNull;
+import lombok.Synchronized;
+
 public class InventoryService {
 
     public static final InventoryService instance = new InventoryService();
@@ -104,6 +101,94 @@ public class InventoryService {
                     item.setDurable(mDurable);
                     item.setMDurable(mDurable);
                 }
+            }
+        }
+        InventoryService.instance.sendItemBody(player);
+        sendSuccessRepairItem(player);
+    }
+
+    public void imbueTtem(@NonNull Player player, @NonNull ItemEquip item) throws IOException {
+        int price = 25_000;
+        if (!player.getInventory().minusXu(price)) {
+            Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
+            return;
+        }
+        for (Attribute att : item.getItemAttributes()) {
+            System.out.println(att.getInfo());
+            if (att.getValue() > 0 && att.getValuePlane() > 0) {
+                // < 100 -> + 20
+                // < 500 -> + 30
+                // < 1000 -> + 50
+                // > 1000 -> + 100
+
+                int addValue = att.getValue() < 100 ? 10 : att.getValue() < 500 ? 20 : att.getValue() < 1000 ? 30 : 50;
+                att.setValue((short) (att.getValue() + addValue));
+                InventoryService.instance.sendItemBody(player);
+                sendSuccessRepairItem(player);
+                return;
+            }
+
+        }
+        switch (item.getTemplate().getType()) {
+            case ItemEquipConst.AO -> {
+                break;
+            }
+            case ItemEquipConst.QUAN -> {
+                break;
+            }
+            case ItemEquipConst.MU -> {
+                break;
+            }
+            case ItemEquipConst.VU_KHI_KIEM -> {
+                break;
+            }
+            case ItemEquipConst.VU_KHI_DAO -> {
+                break;
+            }
+            case ItemEquipConst.VU_KHI_BUT -> {
+                break;
+            }
+            case ItemEquipConst.VU_KHI_BUA -> {
+                break;
+            }
+            case ItemEquipConst.VU_KHI_CUNG -> {
+                break;
+            }
+            case ItemEquipConst.NHAN -> {
+                break;
+            }
+            case ItemEquipConst.DAY_CHUYEN -> {
+                break;
+            }
+            case ItemEquipConst.GIAY -> {
+                break;
+            }
+            case ItemEquipConst.GANG -> {
+                break;
+            }
+            case ItemEquipConst.NGOC -> {
+                break;
+            }
+            case ItemEquipConst.CUOC -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_GIAP -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_QUAN -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_MU -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_BAN_DAP -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_YEN -> {
+                break;
+            }
+            case ItemEquipConst.ANIMAL_PHI_LONG -> {
+                break;
             }
         }
         InventoryService.instance.sendItemBody(player);

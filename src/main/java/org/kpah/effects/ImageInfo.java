@@ -5,10 +5,6 @@ import lombok.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @Builder
 public class ImageInfo {

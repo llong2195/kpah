@@ -10,10 +10,6 @@ import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class PopupService {
 
     public static final PopupService instance = new PopupService();

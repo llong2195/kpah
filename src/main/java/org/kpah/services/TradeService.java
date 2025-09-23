@@ -10,10 +10,6 @@ import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 public class TradeService {
 
     public static final TradeService instance = new TradeService();

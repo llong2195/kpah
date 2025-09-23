@@ -4,10 +4,6 @@ import org.kpah.item.ItemGem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- *
- * @author ☂️☂️Duy Coder 💖💖
- */
 @Data
 @AllArgsConstructor
 public class DepositeItemGem {
