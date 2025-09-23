@@ -18,7 +18,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation("com.zaxxer:HikariCP:7.0.2")
     // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
-    implementation("com.mysql:mysql-connector-j:8.0.33")
+    implementation("com.mysql:mysql-connector-j:9.4.0")
     // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
     implementation("org.fusesource.jansi:jansi:2.4.2")
     // https://mvnrepository.com/artifact/org.json/json

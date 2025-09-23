@@ -36,7 +36,7 @@ public class CommandMessage {
 
     public static final byte RIDE_ANIMAL = -45;
 
-    public static final byte INFOO_ANIMAL_CHAR = -44;
+    public static final byte INFO_ANIMAL_CHAR = -44;
 
     public static final byte DYNAMIC_OBJ = -43;
 

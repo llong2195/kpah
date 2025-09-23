@@ -1,6 +1,5 @@
 package org.kpah.server;
 
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.kpah.manager.*;
 import org.kpah.network.MessageHandler;
@@ -37,8 +36,8 @@ public class Server implements Runnable {
             serverChannel = ServerSocketChannel.open();
             serverChannel.bind(new InetSocketAddress(Settings.PORT_SERVER));
             serverChannel.configureBlocking(false);
-            Printer.printAscii(Settings.LOGO_GAME, 0, 255, 255);
-            Printer.printAscii(Settings.ICON, Ansi.Color.RED);
+//            Printer.printAscii(Settings.LOGO_GAME, 0, 255, 255);
+//            Printer.printAscii(Settings.ICON, Ansi.Color.RED);
             Manager.init();
             activeCommandLine();
             Printer.printGreen("Listen Port " + Settings.PORT_SERVER);
@@ -98,7 +97,6 @@ public class Server implements Runnable {
                 while (sc.hasNextLine()) {
                     String line;
                     line = sc.nextLine();
-                    System.out.println("line :" + line);
                     switch (line) {
                         case "baotri" -> {
                             isBaoTri = true;

@@ -16,7 +16,7 @@ public class Logger {
     private static BufferedWriter writeError;
     private static int countErrorWriteError = 0;
 
-    private static final int MAX_COUNT_ERROR = 10;
+    private static final int MAX_COUNT_ERROR = 10000;
 
     static {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy _ HH-mm-ss");

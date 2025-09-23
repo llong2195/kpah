@@ -294,6 +294,7 @@ public class MenuOptionService {
                 }
             }
             case HAO_DUYEN -> {
+                System.out.println("selected :" + selected);
                 switch (selected) {
                     case 0 ->
                         sendMenuTaoThu(player);
