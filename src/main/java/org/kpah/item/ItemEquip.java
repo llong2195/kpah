@@ -118,7 +118,7 @@ public class ItemEquip {
     public short getValue(short idAtt) {
         for (Attribute attribute : itemAttributes) {
             if (attribute.getTemplate().getId() == idAtt) {
-                System.out.println(attribute.getInfo() + " - att_id: " + attribute.getValue());
+                System.out.println(attribute.getInfo());
                 if (attribute.getTemplate().getColorPaint() == 1 && !isKichNguHanh) {
                     return 0;
                 }
