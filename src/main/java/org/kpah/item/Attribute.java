@@ -27,7 +27,7 @@ public class Attribute {
                 builder.append(value / 10).append(".").append(value % 10).append("%");
             }
         }
-        return builder.toString();
+        return builder.append(", ").append("attId: " + template.getId()).toString();
     }
 
     public short getValuePlane() {

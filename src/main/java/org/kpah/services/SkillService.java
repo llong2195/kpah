@@ -80,15 +80,22 @@ public class SkillService {
         if (pl.isDie()) {
             return;
         }
-        if (idMobs == null || idMobs.length <= 0 || idMobs.length > 20) {
-            System.out.println("Id mobs null or > 11:" + idMobs.length + " idMobs: " + idMobs.toString() + " player: "
-                    + pl.getIdPlayer());
+        if (idMobs == null) {
+            System.out.println("idMobs null" + ", player: " + pl.getIdPlayer());
+            return;
+        }
+        if (idMobs.length <= 0 || idMobs.length > 20) {
+            System.out.println("IdMobs length invalid: " + idMobs.length + ", player: " + pl.getIdPlayer());
             return;
         }
         ItemEquip weapon = InventoryService.instance.findItemBodyByType(pl, (byte) (3 + pl.getInfo().getClassPlayer()));
         ItemEquip cuoc = InventoryService.instance.findItemBodyByType(pl, (byte) ItemEquipConst.CUOC);
-        if (weapon == null || weapon.getDurable() <= 0) {
-            Service.instance.sendLogOut(pl.getSession(), "Vũ khí hoặc vũ khí hỏng");
+        if (weapon == null) {
+            Service.instance.sendLogOut(pl.getSession(), "Không có vũ khí");
+            return;
+        }
+        if (weapon.getDurable() <= 0) {
+            Service.instance.sendLogOut(pl.getSession(), "Không có vũ khí hoặc vũ khí hỏng");
             return;
         }
         boolean isSkillAeo = Manager.isSkillAeo(pl.getInfo().getClassPlayer(), typeSkill);
