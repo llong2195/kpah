@@ -91,15 +91,16 @@ public class SkillService {
         ItemEquip weapon = InventoryService.instance.findItemBodyByType(pl, (byte) (3 + pl.getInfo().getClassPlayer()));
         ItemEquip cuoc = InventoryService.instance.findItemBodyByType(pl, (byte) ItemEquipConst.CUOC);
         if (weapon == null) {
-            Service.instance.sendLogOut(pl.getSession(), "Không có vũ khí");
+            ChatService.instance.sendChatOnlyMe(pl, "Không có vũ khí");
             return;
         }
         if (weapon.getDurable() <= 0) {
-            Service.instance.sendLogOut(pl.getSession(), "Không có vũ khí hoặc vũ khí hỏng");
+            ChatService.instance.sendChatOnlyMe(pl, "Vũ khí bị hỏng");
             return;
         }
         boolean isSkillAeo = Manager.isSkillAeo(pl.getInfo().getClassPlayer(), typeSkill);
         if (!isSkillAeo && idMobs.length > 1) {
+            System.out.println("IdMobs length invalid for single target skill: " + idMobs.length);
             return;
         }
         pl.getSkill().setTypeSkill(typeSkill);
@@ -109,10 +110,12 @@ public class SkillService {
         }
         if (!Util.canDoWithTime(pl.getSkill().getTimeLastUseSkills()[typeSkill],
                 Manager.getSkillCooldown(pl.getInfo().getClassPlayer(), typeSkill, levelSkill))) {
+            System.out.println("Chưa hết thời gian hồi skill");
             return;
         }
         int skillMP = Manager.getSkillMP(pl.getInfo().getClassPlayer(), typeSkill, levelSkill);
         if (skillMP > pl.getPoint().getMp()) {
+            ChatService.instance.sendChatOnlyMe(pl, "Không đủ MP");
             return;
         }
         Monster mobTarget = pl.getLocation().getZone().findMob(idMobs[0]);
@@ -122,6 +125,7 @@ public class SkillService {
         }
         int range = Manager.getSkillRange(pl.getInfo().getClassPlayer(), typeSkill);
         if (Util.getDistance(pl, mobTarget) > range + Settings.DISTANCE_MOB_CAN_ATTACK + 100) {
+            System.out.println("Không thể tấn công");
             return;
         }
         weapon.minusDurable();

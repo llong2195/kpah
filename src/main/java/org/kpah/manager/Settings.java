@@ -23,7 +23,7 @@ public class Settings {
     public static final int MILISECOND_REVIVE_PLAYER = 30000;
     public static final byte LEVEL_CAN_AUTO_REVIVE = 10;
 
-    public static final byte EXP_DONATE = 10; // gấp 2 lần EXP
+    public static final byte EXP_DONATE = 100; // gấp 100 lần EXP
     public static final byte PERCENT_EXP_PARTY = 5;
     public static final byte MAX_PLAYER_IN_PARTY = 10;
 

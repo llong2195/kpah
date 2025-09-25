@@ -36,8 +36,8 @@ public class Server implements Runnable {
             serverChannel = ServerSocketChannel.open();
             serverChannel.bind(new InetSocketAddress(Settings.PORT_SERVER));
             serverChannel.configureBlocking(false);
-//            Printer.printAscii(Settings.LOGO_GAME, 0, 255, 255);
-//            Printer.printAscii(Settings.ICON, Ansi.Color.RED);
+            // Printer.printAscii(Settings.LOGO_GAME, 0, 255, 255);
+            // Printer.printAscii(Settings.ICON, Ansi.Color.RED);
             Manager.init();
             activeCommandLine();
             Printer.printGreen("Listen Port " + Settings.PORT_SERVER);
@@ -105,6 +105,14 @@ public class Server implements Runnable {
                         case "thread" -> Printer.printRed("Thread count: " + Thread.activeCount());
                         case "player" -> Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
                         case "session" -> Printer.printRed("Session connect: " + ClientManager.getClients().size());
+                        case "help" -> {
+                            Printer.printYellow("Command list:");
+                            Printer.printYellow("baotri: Bảo trì server");
+                            Printer.printYellow("thread: Xem số lượng thread đang hoạt động");
+                            Printer.printYellow("player: Xem số lượng người chơi đang online");
+                            Printer.printYellow("session: Xem số lượng session đang kết nối");
+                            Printer.printYellow("help: Xem danh sách command");
+                        }
                         default -> Printer.printRed("Unknown command: " + line);
                     }
                 }
