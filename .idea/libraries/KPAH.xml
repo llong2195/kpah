@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="KPAH">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/KPAH.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

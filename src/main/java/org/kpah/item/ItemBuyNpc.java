@@ -1,0 +1,14 @@
+package org.kpah.item;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@AllArgsConstructor
+@Data
+public class ItemBuyNpc {
+
+    private byte category;
+    private short idItem;
+    private short quantity;
+    private byte classChar;
+}

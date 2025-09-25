@@ -1,0 +1,16 @@
+package org.kpah.template;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class SkillNewTemplate {
+
+    private short id;
+    private String name;
+    private String decript;
+    private byte idSkill;
+    private byte classChar;
+    private int price;
+}
