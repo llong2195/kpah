@@ -469,7 +469,6 @@ public class InventoryService {
             msg.writer().writeByte(itemEquipment.getItemAttributes().size());
             for (int j = 0; j < itemEquipment.getItemAttributes().size(); j++) {
                 Attribute att = itemEquipment.getItemAttributes().get(j);
-                System.out.println(att.getInfo());
                 msg.writer().writeByte(att.getTemplate().getId());
                 msg.writer().writeShort(att.getValue());
             }

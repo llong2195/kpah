@@ -413,7 +413,6 @@ public class MenuOptionService {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Send Menu">
     public void sendMenuVongQuayVip(@NonNull Player player) throws IOException {
         sendOptionMenu(player, VONG_QUAY_VIP, "Thông tin", "Tham gia", "Hướng dẫn");
     }
@@ -830,9 +829,7 @@ public class MenuOptionService {
         }
         player.getSession().sendMessage(msg);
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Functions Hop Thanh">
     public void doiNguyenLieu(@NonNull Player player, byte index, boolean isLock, byte type) throws IOException {
         short idItemGenerate = -1;
         short quantityRequired = -1;
@@ -902,9 +899,7 @@ public class MenuOptionService {
             InventoryService.instance.sendItemGem(player);
         }
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Functions Animal">
     private void createAnimal(@NonNull Player player, short idItem) {
         ItemAnimal animal = ItemService.instance.createNewItemAnimal(idItem);
         if (animal == null) {
@@ -1124,5 +1119,4 @@ public class MenuOptionService {
         InventoryService.instance.sendItemAnimal(player);
         Service.instance.sendMainCharInfo(player);
     }
-    // </editor-fold>
 }

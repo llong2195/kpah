@@ -226,8 +226,8 @@ public class ManufactureService {
                         itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
                         itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
                         short defPercent = (short) Util.nextInt(10, 20);
-                        itemAdd.getItemAttributes().add(new Attribute((byte) 59, defPercent));
-                        itemAdd.getItemAttributes().add(new Attribute((byte) 60, defPercent));
+                        itemAdd.getItemAttributes().add(new Attribute((byte) AttributeConst.TANG_THU_MA, defPercent));
+                        itemAdd.getItemAttributes().add(new Attribute((byte) AttributeConst.TANG_THU_VAT, defPercent));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
                             itemAdd.getItemAttributes()
                                     .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
@@ -411,7 +411,14 @@ public class ManufactureService {
         if (typeClassChar == -1 || selectedItem == -1) {
             return;
         }
+        short minIdItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][0];
+        short maxIdItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar].length
+                - 1];
+        byte maxLevelIdItem = (byte) (maxIdItem - minIdItem);
+
         short idItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][selectedItem];
+        byte levelIdItem = (byte) (idItem - minIdItem);
+
         short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_WEAPON[typeClassChar][selectedItem];
         byte typeNguyenLieu = player.getManufacture().getTypeNguyenLieuCreate();
         ItemEquipTemplate template = Manager.getItemEquipment(idItem);
@@ -508,12 +515,23 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
 
-        // TODO: implement check with rankItem
-        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.TAN_CONG, (short) Util.nextInt(200, 250)));
-        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
-        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
+        // Tăng tấn công theo cấp độ vũ khí
+        int rangeValueTanCong[] = getRangeValueAttribute(500, 2000, levelSoCap, maxLevelIdItem);
+        int valueTanCong = getValueAttribute(rangeValueTanCong[0], rangeValueTanCong[1], levelSoCap, levelCaoCap);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, (short) valueTanCong));
+
+        // Tăng chính xác theo cấp độ vũ khí
+        int rangeValueChinhXac[] = getRangeValueAttribute(5, 80, levelSoCap, maxLevelIdItem);
+        int valueChinhXac = getValueAttribute(rangeValueChinhXac[0], rangeValueChinhXac[1], levelSoCap, levelCaoCap);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, (short) valueChinhXac));
+        // Tăng chí mạng theo cấp độ vũ khí
+        int rangeValueChiMang[] = getRangeValueAttribute(5, 80, levelSoCap, maxLevelIdItem);
+        int valueChiMang = getValueAttribute(rangeValueChiMang[0], rangeValueChiMang[1], levelSoCap, levelCaoCap);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, (short) valueChiMang));
+        // Tăng % công theo rank vũ khí [1-10%]
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG,
+                (short) getValueAttribute(1, 10, levelSoCap, levelCaoCap)));
         addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-        itemAdd.getItemAttributes().add(new Attribute((short) AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
         Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s",
                 itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
@@ -522,24 +540,68 @@ public class ManufactureService {
         sendManufactureWeapon(player);
     }
 
+    private int[] getRangeValueAttribute(int minValue, int maxValue, byte level,
+            byte maxLevel) {
+        int baseValue = (maxValue - minValue) / maxLevel;
+        int minBasevalue = baseValue * level;
+        int maxBasevalue = baseValue * (level + 1);
+        return new int[] { minValue + minBasevalue, minValue + maxBasevalue };
+    }
+
+    private int getValueAttributeByRank(int minValue, int maxValue, byte rank) {
+        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
+
+        switch (rank) {
+            case ItemEquipConst.NONE_RANK -> percentBuffLevelSoCap = (short) Util.nextInt(1, 10);
+            case ItemEquipConst.NGU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(10, 20);
+            case ItemEquipConst.TU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(20, 40);
+            case ItemEquipConst.TAM_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
+            case ItemEquipConst.NHI_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 90);
+            case ItemEquipConst.NHAT_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+            default -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+        }
+        int diffValue = maxValue - minValue;
+
+        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
+        return value;
+    }
+
+    private int getValueAttribute(int minValue, int maxValue, byte levelSoCap, byte levelCaoCap) {
+        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
+
+        short percentBuff = (short) Math.max(levelCaoCap, percentBuffLevelSoCap);
+
+        switch (percentBuff) {
+            case 1, 2, 3 -> percentBuffLevelSoCap = (short) Util.nextInt(10, 40);
+            case 4 -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
+            case 5 -> percentBuffLevelSoCap = 80;
+            case 6 -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+        }
+        int diffValue = maxValue - minValue;
+
+        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
+        return value;
+    }
+
     private void addSpecialAttribute(@NonNull ItemEquip item, byte levelSoCap, byte levelCaoCap) {
         if (item.getColorName() != ItemEquipConst.NONE_COLOR) {
             short valueAn = 1;
-            short idAttribute = (short) Util.nextInt(28, 32);
-            if (idAttribute == 31 && levelSoCap == 1) {
+            short idAttribute = (short) Util.nextInt(AttributeConst.GIAM_ST_VAT, AttributeConst.PHAN_ST);
+            if (idAttribute == AttributeConst.XUYEN_GIAP && levelSoCap == 1) {
                 do {
-                    idAttribute = (short) Util.nextInt(28, 32);
-                } while (idAttribute == 31);
+                    idAttribute = (short) Util.nextInt(AttributeConst.GIAM_ST_VAT, AttributeConst.PHAN_ST);
+                } while (idAttribute == AttributeConst.XUYEN_GIAP);
             }
             switch (levelSoCap) {
                 case 1, 2, 3 -> valueAn = (short) Util.nextInt(1, 4);
                 case 4 -> valueAn = (short) Util.nextInt(4, 7);
                 case 5 -> valueAn = 8;
                 case 6 -> {
-                    valueAn = (short) Util.getOne(8, 9);
+                    valueAn = (short) Util.getOne(8, 10);
                 }
             }
-            if (idAttribute == 31) {
+
+            if (idAttribute == AttributeConst.XUYEN_GIAP) {
                 valueAn = (short) (levelSoCap - 1);
             }
             item.getItemAttributes().add(new Attribute(idAttribute, valueAn));
@@ -547,14 +609,15 @@ public class ManufactureService {
         item.getItemAttributes().add(new Attribute((short) Util.getOne(33, 34), levelCaoCap == 6 ? 9 : levelCaoCap));
         short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
                 ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
-        item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(1, 3)));
+        item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(10, 30)));
         if (Util.isTrue(60.9, 100.0)) {
             short idRandom2;
             do {
                 idRandom2 = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
                         ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
             } while (idRandom2 == idRandom);
-            item.getItemAttributes().add(new Attribute(idRandom2, (short) Util.nextInt(1, 3)));
+            item.getItemAttributes()
+                    .add(new Attribute(idRandom2, (short) (Util.nextInt(1, 3))));
         }
         item.getItemAttributes().add(
                 new Attribute((short) Util.nextInt(43, item.getClassChar() == Const.PHAP_SU ? 57 : 55), (short) 1));

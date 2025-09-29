@@ -2,6 +2,7 @@ package org.kpah.services;
 
 import java.io.IOException;
 
+import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
 import lombok.NonNull;
 import org.kpah.manager.ClientManager;
@@ -136,6 +137,21 @@ public class ChatService {
                 MapService.instance.sendInfoMe(pl);
             } catch (NumberFormatException e) {
                 System.out.println("invalid data input:" + strInput);
+                return true;
+            }
+
+            return true;
+        }
+        if (chat.equals("rsitem")) {
+            try {
+                for (int i = 0; i < pl.getInventory().getItemBody().size(); i++) {
+                    ItemEquip item = pl.getInventory().getItemBody().get(i);
+                    short mDurable = item.getTemplate().getDurable();
+                    item.setDurable(mDurable);
+                    item.setMDurable(mDurable);
+                }
+                InventoryService.instance.sendItemBody(pl);
+            } catch (NumberFormatException e) {
                 return true;
             }
 

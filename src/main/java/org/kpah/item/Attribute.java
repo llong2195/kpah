@@ -37,6 +37,7 @@ public class Attribute {
             case 2:
                 return (short) (value * 10);
             case 0:
+                return value;
             default:
                 return value;
         }

@@ -186,7 +186,6 @@ public class SkillService {
         if (typeSkill == 3) {
             // số tia bắn ra = level skill - 1, tối thiểu 3 tia
             int multi = Math.max(3, player.getSkill().getLevelSkill()[typeSkill]) - 1;
-            System.out.println("Multi: " + multi);
             for (int i = 1; i < multi; i++) {
                 playerTarget.injured(damePlayer, false,
                         ((player.getInfo().getClassPlayer() == Const.PHAP_SU

@@ -67,6 +67,9 @@ public class MonsterService {
             msg.writer().writeShort(itemMap.getX());
             msg.writer().writeShort(itemMap.getY());
         }
+        for (ItemMap itemDrop : itemsDrop) {
+            MapService.instance.getItemEquipmentFromGround(plAtt, itemDrop.getItemMapId());
+        }
         MapService.instance.sendAllPlayerInMap(monster, msg);
     }
 

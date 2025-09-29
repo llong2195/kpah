@@ -67,7 +67,6 @@ public class Monster implements Cloneable {
 
     public int injured(@NonNull Player plAtt, int damage, boolean isXuyenGiap, boolean isInjuredByEffect, boolean x2)
             throws IOException {
-        System.out.println("Monster injured called with damage: " + damage);
         if (!this.isDie()) {
             if (!isKhoangSan()) {
                 if (this.template.getLevel() - 2 > plAtt.getInfo().getLevel()) {
@@ -93,7 +92,6 @@ public class Monster implements Cloneable {
             }
             this.minusHp(plAtt, damage);
         }
-        System.out.println("Monster injured completed. Current HP: " + this.hp + ", Damage taken: " + damage);
         return damage;
     }
 
@@ -282,7 +280,6 @@ public class Monster implements Cloneable {
     public void update() throws IOException {
         if (this.isDie() && Util.canDoWithTime(lastTimeDie, Settings.TIME_LIVE_MOB)) {
             this.hp = template.getMaxHp();
-            System.out.println("Respawning monster ID: " + this.id);
         }
         buffInfluence.update();
         if (!canNotAttackPlayer()) {

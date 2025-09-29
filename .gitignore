@@ -109,3 +109,5 @@ hs_err_pid*
 # Project specific
 data/
 server.properties
+
+!kpah-server-1.0-SNAPSHOT.jar
