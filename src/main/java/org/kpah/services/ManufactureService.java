@@ -27,9 +27,11 @@ public class ManufactureService {
 
     public void doCheDo(@NonNull Player player, byte type, byte[][] quantity) throws IOException {
         if (!player.getManufacture().getItemMineral().isEmpty()) {
+            Service.instance.sendLogOut(player.getSession(), "Không có nguyên liệu");
             return;
         }
         if (player.getInventory().isFullInventory()) {
+            Service.instance.sendLogOut(player.getSession(), "Túi đồ đầy");
             return;
         }
         switch (type) {
@@ -101,18 +103,9 @@ public class ManufactureService {
             Service.instance.sendLogOut(player.getSession(), "Có lỗi xảy ra");
             return;
         }
-        byte rankItem;
-        switch (indexMaterial) {
-            case 0, 1, 2 -> {
-                rankItem = (byte) Util.getOne(ItemEquipConst.NGU_PHAM, ItemEquipConst.TU_PHAM);
-            }
-            case 3, 4 -> {
-                rankItem = (byte) Util.getOne(ItemEquipConst.NHI_PHAM, ItemEquipConst.TAM_PHAM);
-            }
-            default -> {
-                rankItem = ItemEquipConst.NHAT_PHAM;
-            }
-        }
+        // animal armor chỉ có 3 phẩm
+        byte rankItem = getRankItem(indexMaterial);
+
         ItemEquip itemAdd = ItemService.instance.createNewItemEquipment(template.getId(), template.getClassChar());
         itemAdd.getItemAttributes().clear();
         itemAdd.setNameCharSeal(player.getName());
@@ -124,113 +117,122 @@ public class ManufactureService {
         switch (colorCreate) {
             case ItemEquipConst.BLUE_COLOR -> {
                 switch (template.getType()) {
-                    case 17 -> {
+                    case ItemEquipConst.ANIMAL_QUAN -> {
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
+                                .add(new Attribute(AttributeConst.TAN_CONG,
                                         (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
                                                         / 100)));
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
-                    }
-                    case 15 -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 3,
+                                .add(new Attribute(AttributeConst.CHINH_XAC,
                                         (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                         * (indexMaterial * 10) / 100)));
                     }
+                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.TAN_CONG,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.CHI_MANG,
+                                        ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                    }
                     default -> {
                         short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
                                 + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 10) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
                     }
                 }
             }
             case ItemEquipConst.RED_COLOR -> {
                 switch (template.getType()) {
-                    case 17 -> {
+                    case ItemEquipConst.ANIMAL_QUAN -> {
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
+                                .add(new Attribute(AttributeConst.TAN_CONG,
                                         (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
                                                         / 100)));
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 4, ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
-                    }
-                    case 15 -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 3,
+                                .add(new Attribute(AttributeConst.CHINH_XAC,
                                         (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                         * (indexMaterial * 13) / 100)));
                     }
+                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.TAN_CONG,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
+                                                        / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.CHI_MANG,
+                                        ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
+                    }
                     default -> {
                         short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
                                 + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 13) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
                     }
                 }
             }
             case ItemEquipConst.GREEN_COLOR -> {
                 switch (template.getType()) {
-                    case 17 -> {
+                    case ItemEquipConst.ANIMAL_QUAN -> {
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
+                                .add(new Attribute(AttributeConst.TAN_CONG,
                                         (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
                                                         * ((indexMaterial + 1) * 20) / 100)));
                         itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 3,
-                                        (short) (ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
-                        if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes()
-                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
-                        }
-                    }
-                    case 15 -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 0,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute((short) 3,
+                                .add(new Attribute(AttributeConst.CHINH_XAC,
                                         (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                 + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
                                                         * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
                             itemAdd.getItemAttributes()
-                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
+                                    .add(new Attribute((short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
+                                            AttributeConst.BO_QUA_TC_VAT), (short) Util.nextInt(1, 3)));
+                        }
+                    }
+                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.TAN_CONG,
+                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.CHINH_XAC,
+                                        (short) (ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
+                                                + ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
+                                                        * ((indexMaterial + 1) * 20) / 100)));
+                        itemAdd.getItemAttributes()
+                                .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
+                        if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
+                            itemAdd.getItemAttributes()
+                                    .add(new Attribute((short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
+                                            AttributeConst.BO_QUA_TC_VAT), (short) Util.nextInt(1, 3)));
                         }
                     }
                     default -> {
                         short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
                                 + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
-                        itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
                         short defPercent = (short) Util.nextInt(10, 20);
-                        itemAdd.getItemAttributes().add(new Attribute((byte) AttributeConst.TANG_THU_MA, defPercent));
-                        itemAdd.getItemAttributes().add(new Attribute((byte) AttributeConst.TANG_THU_VAT, defPercent));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
+                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
                         if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
                             itemAdd.getItemAttributes()
-                                    .add(new Attribute((short) Util.getOne(61, 62), (short) Util.nextInt(1, 3)));
+                                    .add(new Attribute(
+                                            (short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
+                                                    AttributeConst.BO_QUA_TC_VAT),
+                                            (short) Util.nextInt(1, 3)));
                         }
                     }
                 }
@@ -253,6 +255,13 @@ public class ManufactureService {
             return;
         }
         short idItem = ManufactureConst.ITEM_ARMOR_CREATE[typeArmor][selectedItem];
+
+        short minIdItem = ManufactureConst.ITEM_ARMOR_CREATE[typeClassChar][0];
+        short maxIdItem = ManufactureConst.ITEM_ARMOR_CREATE[typeClassChar][ManufactureConst.ITEM_ARMOR_CREATE[typeClassChar].length
+                - 1];
+        byte maxLevelIdItem = (byte) (maxIdItem - minIdItem);
+        byte levelIdItem = (byte) (idItem - minIdItem);
+
         short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_ARMOR[typeArmor][typeArmor >= ManufactureConst.AO
                 && typeArmor <= ManufactureConst.NON ? selectedItem / 2 : selectedItem];
         byte typeNguyenLieu = player.getManufacture().getTypeNguyenLieuCreate();
@@ -303,45 +312,10 @@ public class ManufactureService {
                 .getLevel();
         byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null)
                 .getLevel();
-        byte rankItem;
-        byte colorItem;
-        switch (levelCaoCap) {
-            case 1, 2, 3 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.NONE_COLOR, ItemEquipConst.BLUE_COLOR);
-            }
-            case 4 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
-            }
-            case 5 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
-                if (Util.isTrue(2.3, 1000.0)) {
-                    colorItem = ItemEquipConst.GREEN_COLOR;
-                }
-            }
-            default -> {
-                colorItem = ItemEquipConst.GREEN_COLOR;
-            }
-        }
-        switch (levelSoCap) {
-            case 1, 2 -> {
-                rankItem = ItemEquipConst.NGU_PHAM;
-            }
-            case 3 -> {
-                rankItem = ItemEquipConst.TU_PHAM;
-            }
-            case 4 -> {
-                rankItem = ItemEquipConst.TAM_PHAM;
-            }
-            case 5 -> {
-                rankItem = ItemEquipConst.NHI_PHAM;
-                if (Util.isTrue(2.3, 1000.0)) {
-                    rankItem = ItemEquipConst.NHAT_PHAM;
-                }
-            }
-            default -> {
-                rankItem = ItemEquipConst.NHAT_PHAM;
-            }
-        }
+
+        byte rankItem = getRankItem(levelSoCap);
+        byte colorItem = getColorItem(levelCaoCap);
+
         ItemEquip itemAdd = ItemService.instance.createNewItemEquipment(idItem, typeClassChar);
         itemAdd.getItemAttributes().clear();
         itemAdd.setNameCharSeal(player.getName());
@@ -350,49 +324,59 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
         itemAdd.setDamageType(typeDamage);
-        short defPercent = (short) (colorItem == ItemEquipConst.NONE_COLOR ? Util.nextInt(1, 3)
-                : colorItem == ItemEquipConst.BLUE_COLOR ? Util.nextInt(4, 6)
-                        : colorItem == ItemEquipConst.RED_COLOR ? Util.nextInt(7, 10) : Util.nextInt(15, 20));
+        short defPercent = (short) getValueAttribute(3, 20, levelSoCap, levelCaoCap);
         switch (typeArmor) {
             case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN,
                     ManufactureConst.GANG -> {
-                short def = (short) Util.nextInt(160, 200);
-                itemAdd.getItemAttributes().add(new Attribute((short) 1, def));
-                itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 6, def));
+                int rangeValueDef[] = getRangeByLevel(300, 1500, levelSoCap, maxLevelIdItem);
+                short def = (short) Util.nextInt(rangeValueDef[0], rangeValueDef[1]);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
                 if (typeDamage == ItemEquipConst.DAMAGE_PHYSIC) {
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 59, (short) 3));
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 60, defPercent));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, (short) 3));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
                 } else if (typeDamage == ItemEquipConst.DAMAGE_MAGIC) {
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 59, defPercent));
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 60, (short) 3));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
             }
             case ManufactureConst.NHAN -> {
-                itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) Util.nextInt(130, 150)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.TAN_CONG, (short) Util.nextInt(130, 150)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-                itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
             }
             case ManufactureConst.DAY_CHUYEN -> {
-                itemAdd.getItemAttributes().add(new Attribute((short) 0, (short) Util.nextInt(130, 150)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) Util.nextInt(5, 80)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.TAN_CONG, (short) Util.nextInt(130, 150)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-                itemAdd.getItemAttributes().add(new Attribute((short) 58, (short) Util.nextInt(1, 10)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
             }
             case ManufactureConst.NGOC -> {
-                itemAdd.getItemAttributes().add(new Attribute((short) 3, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 4, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes().add(new Attribute((short) 5, (short) Util.nextInt(150, 160)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
+                itemAdd.getItemAttributes()
+                        .add(new Attribute(AttributeConst.SUC_KHOE, (short) Util.nextInt(150, 160)));
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
                 if (typeDamage == ItemEquipConst.DAMAGE_PHYSIC) {
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 59, (short) 3));
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 60, defPercent));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, (short) 3));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
                 } else if (typeDamage == ItemEquipConst.DAMAGE_MAGIC) {
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 59, defPercent));
-                    itemAdd.getItemAttributes().add(new Attribute((byte) 60, (short) 3));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
+                    itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
             }
         }
@@ -411,12 +395,12 @@ public class ManufactureService {
         if (typeClassChar == -1 || selectedItem == -1) {
             return;
         }
+        short idItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][selectedItem];
+
         short minIdItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][0];
         short maxIdItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar].length
                 - 1];
         byte maxLevelIdItem = (byte) (maxIdItem - minIdItem);
-
-        short idItem = ManufactureConst.ITEM_WEAPON_CREATE[typeClassChar][selectedItem];
         byte levelIdItem = (byte) (idItem - minIdItem);
 
         short[] nguyenLieu = ManufactureConst.MATERIAL_CREATE_WEAPON[typeClassChar][selectedItem];
@@ -468,45 +452,10 @@ public class ManufactureService {
                 .getLevel();
         byte levelSoCap = itemMinerals.stream().filter(it -> it != null && !it.isCaoCap()).findFirst().orElse(null)
                 .getLevel();
-        byte rankItem;
-        byte colorItem;
-        switch (levelCaoCap) {
-            case 1, 2, 3 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.NONE_COLOR, ItemEquipConst.BLUE_COLOR);
-            }
-            case 4 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
-            }
-            case 5 -> {
-                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
-                if (Util.isTrue(2.3, 1000.0)) {
-                    colorItem = ItemEquipConst.GREEN_COLOR;
-                }
-            }
-            default -> {
-                colorItem = ItemEquipConst.GREEN_COLOR;
-            }
-        }
-        switch (levelSoCap) {
-            case 1, 2 -> {
-                rankItem = ItemEquipConst.NGU_PHAM;
-            }
-            case 3 -> {
-                rankItem = ItemEquipConst.TU_PHAM;
-            }
-            case 4 -> {
-                rankItem = ItemEquipConst.TAM_PHAM;
-            }
-            case 5 -> {
-                rankItem = ItemEquipConst.NHI_PHAM;
-                if (Util.isTrue(2.3, 1000.0)) {
-                    rankItem = ItemEquipConst.NHAT_PHAM;
-                }
-            }
-            default -> {
-                rankItem = ItemEquipConst.NHAT_PHAM;
-            }
-        }
+
+        byte rankItem = getRankItem(levelSoCap);
+        byte colorItem = getColorItem(levelCaoCap);
+
         ItemEquip itemAdd = ItemService.instance.createNewItemEquipment(idItem, typeClassChar);
         itemAdd.getItemAttributes().clear();
         itemAdd.setNameCharSeal(player.getName());
@@ -515,72 +464,30 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
 
-        // Tăng tấn công theo cấp độ vũ khí
-        int rangeValueTanCong[] = getRangeValueAttribute(500, 2000, levelSoCap, maxLevelIdItem);
+        // Tăng tấn công // Tăng tấn công theo cấp độ vũ khí
+        int rangeValueTanCong[] = getRangeByLevel(500, 2500, levelSoCap, maxLevelIdItem);
         int valueTanCong = getValueAttribute(rangeValueTanCong[0], rangeValueTanCong[1], levelSoCap, levelCaoCap);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, (short) valueTanCong));
 
-        // Tăng chính xác theo cấp độ vũ khí
-        int rangeValueChinhXac[] = getRangeValueAttribute(5, 80, levelSoCap, maxLevelIdItem);
-        int valueChinhXac = getValueAttribute(rangeValueChinhXac[0], rangeValueChinhXac[1], levelSoCap, levelCaoCap);
+        // Tăng chính xác
+        int valueChinhXac = getValueAttribute(5, 80, levelSoCap, levelCaoCap);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, (short) valueChinhXac));
-        // Tăng chí mạng theo cấp độ vũ khí
-        int rangeValueChiMang[] = getRangeValueAttribute(5, 80, levelSoCap, maxLevelIdItem);
-        int valueChiMang = getValueAttribute(rangeValueChiMang[0], rangeValueChiMang[1], levelSoCap, levelCaoCap);
+        // Tăng chí mạng
+        int valueChiMang = getValueAttribute(5, 80, levelSoCap, levelCaoCap);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, (short) valueChiMang));
-        // Tăng % công theo rank vũ khí [1-10%]
-        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG,
-                (short) getValueAttribute(1, 10, levelSoCap, levelCaoCap)));
+        // Tăng % công
+        int valueTangCong = getValueAttribute(1, 10, levelSoCap, levelCaoCap);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, (short) valueTangCong));
+
+        // add special attribute
         addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
+
         Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s",
                 itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
         InventoryService.instance.sendItemBag(player);
         InventoryService.instance.sendItemGem(player);
         sendManufactureWeapon(player);
-    }
-
-    private int[] getRangeValueAttribute(int minValue, int maxValue, byte level,
-            byte maxLevel) {
-        int baseValue = (maxValue - minValue) / maxLevel;
-        int minBasevalue = baseValue * level;
-        int maxBasevalue = baseValue * (level + 1);
-        return new int[] { minValue + minBasevalue, minValue + maxBasevalue };
-    }
-
-    private int getValueAttributeByRank(int minValue, int maxValue, byte rank) {
-        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
-
-        switch (rank) {
-            case ItemEquipConst.NONE_RANK -> percentBuffLevelSoCap = (short) Util.nextInt(1, 10);
-            case ItemEquipConst.NGU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(10, 20);
-            case ItemEquipConst.TU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(20, 40);
-            case ItemEquipConst.TAM_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
-            case ItemEquipConst.NHI_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 90);
-            case ItemEquipConst.NHAT_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
-            default -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
-        }
-        int diffValue = maxValue - minValue;
-
-        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
-        return value;
-    }
-
-    private int getValueAttribute(int minValue, int maxValue, byte levelSoCap, byte levelCaoCap) {
-        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
-
-        short percentBuff = (short) Math.max(levelCaoCap, percentBuffLevelSoCap);
-
-        switch (percentBuff) {
-            case 1, 2, 3 -> percentBuffLevelSoCap = (short) Util.nextInt(10, 40);
-            case 4 -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
-            case 5 -> percentBuffLevelSoCap = 80;
-            case 6 -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
-        }
-        int diffValue = maxValue - minValue;
-
-        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
-        return value;
     }
 
     private void addSpecialAttribute(@NonNull ItemEquip item, byte levelSoCap, byte levelCaoCap) {
@@ -592,21 +499,16 @@ public class ManufactureService {
                     idAttribute = (short) Util.nextInt(AttributeConst.GIAM_ST_VAT, AttributeConst.PHAN_ST);
                 } while (idAttribute == AttributeConst.XUYEN_GIAP);
             }
-            switch (levelSoCap) {
-                case 1, 2, 3 -> valueAn = (short) Util.nextInt(1, 4);
-                case 4 -> valueAn = (short) Util.nextInt(4, 7);
-                case 5 -> valueAn = 8;
-                case 6 -> {
-                    valueAn = (short) Util.getOne(8, 10);
-                }
-            }
+            valueAn = (short) getValueAttribute(1, 10, levelSoCap, levelCaoCap);
 
             if (idAttribute == AttributeConst.XUYEN_GIAP) {
                 valueAn = (short) (levelSoCap - 1);
             }
             item.getItemAttributes().add(new Attribute(idAttribute, valueAn));
         }
-        item.getItemAttributes().add(new Attribute((short) Util.getOne(33, 34), levelCaoCap == 6 ? 9 : levelCaoCap));
+
+        item.getItemAttributes().add(new Attribute((short) Util.getOne(AttributeConst.TANG_HP, AttributeConst.TANG_MP),
+                levelCaoCap == 6 ? 9 : levelCaoCap));
         short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
                 ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
         item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(10, 30)));
@@ -617,10 +519,14 @@ public class ManufactureService {
                         ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
             } while (idRandom2 == idRandom);
             item.getItemAttributes()
-                    .add(new Attribute(idRandom2, (short) (Util.nextInt(1, 3))));
+                    .add(new Attribute(idRandom2, (short) (Util.nextInt(5, 10))));
         }
         item.getItemAttributes().add(
-                new Attribute((short) Util.nextInt(43, item.getClassChar() == Const.PHAP_SU ? 57 : 55), (short) 1));
+                new Attribute((short) Util.nextInt(AttributeConst.KY_NANG_1_CONG_THEM,
+                        item.getClassChar() == Const.PHAP_SU ? AttributeConst.KY_NANG_15_CONG_THEM
+                                : AttributeConst.KY_NANG_13_CONG_THEM),
+                        (short) 1));
+
     }
 
     public void sendManufactureArmor(@NonNull Player player) throws IOException {
@@ -688,5 +594,79 @@ public class ManufactureService {
         msg.writer().writeByte(typeCheDo);
         msg.writer().writeByte(typeNguyenLieu);
         player.getSession().sendMessage(msg);
+    }
+
+    private int getValueAttribute(int minValue, int maxValue, byte levelSoCap, byte levelCaoCap) {
+        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
+
+        short rank = (short) Math.max(levelCaoCap, percentBuffLevelSoCap);
+
+        switch (rank) {
+            case ItemEquipConst.NONE_RANK -> percentBuffLevelSoCap = (short) Util.nextInt(1, 10);
+            case ItemEquipConst.NGU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(10, 20);
+            case ItemEquipConst.TU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(20, 40);
+            case ItemEquipConst.TAM_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
+            case ItemEquipConst.NHI_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 90);
+            case ItemEquipConst.NHAT_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+            default -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+        }
+        int diffValue = maxValue - minValue;
+
+        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
+        return value;
+    }
+
+    private byte getColorItem(short levelCaoCap) {
+        byte colorItem = ItemEquipConst.NONE_COLOR;
+        switch (levelCaoCap) {
+            case 1, 2, 3 -> {
+                colorItem = (byte) Util.getOne(ItemEquipConst.NONE_COLOR, ItemEquipConst.BLUE_COLOR);
+            }
+            case 4 -> {
+                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
+            }
+            case 5 -> {
+                colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
+                if (Util.isTrue(2.3, 1000.0)) {
+                    colorItem = ItemEquipConst.GREEN_COLOR;
+                }
+            }
+            default -> {
+                colorItem = ItemEquipConst.GREEN_COLOR;
+            }
+        }
+        return colorItem;
+    }
+
+    private byte getRankItem(short levelSoCap) {
+        byte rankItem = ItemEquipConst.NGU_PHAM;
+        switch (levelSoCap) {
+            case 1, 2 -> {
+                rankItem = ItemEquipConst.NGU_PHAM;
+            }
+            case 3 -> {
+                rankItem = ItemEquipConst.TU_PHAM;
+            }
+            case 4 -> {
+                rankItem = ItemEquipConst.TAM_PHAM;
+            }
+            case 5 -> {
+                rankItem = ItemEquipConst.NHI_PHAM;
+                if (Util.isTrue(2.3, 1000.0)) {
+                    rankItem = ItemEquipConst.NHAT_PHAM;
+                }
+            }
+            default -> {
+                rankItem = ItemEquipConst.NHAT_PHAM;
+            }
+        }
+        return rankItem;
+    }
+
+    private int[] getRangeByLevel(int minValue, int maxValue, byte level, byte maxLevel) {
+        int baseValue = (maxValue - minValue) / maxLevel;
+        int minBasevalue = baseValue * level;
+        int maxBasevalue = baseValue * (level + 1);
+        return new int[] { minValue + minBasevalue, minValue + maxBasevalue };
     }
 }

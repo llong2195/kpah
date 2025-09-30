@@ -34,9 +34,13 @@ public class ItemEquipConst {
         public static final byte REPAIR_ALL = 2;
 
         public static final byte MAX_LEVEL_ANIMAL = 4;
-        public static final short[] ATTRIBUTE_DEFAULT_ANIMAL = new short[] { 56, 60, 30 };
-        public static final short[] ATTRIBUTE_RANDOM_ANIMAL = new short[] { 10, 13, 12, 36 };
-        public static final short[] ATTRIBUTE_RANDOM_ANIMAL_SPECIAL = new short[] { 26, 40, 2, 81, 28 };
+        public static final short[] ATTRIBUTE_DEFAULT_ANIMAL = new short[] { AttributeConst.KY_NANG_14_CONG_THEM,
+                        AttributeConst.TANG_THU_VAT, AttributeConst.TANG_TAN_CONG };
+        public static final short[] ATTRIBUTE_RANDOM_ANIMAL = new short[] { AttributeConst.TANG_SUC_MANH,
+                        AttributeConst.TANG_TINH_THAN, AttributeConst.TANG_SUC_KHOE, AttributeConst.CONG_KHEO_LEO };
+        public static final short[] ATTRIBUTE_RANDOM_ANIMAL_SPECIAL = new short[] { AttributeConst.TANG_X2_MOI_LAN_DANH,
+                        AttributeConst.TANG_CHI_MANG, AttributeConst.NE_TRANH, AttributeConst.HAP_THU_SAT_THUONG,
+                        AttributeConst.GIAM_ST_VAT };
 
         public static final String[] HE = new String[] { "thủy", "mộc", "hỏa", "thổ", "kim" };
 
@@ -93,9 +97,15 @@ public class ItemEquipConst {
                         14
         };
 
-        public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI = new short[] { 83, 84, 85, 86, 87, 92, 78, 79, 88 };
-        public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI_VU_KHI = new short[] { 80, 82, 109 };
-        public static final short[] ATTRIBUTE_RANDOM_DONG_AN = new short[] { 28, 29, 30, 31, 32 };
+        public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI = new short[] { AttributeConst.TANG_TY_LE_ROT_VAT_PHAM,
+                        AttributeConst.TANG_TY_LE_ROT_XU, AttributeConst.KHANG_BANG_LAN, AttributeConst.KHANG_SET_LAN,
+                        AttributeConst.KHANG_DOC_LAN, AttributeConst.KHANG_LUA_LAN, AttributeConst.HOI_HP,
+                        AttributeConst.HOI_MP, AttributeConst.TANG_THU_TRANG_BI };
+        public static final short[] ATTRIBUTE_RANDOM_TIEN_GIAI_VU_KHI = new short[] { AttributeConst.TAN_PHE,
+                        AttributeConst.CAM_LANG, AttributeConst.HUT_HP };
+        public static final short[] ATTRIBUTE_RANDOM_DONG_AN = new short[] { AttributeConst.GIAM_ST_VAT,
+                        AttributeConst.GIAM_ST_MA, AttributeConst.TANG_TAN_CONG,
+                        AttributeConst.XUYEN_GIAP, AttributeConst.PHAN_ST };
 
         public static final short[] VU_KHI = new short[] {
                         VU_KHI_KIEM,

@@ -2,14 +2,14 @@ package org.kpah.services;
 
 import java.io.IOException;
 
-import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
-import lombok.NonNull;
 import org.kpah.manager.ClientManager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class ChatService {
 
@@ -64,7 +64,7 @@ public class ChatService {
     }
 
     private boolean processChatAdmin(@NonNull Player pl, String chat) throws IOException {
-        if (chat.startsWith("m")) {
+        if (chat.startsWith("m ")) {
             String strInput = chat.replace("m ", "");
             try {
                 short val = Short.parseShort(strInput);
@@ -75,8 +75,8 @@ public class ChatService {
             }
             return true;
         }
-        if (chat.startsWith("xu")) {
-            String strInput = chat.replace("xu", "");
+        if (chat.startsWith("xu ")) {
+            String strInput = chat.replace("xu ", "");
             try {
                 long xu = Long.parseLong(strInput);
                 pl.getInventory().plusXu(xu);
@@ -88,8 +88,8 @@ public class ChatService {
 
             return true;
         }
-        if (chat.startsWith("luong")) {
-            String strInput = chat.replace("luong", "");
+        if (chat.startsWith("luong ")) {
+            String strInput = chat.replace("luong ", "");
             try {
                 int luong = Integer.parseInt(strInput);
                 pl.getInventory().plusLuong(luong);
@@ -100,8 +100,8 @@ public class ChatService {
             }
             return true;
         }
-        if (chat.startsWith("lk")) {
-            String strInput = chat.replace("lk", "");
+        if (chat.startsWith("lk ")) {
+            String strInput = chat.replace("lk ", "");
             try {
                 int lk = Integer.parseInt(strInput);
                 pl.getInventory().plusLuongKhoa(lk);
@@ -118,8 +118,8 @@ public class ChatService {
             InventoryService.instance.sendItemGem(pl);
             return true;
         }
-        if (chat.startsWith("lv")) {
-            String strInput = chat.replace("lv", "");
+        if (chat.startsWith("lv ")) {
+            String strInput = chat.replace("lv ", "");
             try {
                 byte exp = Byte.parseByte(strInput);
                 pl.getInfo().setLevel(exp);
@@ -142,21 +142,15 @@ public class ChatService {
 
             return true;
         }
-        if (chat.equals("rsitem")) {
-            try {
-                for (int i = 0; i < pl.getInventory().getItemBody().size(); i++) {
-                    ItemEquip item = pl.getInventory().getItemBody().get(i);
-                    short mDurable = item.getTemplate().getDurable();
-                    item.setDurable(mDurable);
-                    item.setMDurable(mDurable);
-                }
-                InventoryService.instance.sendItemBody(pl);
-            } catch (NumberFormatException e) {
-                return true;
-            }
-
+        if (chat.equals("repair")) {
+            InventoryService.instance.repairItem(pl, (byte) 2);
             return true;
         }
+        if (chat.equals("xuongngua")) {
+            MapService.instance.onDownHorse(pl);
+            return true;
+        }
+
         return false;
     }
 }
