@@ -119,55 +119,57 @@ public class Point {
     }
 
     private void setStrength() {
-        strengthAdd += (short) InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_SUC_MANH);
+        strengthAdd += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_SUC_MANH);
         if (player.getHorse().getImageHorse() == 1) {
             strengthAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
-            strengthAdd += player.getHorse().getAnimalUse().getValue((byte) AttributeConst.TANG_SUC_MANH);
-            strengthAdd += (short) player.getHorse().getAnimalUse()
-                    .sumAttributeValueForId((byte) AttributeConst.TANG_SUC_MANH);
+            strengthAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_SUC_MANH);
+            strengthAdd += player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId(AttributeConst.TANG_SUC_MANH);
         }
     }
 
     private void setAgility() {
-        agilityAdd += (short) InventoryService.instance.sumAttributeValueForId(player,
-                (short) AttributeConst.TANG_NHANH_NHEN);
+        agilityAdd += InventoryService.instance.sumAttributeValueForId(player,
+                AttributeConst.TANG_NHANH_NHEN);
         if (player.getHorse().getImageHorse() == 1) {
             agilityAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
-            agilityAdd += player.getHorse().getAnimalUse().getValue((byte) 36);
-            agilityAdd += (short) player.getHorse().getAnimalUse()
-                    .sumAttributeValueForId((byte) AttributeConst.TANG_NHANH_NHEN);
+            agilityAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.CONG_KHEO_LEO);
+            agilityAdd += player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId(AttributeConst.TANG_NHANH_NHEN);
         }
     }
 
     private void setSpirit() {
-        spiritAdd += (short) InventoryService.instance.sumAttributeValueForId(player,
-                (short) AttributeConst.TANG_TINH_THAN);
+        int spiritPercent = 0;
+        spiritAdd += InventoryService.instance.sumAttributeValueForId(player,
+                AttributeConst.TANG_TINH_THAN);
         if (player.getInfo().getClassPlayer() == Const.PHAP_SU) {
-            spiritAdd += spiritAdd * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
-                    player.getSkill().getLevelSkill()[5]) / 100);
+            spiritPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]);
         }
         if (player.getHorse().getImageHorse() == 1) {
             spiritAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
-            spiritAdd += player.getHorse().getAnimalUse().getValue((byte) 12);
-            spiritAdd += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 12);
+            spiritAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TINH_THAN);
+            spiritAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TINH_THAN);
         }
+        spiritAdd += spiritAdd * spiritPercent / 100;
     }
 
     private void setHealth() {
-        healthAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 13);
-        healthAdd += InventoryService.instance.sumAttributeValueForId(player, (short) 5);
+        healthAdd += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_SUC_KHOE);
+        healthAdd += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.SUC_KHOE);
         if (player.getHorse().getImageHorse() == 1) {
             healthAdd += 3;
         }
         if (player.getHorse().getAnimalUse() != null) {
-            healthAdd += player.getHorse().getAnimalUse().getValue((byte) 13);
-            healthAdd += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 13);
+            healthAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_SUC_KHOE);
+            healthAdd += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_SUC_KHOE);
         }
     }
 
@@ -177,56 +179,71 @@ public class Point {
             case Const.PHAP_SU -> attack += (spirit + spiritAdd) * 2;
             case Const.CUNG_THU -> attack += (agility + agilityAdd) * 1.8;
         }
-        attack += InventoryService.instance.sumAttributeValueForId(player, (short) 0);
-        attack += attack * InventoryService.instance.sumAttributeValueForId(player, (short) 58) / 100;
+        attack += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TAN_CONG);
+
+        int attackPercent = InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_CONG);
+        attackPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_TAN_CONG);
+
         if (player.getInfo().getClassPlayer() == Const.CHIEN_BINH) {
-            attack += attack * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
-                    player.getSkill().getLevelSkill()[5]) / 100);
+            attackPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]);
         }
         if (player.getHorse().getAnimalUse() != null) {
-            attack += attack * player.getHorse().getAnimalUse().getValue((byte) 30) / 100;
-            attack += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 0);
-            attack += attack * player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 58) / 100;
+            attack += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TAN_CONG);
+            attackPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TAN_CONG);
+            attackPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_CONG);
         }
+        attack += attack * attackPercent / 100;
     }
 
     private void setDefend() {
         defend += agility + agilityAdd;
-        defend += InventoryService.instance.sumAttributeValueForId(player, (short) 1);
+        defend += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.THU_VAT);
+
+        int defPercent = 0;
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defend += defend * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
-                    player.getSkill().getLevelSkill()[5]) / 100);
+            defPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]);
         }
-        defend += defend * InventoryService.instance.sumAttributeValueForId(player, (short) 60) / 100;
-        defend += defend * InventoryService.instance.sumAttributeValueForId(player, (short) 88) / 100;
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT);
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT_TRANG_BI);
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
         if (player.getHorse().getAnimalUse() != null) {
-            defend += defend * player.getHorse().getAnimalUse().getValue((byte) 56) / 100;
-            defend += defend * player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 60) / 100;
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT);
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT_TRANG_BI);
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
         }
+        defend += defend * defPercent / 100;
     }
 
     private void setDefendMagic() {
         defendMagic += agility + agilityAdd;
-        defendMagic += InventoryService.instance.sumAttributeValueForId(player, (short) 6);
+        defendMagic += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.THU_MA);
+
+        int defPercent = 0;
+
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defendMagic += defendMagic * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
-                    player.getSkill().getLevelSkill()[5]) / 100);
+            defPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+                    player.getSkill().getLevelSkill()[5]);
         }
-        defendMagic += defendMagic * InventoryService.instance.sumAttributeValueForId(player, (short) 59) / 100;
-        defendMagic += defendMagic * InventoryService.instance.sumAttributeValueForId(player, (short) 88) / 100;
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_MA);
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_MA_TRANG_BI);
+        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
         if (player.getHorse().getAnimalUse() != null) {
-            defendMagic += defendMagic * player.getHorse().getAnimalUse().getValue((byte) 60) / 100;
-            defendMagic += defendMagic * player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 58) / 100;
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_MA);
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_MA_TRANG_BI);
+            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
         }
+        defendMagic += defendMagic * defPercent / 100;
     }
 
     private void setAccurate() {
         switch (player.getInfo().getClassPlayer()) {
             case Const.CUNG_THU -> accurate += agility + agilityAdd;
         }
-        accurate += InventoryService.instance.sumAttributeValueForId(player, (short) 3);
+        accurate += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.CHINH_XAC);
         if (player.getHorse().getAnimalUse() != null) {
-            accurate += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 3);
+            accurate += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.CHINH_XAC);
         }
     }
 
@@ -234,28 +251,31 @@ public class Point {
         switch (player.getInfo().getClassPlayer()) {
             case Const.CUNG_THU -> dodge += (agility + agilityAdd) * 0.5;
         }
-        dodge += InventoryService.instance.sumAttributeValueForId(player, (short) 2);
+        dodge += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.NE_TRANH);
         if (player.getHorse().getAnimalUse() != null) {
-            dodge += player.getHorse().getAnimalUse().getValue((byte) 2);
-            dodge += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 2);
+            dodge += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.NE_TRANH);
         }
     }
 
     private void setCrit() {
         critical += luck / 20;
-        critical += InventoryService.instance.sumAttributeValueForId(player, (short) 4);
+        critical += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_CHI_MANG);
+        critical += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.CHI_MANG);
         if (player.getHorse().getAnimalUse() != null) {
-            critical += player.getHorse().getAnimalUse().getValue((byte) 40);
-            critical += player.getHorse().getAnimalUse().sumAttributeValueForId((byte) 4);
+            critical += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_CHI_MANG);
+            critical += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.CHI_MANG);
         }
     }
 
     private void setBaoKich() {
-        baoKich += InventoryService.instance.sumAttributeValueForId(player, (short) 27);
+        baoKich += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_X2_MOI_LAN_DANH);
+        if (player.getHorse().getAnimalUse() != null) {
+            baoKich += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_X2_MOI_LAN_DANH);
+        }
     }
 
     private void setDocTinh() {
-        docTinh += InventoryService.instance.sumAttributeValueForId(player, (short) 16);
+        docTinh += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TRUNG_DOC);
         if (player.getInfo().getClassPlayer() == Const.CUNG_THU) {
             docTinh += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]);
@@ -263,15 +283,21 @@ public class Point {
     }
 
     private void setXuyenGiap() {
-        xuyenGiap += InventoryService.instance.sumAttributeValueForId(player, (short) 31);
+        xuyenGiap += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.XUYEN_GIAP);
         if (player.getInfo().getClassPlayer() == Const.KIEM_KHACH) {
             xuyenGiap += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 4,
                     player.getSkill().getLevelSkill()[4]);
         }
+        if (player.getHorse().getAnimalUse() != null) {
+            xuyenGiap += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.XUYEN_GIAP);
+        }
     }
 
     private void setExpDonate() {
-        expDonate += InventoryService.instance.sumAttributeValueForId(player, (short) 111);
+        expDonate += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_EXP);
+        if (player.getHorse().getAnimalUse() != null) {
+            expDonate += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_EXP);
+        }
     }
 
     private void setPercentPlusHp() {
@@ -296,17 +322,18 @@ public class Point {
             case Const.DAU_SI, Const.CHIEN_BINH -> hpMax += (health + healthAdd) * 70;
             case Const.PHAP_SU, Const.CUNG_THU -> hpMax += (health + healthAdd) * 60;
         }
-        hpMax += hpMax * percentPlusHp / 100;
-        hpMax += InventoryService.instance.sumAttributeValueForId(player, (short) 33) * 1000;
+
+        hpMax += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_HP) * 1000;
         switch (player.getHorse().getImageHorse()) {
             case 0 -> hpMax += 700;
             case 1 -> hpMax += 1000;
             default -> {
                 if (player.getHorse().getAnimalUse() != null) {
-                    hpMax += player.getHorse().getAnimalUse().getValue((byte) 33) * 1000;
+                    hpMax += player.getHorse().getAnimalUse().getValue((byte) AttributeConst.TANG_HP);
                 }
             }
         }
+        hpMax += hpMax * percentPlusHp / 100;
     }
 
     private void setMpMax() {
@@ -314,17 +341,18 @@ public class Point {
             case Const.KIEM_KHACH, Const.CHIEN_BINH, Const.DAU_SI, Const.CUNG_THU -> mpMax += (spirit + spiritAdd) * 20;
             case Const.PHAP_SU -> mpMax += (spirit + spiritAdd) * 52;
         }
-        mpMax += mpMax * percentPlusMp / 100;
-        mpMax += InventoryService.instance.sumAttributeValueForId(player, (short) 34) * 1000;
+
+        mpMax += InventoryService.instance.sumAttributeValueForId(player, (byte) AttributeConst.TANG_MP) * 1000;
         switch (player.getHorse().getImageHorse()) {
             case 0 -> mpMax += 700;
             case 1 -> mpMax += 1000;
             default -> {
                 if (player.getHorse().getAnimalUse() != null) {
-                    mpMax += player.getHorse().getAnimalUse().getValue((byte) 34) * 1000;
+                    mpMax += player.getHorse().getAnimalUse().getValue((byte) AttributeConst.TANG_MP);
                 }
             }
         }
+        mpMax += mpMax * percentPlusMp / 100;
     }
 
     private void setHp() {
@@ -460,30 +488,30 @@ public class Point {
     }
 
     private void setX2() {
-        x2 += InventoryService.instance.sumAttributeValueForId(player, (short) 26);
+        x2 += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_X2_MOI_LAN_DANH);
         if (player.getHorse().getAnimalUse() != null) {
-            x2 += player.getHorse().getAnimalUse().getValue((byte) 26);
+            x2 += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_X2_MOI_LAN_DANH);
         }
     }
 
     private void setHapThu() {
-        hapThu += InventoryService.instance.sumAttributeValueForId(player, (short) 81);
+        hapThu += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.HAP_THU_SAT_THUONG);
         if (player.getHorse().getAnimalUse() != null) {
-            hapThu += player.getHorse().getAnimalUse().getValue((byte) 81);
+            hapThu += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.HAP_THU_SAT_THUONG);
         }
     }
 
     private void setGiamStVat() {
-        giamStVat += InventoryService.instance.sumAttributeValueForId(player, (short) 28);
+        giamStVat += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.GIAM_ST_VAT);
         if (player.getHorse().getAnimalUse() != null) {
-            giamStVat += player.getHorse().getAnimalUse().getValue((byte) 28);
+            giamStVat += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.GIAM_ST_VAT);
         }
     }
 
     private void setGiamStMa() {
-        giamStMa += InventoryService.instance.sumAttributeValueForId(player, (short) 29);
+        giamStMa += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.GIAM_ST_MA);
         if (player.getHorse().getAnimalUse() != null) {
-            giamStMa += player.getHorse().getAnimalUse().getValue((byte) 28);
+            giamStMa += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.GIAM_ST_MA);
         }
     }
 
@@ -493,16 +521,28 @@ public class Point {
     }
 
     private void setHutHp() {
-        hutHp += InventoryService.instance.sumAttributeValueForId(player, (short) 77);
-        hutHp += InventoryService.instance.sumAttributeValueForId(player, (short) 109);
+        hutHp += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.HUT_MAU);
+        hutHp += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.HUT_HP);
+        if (player.getHorse().getAnimalUse() != null) {
+            hutHp += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.HUT_MAU);
+            hutHp += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.HUT_HP);
+        }
     }
 
     private void setPercentDropXu() {
-        percentDropXu += InventoryService.instance.sumAttributeValueForId(player, (short) 84);
+        percentDropXu += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_TY_LE_ROT_XU);
+        if (player.getHorse().getAnimalUse() != null) {
+            percentDropXu += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TY_LE_ROT_XU);
+        }
     }
 
     private void setPercentDropEquip() {
-        percentDropEquip += InventoryService.instance.sumAttributeValueForId(player, (short) 83);
+        percentDropEquip += InventoryService.instance.sumAttributeValueForId(player,
+                AttributeConst.TANG_TY_LE_ROT_VAT_PHAM);
+        if (player.getHorse().getAnimalUse() != null) {
+            percentDropEquip += player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId(AttributeConst.TANG_TY_LE_ROT_VAT_PHAM);
+        }
     }
 
     public void initPoint() {
