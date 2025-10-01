@@ -11,7 +11,6 @@ import org.kpah.item.Attribute;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
 import org.kpah.item.ItemMineral;
-import lombok.NonNull;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
@@ -20,6 +19,8 @@ import org.kpah.template.ItemEquipTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class ManufactureService {
 
@@ -324,7 +325,7 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(isLockItem);
         itemAdd.setDamageType(typeDamage);
-        short defPercent = (short) getValueAttribute(3, 20, levelSoCap, levelCaoCap);
+        short defPercent = (short) getValueAttributeByRank(3, 20, rankItem);
         switch (typeArmor) {
             case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN,
                     ManufactureConst.GANG -> {
@@ -465,18 +466,18 @@ public class ManufactureService {
         itemAdd.setLock(isLockItem);
 
         // Tăng tấn công // Tăng tấn công theo cấp độ vũ khí
-        int rangeValueTanCong[] = getRangeByLevel(500, 2500, levelSoCap, maxLevelIdItem);
-        int valueTanCong = getValueAttribute(rangeValueTanCong[0], rangeValueTanCong[1], levelSoCap, levelCaoCap);
+        int rangeValueTanCong[] = getRangeByLevel(500, 3000, levelSoCap, maxLevelIdItem);
+        int valueTanCong = getValueAttributeByRank(rangeValueTanCong[0], rangeValueTanCong[1], rankItem);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, (short) valueTanCong));
 
         // Tăng chính xác
-        int valueChinhXac = getValueAttribute(5, 80, levelSoCap, levelCaoCap);
+        int valueChinhXac = getValueAttributeByRank(5, 80, rankItem);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, (short) valueChinhXac));
         // Tăng chí mạng
-        int valueChiMang = getValueAttribute(5, 80, levelSoCap, levelCaoCap);
+        int valueChiMang = getValueAttributeByRank(5, 80, rankItem);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, (short) valueChiMang));
         // Tăng % công
-        int valueTangCong = getValueAttribute(1, 10, levelSoCap, levelCaoCap);
+        int valueTangCong = getValueAttributeByRank(1, 10, rankItem);
         itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, (short) valueTangCong));
 
         // add special attribute
@@ -499,7 +500,7 @@ public class ManufactureService {
                     idAttribute = (short) Util.nextInt(AttributeConst.GIAM_ST_VAT, AttributeConst.PHAN_ST);
                 } while (idAttribute == AttributeConst.XUYEN_GIAP);
             }
-            valueAn = (short) getValueAttribute(1, 10, levelSoCap, levelCaoCap);
+            valueAn = (short) getValueAttributeByColor(1, 10, levelSoCap);
 
             if (idAttribute == AttributeConst.XUYEN_GIAP) {
                 valueAn = (short) (levelSoCap - 1);
@@ -596,23 +597,39 @@ public class ManufactureService {
         player.getSession().sendMessage(msg);
     }
 
-    private int getValueAttribute(int minValue, int maxValue, byte levelSoCap, byte levelCaoCap) {
-        short percentBuffLevelSoCap = 1; // Default buff level so cap 1%
-
-        short rank = (short) Math.max(levelCaoCap, percentBuffLevelSoCap);
+    public int getValueAttributeByRank(int minValue, int maxValue, byte rank) {
+        short percent = 1;
 
         switch (rank) {
-            case ItemEquipConst.NONE_RANK -> percentBuffLevelSoCap = (short) Util.nextInt(1, 10);
-            case ItemEquipConst.NGU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(10, 20);
-            case ItemEquipConst.TU_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(20, 40);
-            case ItemEquipConst.TAM_PHAM -> percentBuffLevelSoCap = (short) Util.nextInt(40, 70);
-            case ItemEquipConst.NHI_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 90);
-            case ItemEquipConst.NHAT_PHAM -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
-            default -> percentBuffLevelSoCap = (short) Util.getOne(80, 100);
+            case ItemEquipConst.NONE_RANK -> percent = (short) Util.nextInt(1, 10);
+            case ItemEquipConst.NGU_PHAM -> percent = (short) Util.nextInt(10, 20);
+            case ItemEquipConst.TU_PHAM -> percent = (short) Util.nextInt(20, 40);
+            case ItemEquipConst.TAM_PHAM -> percent = (short) Util.nextInt(40, 70);
+            case ItemEquipConst.NHI_PHAM -> percent = (short) Util.nextInt(70, 90);
+            case ItemEquipConst.NHAT_PHAM -> percent = (short) Util.nextInt(90, 100);
+            default -> percent = (short) Util.getOne(90, 100);
         }
         int diffValue = maxValue - minValue;
 
-        int value = minValue + diffValue * percentBuffLevelSoCap / 100;
+        int value = minValue + diffValue * percent / 100;
+        return value;
+    }
+
+    public int getValueAttributeByColor(int minValue, int maxValue, byte color) {
+        short percent = 1;
+
+        switch (color) {
+            case ItemEquipConst.NONE_COLOR -> percent = (short) Util.nextInt(1, 10);
+            case ItemEquipConst.YELLOW_COLOR -> percent = (short) Util.nextInt(10, 20);
+            case ItemEquipConst.PURPLE_COLOR -> percent = (short) Util.nextInt(20, 40);
+            case ItemEquipConst.BLUE_COLOR -> percent = (short) Util.nextInt(40, 70);
+            case ItemEquipConst.RED_COLOR -> percent = (short) Util.nextInt(80, 90);
+            case ItemEquipConst.GREEN_COLOR -> percent = (short) Util.nextInt(90, 100);
+            default -> percent = (short) Util.getOne(90, 100);
+        }
+        int diffValue = maxValue - minValue;
+
+        int value = minValue + diffValue * percent / 100;
         return value;
     }
 
@@ -627,7 +644,7 @@ public class ManufactureService {
             }
             case 5 -> {
                 colorItem = (byte) Util.getOne(ItemEquipConst.BLUE_COLOR, ItemEquipConst.RED_COLOR);
-                if (Util.isTrue(2.3, 1000.0)) {
+                if (Util.isTrue(5, 100)) {
                     colorItem = ItemEquipConst.GREEN_COLOR;
                 }
             }
@@ -652,7 +669,7 @@ public class ManufactureService {
             }
             case 5 -> {
                 rankItem = ItemEquipConst.NHI_PHAM;
-                if (Util.isTrue(2.3, 1000.0)) {
+                if (Util.isTrue(5, 100)) {
                     rankItem = ItemEquipConst.NHAT_PHAM;
                 }
             }

@@ -1,8 +1,7 @@
 package org.kpah.player;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Synchronized;
+import java.io.IOException;
+
 import org.json.JSONArray;
 import org.kpah.consts.AttributeConst;
 import org.kpah.consts.BuffConst;
@@ -13,7 +12,9 @@ import org.kpah.services.MapService;
 import org.kpah.services.Service;
 import org.kpah.utils.Util;
 
-import java.io.IOException;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Synchronized;
 
 @Data
 @Builder
@@ -516,8 +517,12 @@ public class Point {
     }
 
     private void setXuRevive() {
-        xuRevive = Util.roundNumber((long) (Math.pow(player.getInfo().getLevel(), player.getInfo().getLevel() / 10)));
-        xuRevive = xuRevive < 1000 ? 1000 : xuRevive;
+        int x = player.getInfo().getLevel();
+        int minValue = 10000, maxValue = 500000, numSteps = 10;
+        int stepSize = 100 / numSteps;
+        int stepIndex = (x - 1) / stepSize;
+        int increment = (maxValue - minValue) / (numSteps - 1);
+        xuRevive = Math.round((minValue + stepIndex * increment) / 1000f) * 1000;
     }
 
     private void setHutHp() {

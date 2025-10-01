@@ -1,12 +1,14 @@
 package org.kpah.clan;
 
 import java.util.List;
+
+import org.kpah.player.Friend;
+import org.kpah.player.Player;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.Synchronized;
-import org.kpah.player.Friend;
-import org.kpah.player.Player;
 
 @Data
 @Builder

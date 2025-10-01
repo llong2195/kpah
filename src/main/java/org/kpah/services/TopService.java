@@ -3,7 +3,6 @@ package org.kpah.services;
 import java.io.IOException;
 
 import org.kpah.item.ItemFriend;
-import lombok.NonNull;
 import org.kpah.manager.TopManager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
@@ -11,6 +10,8 @@ import org.kpah.top.ClanInfo;
 import org.kpah.top.TopPlayer;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
+
+import lombok.NonNull;
 
 public class TopService {
 

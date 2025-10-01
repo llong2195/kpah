@@ -9,7 +9,6 @@ import org.kpah.effects.EffectData;
 import org.kpah.effects.ImageInfo;
 import org.kpah.effects.PartFrame;
 import org.kpah.interfaces.ISession;
-import lombok.NonNull;
 import org.kpah.manager.ClientManager;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
@@ -17,6 +16,8 @@ import org.kpah.player.Player;
 import org.kpah.template.ItemEquipTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class Service {
 

@@ -12,8 +12,6 @@ import org.kpah.item.ItemAnimal;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemMap;
 import org.kpah.item.ItemPotion;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.manager.Manager;
 import org.kpah.map.Actor;
 import org.kpah.map.LoctionWayPoint;
@@ -25,6 +23,9 @@ import org.kpah.player.Player;
 import org.kpah.template.NpcTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
+import lombok.Synchronized;
 
 public class MapService {
 

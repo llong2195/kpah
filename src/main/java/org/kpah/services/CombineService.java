@@ -75,6 +75,8 @@ public class CombineService {
                 case ItemEquipConst.TU_PHAM ->
                     valueAn = (short) Util.nextInt(2, 4);
             }
+            valueAn = (short) ManufactureService.instance.getValueAttributeByRank(2, 10,
+                    itemBag.getRank());
             if (idAttribute == 31) {
                 valueAn = (short) Util.nextInt(3, 5);
             }

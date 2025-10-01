@@ -11,13 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import org.kpah.daos.PlayerDAO;
 import org.kpah.database.HikariCP;
 import org.kpah.database.ResultSetImpl;
 import org.kpah.interfaces.IMessageSendCollect;
 import org.kpah.interfaces.ISession;
-import lombok.Synchronized;
 import org.kpah.manager.ClientManager;
 import org.kpah.manager.ExecutorVirtualThread;
 import org.kpah.manager.Settings;
@@ -28,6 +26,8 @@ import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
+
+import lombok.Synchronized;
 
 public class Session implements ISession {
 

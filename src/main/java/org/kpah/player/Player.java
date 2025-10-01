@@ -12,10 +12,6 @@ import org.kpah.consts.ItemEquipConst;
 import org.kpah.daos.PlayerDAO;
 import org.kpah.interfaces.ISession;
 import org.kpah.item.ItemEquip;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.manager.Manager;
 import org.kpah.manager.Settings;
 import org.kpah.services.ChangeMapService;
@@ -28,6 +24,11 @@ import org.kpah.skill.BuffInfluencePlayer;
 import org.kpah.skill.SkillBuff;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Util;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.Synchronized;
 
 @Data
 @Builder
@@ -121,8 +122,7 @@ public class Player {
                     damage = this.point.getHp() - 1;
                 }
             }
-            for (int i = 0; i < this.inventory.getItemBody().size(); i++) {
-                ItemEquip item = this.inventory.getItemBody().get(i);
+            for (ItemEquip item : this.inventory.getItemBody()) {
                 if ((item.getTemplate().getType() == 0 || item.getTemplate().getType() == 1
                         || item.getTemplate().getType() == 2) && item.getMDurable() > 0) {
                     item.minusDurable();

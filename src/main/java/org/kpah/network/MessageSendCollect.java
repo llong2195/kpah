@@ -1,12 +1,13 @@
 package org.kpah.network;
 
-import org.kpah.interfaces.IMessageSendCollect;
-import org.kpah.interfaces.ISession;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import lombok.NonNull;
 
+import org.kpah.interfaces.IMessageSendCollect;
+import org.kpah.interfaces.ISession;
 import org.kpah.manager.Settings;
+
+import lombok.NonNull;
 
 public class MessageSendCollect implements IMessageSendCollect {
 

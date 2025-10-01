@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.kpah.consts.AttributeConst;
 import org.kpah.template.AnimalTemplate;
 import org.kpah.utils.Util;
 
@@ -25,9 +26,9 @@ public class ItemAnimal {
         for (Attribute att : attributes) {
             if (att != null) {
                 switch (att.getTemplate().getId()) {
-                    case 56 ->
+                    case AttributeConst.TANG_THU_VAT ->
                         st.append("PT vật tăng: ").append(att.getValue()).append("%\n");
-                    case 60 ->
+                    case AttributeConst.TANG_THU_MA ->
                         st.append("PT ma tăng: ").append(att.getValue()).append("%\n");
                     case 30 ->
                         st.append("Tấn công tăng: ").append(att.getValue()).append("%\n");

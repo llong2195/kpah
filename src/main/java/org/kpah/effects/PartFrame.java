@@ -1,9 +1,10 @@
 package org.kpah.effects;
 
-import lombok.Builder;
-import lombok.Data;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

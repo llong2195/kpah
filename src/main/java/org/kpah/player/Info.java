@@ -1,9 +1,10 @@
 package org.kpah.player;
 
+import org.json.JSONArray;
 import org.kpah.clan.Clan;
+
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONArray;
 
 @Data
 @Builder

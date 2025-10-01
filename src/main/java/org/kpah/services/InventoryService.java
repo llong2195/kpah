@@ -1,8 +1,11 @@
 package org.kpah.services;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
+import org.kpah.consts.AttributeConst;
 import org.kpah.consts.Const;
 import org.kpah.consts.ItemEquipConst;
 import org.kpah.consts.NpcConst;
@@ -113,15 +116,19 @@ public class InventoryService {
             Service.instance.sendLogOut(player.getSession(), String.format("Không đủ %s xu", Util.formatNumber(price)));
             return;
         }
-        for (Attribute att : item.getItemAttributes()) {
-            System.out.println(att.getInfo());
-            if (att.getValue() > 0 && att.getValuePlane() > 0) {
-                // < 100 -> + 20
-                // < 500 -> + 30
-                // < 1000 -> + 50
-                // > 1000 -> + 100
 
-                int addValue = att.getValue() < 100 ? 10 : att.getValue() < 500 ? 20 : att.getValue() < 1000 ? 30 : 50;
+        item.setLevel((byte) (item.getLevel() + 1));
+        List<Short> attToUpgrade = Arrays.asList(AttributeConst.TAN_CONG,
+                AttributeConst.THU_VAT,
+                AttributeConst.NE_TRANH,
+                AttributeConst.CHINH_XAC,
+                AttributeConst.CHI_MANG,
+                AttributeConst.SUC_KHOE,
+                AttributeConst.THU_MA);
+        for (Attribute att : item.getItemAttributes()) {
+            if (attToUpgrade.contains(att.getTemplate().getId()) && att.getValue() > 0) {
+                int addValue = att.getValue();
+                addValue += att.getValue() * 10 / 100;
                 att.setValue((short) (att.getValue() + addValue));
                 InventoryService.instance.sendItemBody(player);
                 sendSuccessRepairItem(player);

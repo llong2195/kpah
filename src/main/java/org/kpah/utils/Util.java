@@ -23,10 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.kpah.consts.Const;
 import org.kpah.consts.ItemEquipConst;
-import lombok.Synchronized;
 import org.kpah.manager.Manager;
 import org.kpah.map.Monster;
 import org.kpah.player.Player;
+
+import lombok.Synchronized;
 
 public class Util {
 

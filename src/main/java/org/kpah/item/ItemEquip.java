@@ -5,15 +5,15 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import org.kpah.consts.AttributeConst;
 import org.kpah.consts.ItemEquipConst;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
 import org.kpah.player.Player;
 import org.kpah.services.InventoryService;
 import org.kpah.template.ItemEquipTemplate;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Builder
@@ -118,13 +118,15 @@ public class ItemEquip {
     public short getValue(short idAtt) {
         for (Attribute attribute : itemAttributes) {
             if (attribute.getTemplate().getId() == idAtt) {
-                System.out.println(attribute.getInfo());
                 if (attribute.getTemplate().getColorPaint() == 1 && !isKichNguHanh) {
+                    System.out.println(attribute.getInfo() + " not kich ngu hanh");
                     return 0;
                 }
                 if (attribute.getTemplate().getIsPercent() == 2) {
+                    System.out.println(attribute.getInfo() + "attribute percent: " + attribute.getValue() / 10);
                     return (short) (attribute.getValue() / 10);
                 }
+                System.out.println(attribute.getInfo() + " " + attribute.getValue());
                 return attribute.getValue();
             }
         }

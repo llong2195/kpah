@@ -4,9 +4,10 @@ import java.io.IOException;
 
 import org.kpah.consts.ItemEquipConst;
 import org.kpah.consts.NpcConst;
-import lombok.NonNull;
 import org.kpah.player.Player;
 import org.kpah.utils.Printer;
+
+import lombok.NonNull;
 
 public class NpcService {
 

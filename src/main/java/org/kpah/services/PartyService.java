@@ -2,12 +2,13 @@ package org.kpah.services;
 
 import java.io.IOException;
 
-import lombok.NonNull;
 import org.kpah.manager.Settings;
 import org.kpah.network.Message;
 import org.kpah.player.Party;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
+
+import lombok.NonNull;
 
 public class PartyService {
 

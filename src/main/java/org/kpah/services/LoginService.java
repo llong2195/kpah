@@ -10,9 +10,6 @@ import org.kpah.daos.PlayerDAO;
 import org.kpah.effects.EffectData;
 import org.kpah.interfaces.ISession;
 import org.kpah.item.ItemEquip;
-import lombok.Cleanup;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.manager.ClientManager;
 import org.kpah.manager.ExecutorVirtualThread;
 import org.kpah.manager.Manager;
@@ -24,6 +21,10 @@ import org.kpah.template.PotionTemplate;
 import org.kpah.template.SkillNewTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.Cleanup;
+import lombok.NonNull;
+import lombok.Synchronized;
 
 public class LoginService {
 

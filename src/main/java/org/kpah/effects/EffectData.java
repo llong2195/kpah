@@ -3,10 +3,12 @@ package org.kpah.effects;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import lombok.Builder;
-import lombok.Data;
+
 import org.kpah.consts.Const;
 import org.kpah.utils.Util;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

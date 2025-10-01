@@ -7,13 +7,14 @@ import org.kpah.consts.HorseConst;
 import org.kpah.item.ItemAnimal;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemPotion;
-import lombok.NonNull;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class UseItemService {
 

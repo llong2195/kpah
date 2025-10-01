@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import org.kpah.clan.Clan;
 import org.kpah.consts.ClanConst;
-import lombok.NonNull;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class PopupService {
 

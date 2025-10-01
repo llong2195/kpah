@@ -1,8 +1,9 @@
 package org.kpah.map;
 
+import org.kpah.template.NpcServerTemplate;
+
 import lombok.Builder;
 import lombok.Data;
-import org.kpah.template.NpcServerTemplate;
 
 @Data
 @Builder

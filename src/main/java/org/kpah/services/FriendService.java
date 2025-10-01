@@ -6,11 +6,12 @@ import java.util.List;
 
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemFriend;
-import lombok.NonNull;
 import org.kpah.network.Message;
 import org.kpah.player.Friend;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
+
+import lombok.NonNull;
 
 public class FriendService {
 

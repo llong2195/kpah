@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.kpah.item.ItemPotion;
-import lombok.NonNull;
-import lombok.Synchronized;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
+
+import lombok.NonNull;
+import lombok.Synchronized;
 
 public class TradeService {
 

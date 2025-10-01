@@ -1,14 +1,15 @@
 package org.kpah.network;
 
-import org.kpah.interfaces.IMessageSendCollect;
-import org.kpah.interfaces.ISession;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
-import lombok.NonNull;
 
+import org.kpah.interfaces.IMessageSendCollect;
+import org.kpah.interfaces.ISession;
 import org.kpah.utils.CommandMessage;
+
+import lombok.NonNull;
 
 public final class Collector implements Runnable {
 

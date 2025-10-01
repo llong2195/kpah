@@ -1,19 +1,17 @@
 package org.kpah.manager;
 
-import org.kpah.clan.Clan;
-import org.kpah.daos.PlayerDAO;
-import org.kpah.database.HikariCP;
-import org.kpah.database.ResultSetImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import static org.kpah.manager.ClanManager.CLANS;
-import static org.kpah.manager.ClanManager.saveDataClan;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.kpah.clan.Clan;
+import org.kpah.daos.PlayerDAO;
+import org.kpah.database.HikariCP;
+import org.kpah.database.ResultSetImpl;
 import org.kpah.top.ClanInfo;
 import org.kpah.top.TopPlayer;
 import org.kpah.utils.Logger;
@@ -32,7 +30,7 @@ public class TopManager {
                     dispose();
                     loadTop();
                     Printer.printRed("Load Top Data");
-                    saveDataClan();
+                    ClanManager.saveDataClan();
                     TimeUnit.MINUTES.sleep(10);
                 }
             } catch (Exception e) {
@@ -104,7 +102,7 @@ public class TopManager {
             TOP_STRONGER.add(top);
         }
         rs.close();
-        CLANS.values().stream()
+        ClanManager.CLANS.values().stream()
                 .sorted(Comparator.comparing(Clan::getLevel).thenComparing(Clan::getXu))
                 .limit(10).forEach(clan -> {
                     ClanInfo clanInfo = ClanInfo.builder().indexIcon(clan.getIndexIcon()).level(clan.getLevel())

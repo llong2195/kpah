@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kpah.consts.AttributeConst;
 import org.kpah.consts.CombineConst;
 import org.kpah.consts.Const;
 import org.kpah.consts.ItemEquipConst;
@@ -14,14 +15,15 @@ import org.kpah.item.ItemAnimal;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
 import org.kpah.item.ItemPotion;
-import lombok.Cleanup;
-import lombok.NonNull;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
 import org.kpah.player.Player;
 import org.kpah.template.HoaTieuTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.Cleanup;
+import lombok.NonNull;
 
 public class MenuOptionService {
 
@@ -917,9 +919,11 @@ public class MenuOptionService {
                 animal.getAttributes().add(new Attribute(id, value));
             }
             animal.getAttributes()
-                    .add(new Attribute((short) 33, (short) Manager.getMaxValueAttributeAnimal((byte) 33, level)));
+                    .add(new Attribute(AttributeConst.TANG_HP,
+                            (short) Manager.getMaxValueAttributeAnimal(AttributeConst.TANG_HP, level)));
             animal.getAttributes()
-                    .add(new Attribute((short) 34, (short) Manager.getMaxValueAttributeAnimal((byte) 34, level)));
+                    .add(new Attribute(AttributeConst.TANG_MP,
+                            (short) Manager.getMaxValueAttributeAnimal(AttributeConst.TANG_MP, level)));
             short idRandom = ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL[Util.nextInt(0,
                     ItemEquipConst.ATTRIBUTE_RANDOM_ANIMAL.length - 1)];
             animal.getAttributes().add(new Attribute(idRandom,

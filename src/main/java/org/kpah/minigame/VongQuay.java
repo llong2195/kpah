@@ -2,10 +2,12 @@ package org.kpah.minigame;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
-import lombok.NonNull;
-import lombok.Synchronized;
+
 import org.kpah.player.Player;
 import org.kpah.services.Service;
+
+import lombok.NonNull;
+import lombok.Synchronized;
 
 public class VongQuay {
 

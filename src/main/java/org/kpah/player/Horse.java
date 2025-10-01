@@ -1,10 +1,11 @@
 package org.kpah.player;
 
-import org.kpah.item.ItemAnimal;
-import lombok.Builder;
-import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.kpah.item.ItemAnimal;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

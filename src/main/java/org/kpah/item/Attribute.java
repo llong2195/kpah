@@ -1,9 +1,10 @@
 package org.kpah.item;
 
-import lombok.Data;
-import org.kpah.manager.Manager;
 import org.json.JSONArray;
+import org.kpah.manager.Manager;
 import org.kpah.template.AttributeEquipTemplate;
+
+import lombok.Data;
 
 @Data
 public class Attribute {

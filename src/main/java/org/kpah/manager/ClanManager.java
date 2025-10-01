@@ -1,14 +1,16 @@
 package org.kpah.manager;
 
-import org.kpah.clan.Clan;
-import org.kpah.database.HikariCP;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import lombok.NonNull;
-import lombok.Synchronized;
+
+import org.kpah.clan.Clan;
+import org.kpah.database.HikariCP;
 import org.kpah.utils.Logger;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
+import lombok.Synchronized;
 
 public class ClanManager {
 

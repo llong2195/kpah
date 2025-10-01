@@ -1,8 +1,5 @@
 package org.kpah.database;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.kpah.manager.Settings;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class HikariCP {
 

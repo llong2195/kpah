@@ -1,9 +1,10 @@
 package org.kpah.player;
 
-import lombok.Builder;
-import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

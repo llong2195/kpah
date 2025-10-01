@@ -293,6 +293,7 @@ public class SkillService {
         boolean isBaoKich = Util.isTrue((double) player.getPoint().getBaoKich(), 100.0);
         boolean isMiss = Util.isTrue(2.5, 96.7);
         boolean isXuyenGiap = Util.isTrue((double) player.getPoint().getXuyenGiap(), 100.0);
+        boolean x2 = Util.isTrue((double) player.getPoint().getX2(), 100.0);
 
         byte effAttack = Const.NONE_EFFECT;
         byte typeSkill = player.getSkill().getTypeSkill();
@@ -303,9 +304,10 @@ public class SkillService {
         } else if (isBaoKich) {
             effAttack = Const.BAO_KICK_EFFECT;
         }
-        Monster mobTarget = mobs.get(0);
+        Monster mobTarget = mobs.stream().filter(m -> m != null && !m.isDie()).findFirst().orElse(mobs.get(0));
+
         int dameHit = mobTarget.injured(player, player.getPoint().getDameAttack(isMiss, isCrit, isBaoKich, true),
-                isXuyenGiap, false, false);
+                isXuyenGiap, false, x2);
         if (dameHit == 0) {
             effAttack = Const.MISS_EFFECT;
             isXuyenGiap = false;

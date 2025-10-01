@@ -1,10 +1,12 @@
 package org.kpah.map;
 
 import java.util.List;
+
+import org.kpah.player.Player;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
-import org.kpah.player.Player;
 
 @Data
 @Builder

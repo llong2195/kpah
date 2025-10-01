@@ -1,12 +1,14 @@
 package org.kpah.deposite;
 
 import java.util.List;
+
+import org.kpah.manager.ClientManager;
+import org.kpah.player.Player;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.Synchronized;
-import org.kpah.manager.ClientManager;
-import org.kpah.player.Player;
 
 @Data
 @Builder

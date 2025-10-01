@@ -1,8 +1,9 @@
 package org.kpah.item;
 
+import org.json.JSONArray;
+
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONArray;
 
 @Data
 @Builder

@@ -11,7 +11,6 @@ import org.kpah.item.ItemBuyNpc;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemGem;
 import org.kpah.item.ItemPotion;
-import lombok.NonNull;
 import org.kpah.manager.ClientManager;
 import org.kpah.manager.Manager;
 import org.kpah.network.Message;
@@ -24,6 +23,8 @@ import org.kpah.template.ShopTemplate;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Printer;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class ShopService {
 
@@ -361,6 +362,7 @@ public class ShopService {
         if (item.getTemplate().getNdayLoan() != 0 || item.isLock()
                 || item.getTemplate().getAttribute()[Const.ATTRIBUTE_CLOTH] == 1) {
             InventoryService.instance.sendItemBag(player);
+            Service.instance.sendLogOut(player.getSession(), "Không thể bán");
             return;
         }
         InventoryService.instance.removeItemBagEquipment(player, item);

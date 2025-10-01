@@ -11,7 +11,6 @@ import org.kpah.consts.ClanConst;
 import org.kpah.item.ItemEquip;
 import org.kpah.item.ItemFriend;
 import org.kpah.item.ItemPotion;
-import lombok.NonNull;
 import org.kpah.manager.ClanManager;
 import org.kpah.manager.Manager;
 import org.kpah.manager.Settings;
@@ -20,6 +19,8 @@ import org.kpah.player.Friend;
 import org.kpah.player.Player;
 import org.kpah.utils.CommandMessage;
 import org.kpah.utils.Util;
+
+import lombok.NonNull;
 
 public class ClanService {
 
