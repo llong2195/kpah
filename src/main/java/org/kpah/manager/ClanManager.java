@@ -30,7 +30,7 @@ public class ClanManager {
                             }
                         }
                     }
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MINUTES.sleep(3);
                 }
             } catch (Exception e) {
                 Logger.logError("Lỗi Update Clan", e);

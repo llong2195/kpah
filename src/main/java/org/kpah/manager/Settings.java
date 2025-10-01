@@ -27,7 +27,7 @@ public class Settings {
     public static final byte PERCENT_EXP_PARTY = 5;
     public static final byte MAX_PLAYER_IN_PARTY = 10;
 
-    public static final int MILISECOND_UPDATE_DATABASE = 300000;
+    public static final int MILISECOND_UPDATE_DATABASE = 12000; // 2 minute
 
     public static final int TIME_LIVE_MOB = 8000;
     public static final short DISTANCE_MOB_CAN_ATTACK = 90;

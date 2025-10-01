@@ -114,7 +114,8 @@ public class Map implements IMap {
                             }
                         }
                     }
-                    TimeUnit.SECONDS.sleep(1);
+                    // TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 }
             } catch (Exception e) {
                 Logger.logError("Lỗi Update Map", e);

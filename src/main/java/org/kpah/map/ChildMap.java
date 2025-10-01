@@ -72,7 +72,8 @@ public class ChildMap implements IMap {
                             }
                         }
                     }
-                    TimeUnit.SECONDS.sleep(1);
+                    // TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 }
             } catch (Exception e) {
                 Logger.logError("Lỗi Update Child Map", e);
