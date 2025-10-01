@@ -115,130 +115,38 @@ public class ManufactureService {
         itemAdd.setHe((byte) Util.nextInt(Const.THUY, Const.KIM));
         itemAdd.setLock(gem.isLock());
         itemAdd.setDamageType(typeDamage);
-        switch (colorCreate) {
-            case ItemEquipConst.BLUE_COLOR -> {
-                switch (template.getType()) {
-                    case ItemEquipConst.ANIMAL_QUAN -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHINH_XAC,
-                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                        * (indexMaterial * 10) / 100)));
-                    }
-                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 10)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHI_MANG,
-                                        ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
-                    }
-                    default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
-                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 10) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
-                    }
-                }
+
+        switch (template.getType()) {
+            case ItemEquipConst.ANIMAL_QUAN -> {
+                short atk = (short) getValueAttributeByColor(ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR,
+                        ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * 5,
+                        colorCreate);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, atk));
+
+                short accurate = (short) getValueAttributeByColor(ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR,
+                        ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR * 5, colorCreate);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, accurate));
             }
-            case ItemEquipConst.RED_COLOR -> {
-                switch (template.getType()) {
-                    case ItemEquipConst.ANIMAL_QUAN -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHINH_XAC,
-                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                        * (indexMaterial * 13) / 100)));
-                    }
-                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * (indexMaterial * 13)
-                                                        / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHI_MANG,
-                                        ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR));
-                    }
-                    default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
-                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * (indexMaterial * 13) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
-                    }
-                }
+            case ItemEquipConst.ANIMAL_BAN_DAP -> {
+                short atk = (short) getValueAttributeByColor(ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR,
+                        ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR * 5,
+                        colorCreate);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, atk));
+
+                short crit = (short) getValueAttributeByColor(ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR,
+                        ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR * 5,
+                        colorCreate);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, crit));
             }
-            case ItemEquipConst.GREEN_COLOR -> {
-                switch (template.getType()) {
-                    case ItemEquipConst.ANIMAL_QUAN -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHINH_XAC,
-                                        (short) (ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ACCURATE_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
-                        if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes()
-                                    .add(new Attribute((short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
-                                            AttributeConst.BO_QUA_TC_VAT), (short) Util.nextInt(1, 3)));
-                        }
-                    }
-                    case ItemEquipConst.ANIMAL_BAN_DAP -> {
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TAN_CONG,
-                                        (short) (ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_ATTACK_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.CHINH_XAC,
-                                        (short) (ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
-                                                + ManufactureConst.ATTRIBUTE_CRIT_ANIMAL_ARMOR
-                                                        * ((indexMaterial + 1) * 20) / 100)));
-                        itemAdd.getItemAttributes()
-                                .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
-                        if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes()
-                                    .add(new Attribute((short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
-                                            AttributeConst.BO_QUA_TC_VAT), (short) Util.nextInt(1, 3)));
-                        }
-                    }
-                    default -> {
-                        short def = (short) (ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR
-                                + ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * ((indexMaterial + 1) * 20) / 100);
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
-                        short defPercent = (short) Util.nextInt(10, 20);
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
-                        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
-                        if (itemAdd.getColorName() != ItemEquipConst.NONE_COLOR) {
-                            itemAdd.getItemAttributes()
-                                    .add(new Attribute(
-                                            (short) Util.getOne(AttributeConst.BO_QUA_TC_MA,
-                                                    AttributeConst.BO_QUA_TC_VAT),
-                                            (short) Util.nextInt(1, 3)));
-                        }
-                    }
-                }
+            default -> {
+                short def = (short) getValueAttributeByColor(ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR,
+                        ManufactureConst.ATTRIBUTE_DEF_ANIMAL_ARMOR * 5,
+                        colorCreate);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
             }
         }
+
         itemAdd.subDefend();
         InventoryService.instance.addItemBagEquipment(player, itemAdd);
         Service.instance.sendLogOut(player.getSession(),
@@ -329,15 +237,22 @@ public class ManufactureService {
         switch (typeArmor) {
             case ManufactureConst.AO, ManufactureConst.NON, ManufactureConst.GIAY, ManufactureConst.QUAN,
                     ManufactureConst.GANG -> {
+                // Tăng thủ vật
                 int rangeValueDef[] = getRangeByLevel(300, 1500, levelSoCap, maxLevelIdItem);
-                short def = (short) Util.nextInt(rangeValueDef[0], rangeValueDef[1]);
+                short def = (short) getValueAttributeByRank(rangeValueDef[0], rangeValueDef[1], rankItem);
                 itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_VAT, def));
-                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, def));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
+
+                // Tăng thủ ma
+                int rangeValueDefMagic[] = getRangeByLevel(300, 1500, levelSoCap, maxLevelIdItem);
+                short defMagic = (short) getValueAttributeByRank(rangeValueDefMagic[0], rangeValueDefMagic[1],
+                        rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.THU_MA, defMagic));
+
+                // Tăng chính xác
+                short accurate = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, accurate));
+
+                // Tăng thủ vật % và thủ ma %
                 if (typeDamage == ItemEquipConst.DAMAGE_PHYSIC) {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, (short) 3));
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
@@ -345,33 +260,67 @@ public class ManufactureService {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
+
+                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
             case ManufactureConst.NHAN -> {
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.TAN_CONG, (short) Util.nextInt(130, 150)));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
+                // Tăng tấn công
+                int rangeValueAtk[] = getRangeByLevel(300, 2000, levelSoCap, maxLevelIdItem);
+                short atk = (short) getValueAttributeByRank(rangeValueAtk[0], rangeValueAtk[1], rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, atk));
+
+                // Tăng chính xác
+                short accurate = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, accurate));
+
+                // Tăng chí mạng
+                short crit = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, crit));
+
+                // Tăng tấn công %
+                short atkPercent = (short) getValueAttributeByRank(1, 10, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, atkPercent));
+
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
             }
             case ManufactureConst.DAY_CHUYEN -> {
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.TAN_CONG, (short) Util.nextInt(130, 150)));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
+                // Tăng tấn công
+                int rangeValueAtk[] = getRangeByLevel(300, 2000, levelSoCap, maxLevelIdItem);
+                short atk = (short) getValueAttributeByRank(rangeValueAtk[0], rangeValueAtk[1], rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, atk));
+
+                // Tăng chí mạng
+                short crit = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, crit));
+
+                // Tăng tấn công %
+                short atkPercent = (short) getValueAttributeByRank(1, 10, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, atkPercent));
+
+                // Tăng sức khỏe
+                short health = (short) getValueAttributeByRank(150, 160, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.SUC_KHOE, health));
+
                 addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.TANG_CONG, (short) Util.nextInt(1, 10)));
             }
             case ManufactureConst.NGOC -> {
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHINH_XAC, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.CHI_MANG, (short) Util.nextInt(5, 80)));
-                itemAdd.getItemAttributes()
-                        .add(new Attribute(AttributeConst.SUC_KHOE, (short) Util.nextInt(150, 160)));
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
+                // Tăng chính xác
+                short accurate = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, accurate));
+
+                // Tăng sức khỏe
+                short health = (short) getValueAttributeByRank(150, 160, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.SUC_KHOE, health));
+
+                // Tăng chí mạng
+                short crit = (short) getValueAttributeByRank(5, 80, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, crit));
+
+                // Tăng tấn công %
+                short atkPercent = (short) getValueAttributeByRank(1, 10, rankItem);
+                itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, atkPercent));
+
+                // Tăng thủ vật % và thủ ma %
                 if (typeDamage == ItemEquipConst.DAMAGE_PHYSIC) {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, (short) 3));
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, defPercent));
@@ -379,6 +328,8 @@ public class ManufactureService {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_MA, defPercent));
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
+
+                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
         }
         itemAdd.subDefend();
@@ -466,19 +417,19 @@ public class ManufactureService {
         itemAdd.setLock(isLockItem);
 
         // Tăng tấn công // Tăng tấn công theo cấp độ vũ khí
-        int rangeValueTanCong[] = getRangeByLevel(500, 3000, levelSoCap, maxLevelIdItem);
-        int valueTanCong = getValueAttributeByRank(rangeValueTanCong[0], rangeValueTanCong[1], rankItem);
-        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, (short) valueTanCong));
+        int rangeValueAtk[] = getRangeByLevel(500, 3000, levelSoCap, maxLevelIdItem);
+        int atk = getValueAttributeByRank(rangeValueAtk[0], rangeValueAtk[1], rankItem);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TAN_CONG, (short) atk));
 
         // Tăng chính xác
-        int valueChinhXac = getValueAttributeByRank(5, 80, rankItem);
-        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, (short) valueChinhXac));
+        int accurate = getValueAttributeByRank(5, 80, rankItem);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHINH_XAC, (short) accurate));
         // Tăng chí mạng
-        int valueChiMang = getValueAttributeByRank(5, 80, rankItem);
-        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, (short) valueChiMang));
+        int crit = getValueAttributeByRank(5, 80, rankItem);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.CHI_MANG, (short) crit));
         // Tăng % công
-        int valueTangCong = getValueAttributeByRank(1, 10, rankItem);
-        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, (short) valueTangCong));
+        int atkPercent = getValueAttributeByRank(1, 10, rankItem);
+        itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, (short) atkPercent));
 
         // add special attribute
         addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
