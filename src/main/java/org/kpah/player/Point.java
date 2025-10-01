@@ -1,6 +1,8 @@
 package org.kpah.player;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.kpah.consts.AttributeConst;
@@ -550,6 +552,39 @@ public class Point {
         }
     }
 
+    private void setSkillLevel() {
+        List<Short> attSkills = Arrays.asList(
+                AttributeConst.KY_NANG_1_CONG_THEM,
+                AttributeConst.KY_NANG_2_CONG_THEM,
+                AttributeConst.KY_NANG_3_CONG_THEM,
+                AttributeConst.KY_NANG_4_CONG_THEM,
+                AttributeConst.KY_NANG_5_CONG_THEM,
+                AttributeConst.KY_NANG_6_CONG_THEM,
+                AttributeConst.KY_NANG_7_CONG_THEM,
+                AttributeConst.KY_NANG_8_CONG_THEM,
+                AttributeConst.KY_NANG_9_CONG_THEM,
+                AttributeConst.KY_NANG_10_CONG_THEM,
+                AttributeConst.KY_NANG_11_CONG_THEM,
+                AttributeConst.KY_NANG_12_CONG_THEM,
+                AttributeConst.KY_NANG_13_CONG_THEM,
+                AttributeConst.KY_NANG_14_CONG_THEM,
+                AttributeConst.KY_NANG_15_CONG_THEM);
+
+        for (int i = 0; i < attSkills.size(); i++) {
+            short attSkillId = attSkills.get(i);
+            int levelSkill = InventoryService.instance.sumAttributeValueForId(player, attSkillId);
+
+            if (player.getHorse().getAnimalUse() != null) {
+                levelSkill += player.getHorse().getAnimalUse().sumAttributeValueForId(attSkillId);
+            }
+
+            if (player.getSkill().getLevelSkill().length > i) {
+                player.getSkill().getLevelSkill()[i] += (byte) levelSkill;
+            }
+        }
+
+    }
+
     public void initPoint() {
         resetPoint();
         setPercentDropXu();
@@ -581,6 +616,7 @@ public class Point {
         setBaoKich();
         setHp();
         setMp();
+        // setSkillLevel();
     }
 
     private void resetPoint() {

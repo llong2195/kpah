@@ -328,19 +328,71 @@ public class Manager {
     }
 
     public static short getTimeLifeBuffSkill(int skillType, int skillLevel) {
-        return (skillLevel > 0) ? TIME_LIFE_BUFF_SKILL[skillType][skillLevel] : 0;
+        if (skillType < 0 || skillType >= TIME_LIFE_BUFF_SKILL.length) {
+            return 0;
+        }
+        if (skillLevel <= 0) {
+            return 0;
+        }
+        int lastedIndex = TIME_LIFE_BUFF_SKILL[skillType].length - 1;
+        if (skillLevel > lastedIndex) {
+            int diffLevel = skillLevel - lastedIndex;
+            int timeLife = TIME_LIFE_BUFF_SKILL[skillType][lastedIndex];
+            return (short) (timeLife + timeLife * diffLevel * 10 / 100);
+        }
+        return TIME_LIFE_BUFF_SKILL[skillType][skillLevel];
     }
 
     public static short getSkillDamPercent(byte clazz, byte skillType, byte skillLevel) {
-        return (skillLevel > 0) ? SKILL_DAM_PERCENT[clazz][skillType][skillLevel] : 0;
+        if (skillLevel <= 0) {
+            return 0;
+        }
+        if (clazz < 0 || clazz >= SKILL_DAM_PERCENT.length) {
+            return 0;
+        }
+        if (skillType < 0 || skillType >= SKILL_DAM_PERCENT[clazz].length) {
+            return 0;
+        }
+
+        int lastedIndex = SKILL_DAM_PERCENT[clazz][skillType].length - 1;
+        if (skillLevel > lastedIndex) {
+            int diffLevel = skillLevel - lastedIndex;
+            int skillDamPercent = SKILL_DAM_PERCENT[clazz][skillType][lastedIndex];
+            return (short) (skillDamPercent + (diffLevel * 10));
+        }
+        return SKILL_DAM_PERCENT[clazz][skillType][skillLevel];
     }
 
     public static short getSkillMP(byte clazz, byte skillType, byte skillLevel) {
-        return (skillLevel > 0) ? SKILL_MP[clazz][skillType][skillLevel] : 0;
+        if (skillLevel <= 0) {
+            return 0;
+        }
+        if (clazz < 0 || clazz >= SKILL_MP.length) {
+            return 0;
+        }
+        if (skillType < 0 || skillType >= SKILL_MP[clazz].length) {
+            return 0;
+        }
+
+        int lastedIndex = SKILL_MP[clazz][skillType].length - 1;
+        if (skillLevel > lastedIndex) {
+            return SKILL_MP[clazz][skillType][lastedIndex];
+        }
+        return SKILL_MP[clazz][skillType][skillLevel];
     }
 
-    public static long getSkillCooldown(byte clazz, byte skillType, byte level) {
-        return (level > 0) ? SKILL_COOLDOWN[clazz][skillType][level] : 0;
+    public static long getSkillCooldown(byte clazz, byte skillType, byte skillLevel) {
+        if (skillLevel <= 0) {
+            return 0;
+        }
+        if (clazz < 0 || clazz >= SKILL_COOLDOWN.length) {
+            return 0;
+        }
+        if (skillType < 0 || skillType >= SKILL_COOLDOWN[clazz].length) {
+            return 0;
+        }
+
+        return SKILL_COOLDOWN[clazz][skillType][skillLevel];
     }
 
     public static short getSkillRange(byte clazz, byte skillType) {

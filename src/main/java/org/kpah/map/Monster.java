@@ -171,8 +171,8 @@ public class Monster implements Cloneable {
         if (dameAtt <= 0) {
             dameAtt = 1;
         }
-        if (this.template.getLevel() - 2 < pl.getInfo().getLevel()) {
-            dameAtt /= pl.getInfo().getLevel() - this.template.getLevel() + 2;
+        if (this.template.getLevel() - 5 <= pl.getInfo().getLevel()) {
+            dameAtt /= pl.getInfo().getLevel() - this.template.getLevel() + 5;
         }
         return dameAtt;
     }
