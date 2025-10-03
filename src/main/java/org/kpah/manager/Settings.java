@@ -1,15 +1,18 @@
 package org.kpah.manager;
 
+import org.kpah.utils.ConfigLoader;
+
 public class Settings {
+    // Game settings
+    public static final int PORT_SERVER;
+    public static final int MAX_PLAYER;
+    public static final String NAME_SERVER;
 
-    public static final int MAX_PLAYER = 40000; // không được vượt quá 60000
-
-    public static final String NAME_SERVER = "KPAH";
-    public static final String DATABASE = "kpah";
-    public static final String HOST = "127.0.0.1:3306";
-    public static final String USER = "root";
-    public static final String PASS = "password";
-    public static final int PORT_SERVER = 19129;
+    // Database settings
+    public static final String DATABASE;
+    public static final String HOST;
+    public static final String USER;
+    public static final String PASS;
 
     public static final byte[] KEYS = "kpah".getBytes();
     public static final byte DAY_WAIT_FOR_DELETE = 7;
@@ -23,7 +26,7 @@ public class Settings {
     public static final int MILISECOND_REVIVE_PLAYER = 30000;
     public static final byte LEVEL_CAN_AUTO_REVIVE = 10;
 
-    public static final byte EXP_DONATE = 100; // gấp 100 lần EXP
+    public static final int EXP_DONATE; // gấp 100 lần EXP
     public static final byte PERCENT_EXP_PARTY = 5;
     public static final byte MAX_PLAYER_IN_PARTY = 10;
 
@@ -38,4 +41,19 @@ public class Settings {
     public static final String[] ICON = {};
 
     public static final String[] LOGO_GAME = {};
+
+    static {
+        ConfigLoader config = new ConfigLoader("config.properties");
+
+        PORT_SERVER = config.getInt("PORT_SERVER", 19129);
+        NAME_SERVER = config.getString("NAME_SERVER", "KPAH");
+        MAX_PLAYER = config.getInt("MAX_PLAYER", 40000);
+
+        DATABASE = config.getString("DATABASE", "kpah");
+        HOST = config.getString("HOST", "127.0.0.1:3306");
+        USER = config.getString("USER", "root");
+        PASS = config.getString("PASS", "password");
+
+        EXP_DONATE = config.getInt("EXP_DONATE", 100);
+    }
 }
