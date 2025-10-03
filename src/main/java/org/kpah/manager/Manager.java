@@ -1351,21 +1351,21 @@ public class Manager {
 
             Printer.printGreen(String.format("Finish Load Default Deposite [%s]", DEPOSITE.size()));
 
-            ICON_ANIMAL = Util.readFile("data\\image\\animal.png");
-            ICON_POTION = Util.readFile("data\\image\\potion\\potion.png");
-            ICON_ITEM = Util.readFile("data\\image\\potion\\item.png");
+            ICON_ANIMAL = Util.readFile("data/image/animal.png");
+            ICON_POTION = Util.readFile("data/image/potion/potion.png");
+            ICON_ITEM = Util.readFile("data/image/potion/item.png");
             ICON_SKILL = new byte[5][];
             for (int i = 0; i < 5; i++) {
-                ICON_SKILL[i] = Util.readFile("data\\image\\skill\\" + i + ".png");
+                ICON_SKILL[i] = Util.readFile("data/image/skill/" + i + ".png");
             }
-            File folder = new File("data\\image\\icon");
+            File folder = new File("data/image/icon");
             for (File file : folder.listFiles()) {
                 IMAGES_DEFAULT.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())),
                         Util.readFile(file));
             }
             Printer.printGreen(String.format("Finish Load Images Default [%s]", IMAGES_DEFAULT.size()));
 
-            folder = new File("data\\image\\horse");
+            folder = new File("data/image/horse");
             @Cleanup("clear")
             List<File> fileList = new ArrayList<>();
             Arrays.stream(folder.listFiles())
@@ -1386,21 +1386,21 @@ public class Manager {
             }
             Printer.printGreen(String.format("Finish Load Images Horse [%s]", DATA_HORSE.length));
 
-            folder = new File("data\\map\\mobImage");
+            folder = new File("data/map/mobImage");
             for (File file : folder.listFiles()) {
                 short id = Short.parseShort(Util.getFileNameWithoutExtension(file.getName()));
                 IMAGES_MONSTER.put(id, Util.readFile(file));
             }
             Printer.printGreen(String.format("Finish Load Images Monster [%s]", IMAGES_MONSTER.size()));
 
-            folder = new File("data\\image\\animal");
+            folder = new File("data/image/animal");
             for (File file : folder.listFiles()) {
                 byte id = Byte.parseByte(Util.getFileNameWithoutExtension(file.getName()));
                 IMAGES_ANIMAL.put(id, Util.readFile(file));
             }
             Printer.printGreen(String.format("Finish Load Images Animal [%s]", IMAGES_ANIMAL.size()));
 
-            folder = new File("data\\image\\tree");
+            folder = new File("data/image/tree");
             for (File file : folder.listFiles()) {
                 byte id = Byte.parseByte(Util.getFileNameWithoutExtension(file.getName()));
                 byte[] data = Util.concatenate(Util.readFile(file), getTreeInfo(id).getData());
@@ -1408,14 +1408,14 @@ public class Manager {
             }
             Printer.printGreen(String.format("Finish Load Images Tree [%s]", IMAGES_TREE.size()));
 
-            folder = new File("data\\image\\weapon");
+            folder = new File("data/image/weapon");
             for (File file : folder.listFiles()) {
                 IMAGES_WEAPON.put(Short.valueOf(Util.getFileNameWithoutExtension(file.getName())),
                         Util.readFileAndSplit(file));
             }
             Printer.printGreen(String.format("Finish Load Images Weapon [%s]", IMAGES_WEAPON.size()));
 
-            folder = new File("data\\image\\cloth");
+            folder = new File("data/image/cloth");
             for (File folderChild : folder.listFiles()) {
                 byte idParent = Byte.parseByte(Util.getFileNameWithoutExtension(folderChild.getName()));
                 ConcurrentHashMap<Byte, byte[]> clothes = new ConcurrentHashMap<>();

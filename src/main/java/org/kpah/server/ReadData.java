@@ -40,7 +40,7 @@ public class ReadData {
     }
 
     public static void loadMob() throws IOException, JSONException, SQLException {
-        File folder = new File("E:\\KPAH\\KPAHZ\\Data\\MobInfo");
+        File folder = new File("E:/KPAH/KPAHZ/Data/MobInfo");
         for (File folderChild : folder.listFiles()) {
             int idmap = Integer.parseInt(Util.getFileNameWithoutExtension(folderChild.getName()));
             if (idmap != 17) {
@@ -197,8 +197,8 @@ public class ReadData {
     }
 
     private static void loadItemQuest() throws IOException, JSONException, SQLException {
-        String s = readFile("E:\\KPAH\\KPAHZ\\Data\\Config\\NAME_ITEM_QUEST.txt");
-        String s2 = readFile("E:\\KPAH\\KPAHZ\\Data\\Config\\ICON_IMG_QUEST.txt");
+        String s = readFile("E:/KPAH/KPAHZ/Data/Config/NAME_ITEM_QUEST.txt");
+        String s2 = readFile("E:/KPAH/KPAHZ/Data/Config/ICON_IMG_QUEST.txt");
         JSONArray arr = new JSONArray(s);
         JSONArray arr2 = new JSONArray(s2);
         for (int i = 0; i < arr.length(); i++) {
@@ -210,7 +210,7 @@ public class ReadData {
     }
 
     private static void loadThanThuEffect() throws IOException, JSONException, SQLException {
-        File folder = new File("E:\\KPAH\\KPAHZ\\Data\\SkillEffect");
+        File folder = new File("E:/KPAH/KPAHZ/Data/SkillEffect");
         List<File> fileList = new ArrayList<>();
         Arrays.stream(folder.listFiles())
                 .filter(File::isFile) // Chỉ lấy các tệp tin, loại bỏ các thư mục
@@ -284,7 +284,7 @@ public class ReadData {
     }
 
     private static void loadPetEffect() throws IOException, JSONException, SQLException {
-        File folder = new File("E:\\KPAH\\KPAHZ\\Data\\DataEffect");
+        File folder = new File("E:/KPAH/KPAHZ/Data/DataEffect");
         List<File> fileList = new ArrayList<>();
         Arrays.stream(folder.listFiles())
                 .filter(File::isFile) // Chỉ lấy các tệp tin, loại bỏ các thư mục
@@ -413,7 +413,7 @@ public class ReadData {
     }
 
     private static void loadEffect() throws IOException, JSONException, SQLException {
-        File folder = new File("E:\\KPAH\\KPAHZ\\Data\\EffectNormal");
+        File folder = new File("E:/KPAH/KPAHZ/Data/EffectNormal");
         for (File file : folder.listFiles()) {
             if (file.exists()) {
                 byte[] data = Util.readFile(file);
@@ -463,7 +463,7 @@ public class ReadData {
     }
 
     private static void loadEffectDynamic() throws IOException, JSONException, SQLException {
-        File folder = new File("E:\\KPAH\\KPAHZ\\Data\\DynamicEffect");
+        File folder = new File("E:/KPAH/KPAHZ/Data/DynamicEffect");
         File[] files = folder.listFiles();
         List<File> fileList = new ArrayList<>();
         Arrays.stream(files)
@@ -535,7 +535,7 @@ public class ReadData {
 
     private static void loadSkillNew() throws IOException, JSONException, SQLException {
         for (int id = 0; id < 5; id++) {
-            String s = readFile("E:\\KPAH\\KPAHZ\\Data\\Skill\\" + id + ".txt");
+            String s = readFile("E:/KPAH/KPAHZ/Data/Skill/" + id + ".txt");
             JSONArray arr = new JSONArray(s);
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
@@ -627,7 +627,7 @@ public class ReadData {
         try {
             for (int p = 17; p < 18; p++) {
                 int mapId = p;
-                File file = new File("E:\\KPAH\\KPAHZ\\Data\\Map\\" + mapId);
+                File file = new File("E:/KPAH/KPAHZ/Data/Map/" + mapId);
                 if (file.exists()) {
                     if (!file.getName().startsWith("Info_")) {
                         try (DataInputStream dos = new DataInputStream(new FileInputStream(file))) {
@@ -730,7 +730,7 @@ public class ReadData {
 
                             }
                             String tile = "[" + tileTops.toString() + "," + tileTops2.toString() + "]";
-                            String nameMap = readFile("E:\\KPAH\\KPAHZ\\Data\\Map\\Info_" + mapId + ".txt")
+                            String nameMap = readFile("E:/KPAH/KPAHZ/Data/Map/Info_" + mapId + ".txt")
                                     .split("_")[5];
                             if (HikariCP.executeExist(String
                                     .format("SELECT EXISTS(SELECT * FROM `maps` WHERE `id` = '%s')", mapId)) == 0) {
