@@ -261,7 +261,6 @@ public class ManufactureService {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
 
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
             case ManufactureConst.NHAN -> {
                 // Tăng tấn công
@@ -281,7 +280,6 @@ public class ManufactureService {
                 short atkPercent = (short) getValueAttributeByRank(1, 10, rankItem);
                 itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_CONG, atkPercent));
 
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
             case ManufactureConst.DAY_CHUYEN -> {
                 // Tăng tấn công
@@ -301,7 +299,6 @@ public class ManufactureService {
                 short health = (short) getValueAttributeByRank(150, 160, rankItem);
                 itemAdd.getItemAttributes().add(new Attribute(AttributeConst.SUC_KHOE, health));
 
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
             case ManufactureConst.NGOC -> {
                 // Tăng chính xác
@@ -329,9 +326,11 @@ public class ManufactureService {
                     itemAdd.getItemAttributes().add(new Attribute(AttributeConst.TANG_THU_VAT, (short) 3));
                 }
 
-                addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
             }
         }
+
+        addSpecialAttribute(itemAdd, levelSoCap, levelCaoCap);
+
         itemAdd.subDefend();
         Service.instance.sendLogOut(player.getSession(), String.format("Tạo thành công %s %s %s",
                 itemAdd.getTemplate().getName(), Util.getPham(rankItem), Util.getColor(colorItem)));
@@ -443,6 +442,29 @@ public class ManufactureService {
     }
 
     private void addSpecialAttribute(@NonNull ItemEquip item, byte levelSoCap, byte levelCaoCap) {
+        item.getItemAttributes().add(new Attribute((short) Util.getOne(AttributeConst.TANG_HP, AttributeConst.TANG_MP),
+                levelCaoCap == 6 ? 9 : levelCaoCap));
+
+        short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
+                ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
+        item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(10, 30)));
+
+        if (Util.isTrue(60.9, 100.0)) {
+            short idRandom2;
+            do {
+                idRandom2 = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
+                        ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
+            } while (idRandom2 == idRandom);
+            item.getItemAttributes()
+                    .add(new Attribute(idRandom2, (short) (Util.nextInt(5, 10))));
+        }
+
+        item.getItemAttributes().add(
+                new Attribute((short) Util.nextInt(AttributeConst.KY_NANG_1_CONG_THEM,
+                        item.getClassChar() == Const.PHAP_SU ? AttributeConst.KY_NANG_15_CONG_THEM
+                                : AttributeConst.KY_NANG_13_CONG_THEM),
+                        (short) 1));
+
         if (item.getColorName() != ItemEquipConst.NONE_COLOR) {
             short valueAn = 1;
             short idAttribute = (short) Util.nextInt(AttributeConst.GIAM_ST_VAT, AttributeConst.PHAN_ST);
@@ -458,27 +480,6 @@ public class ManufactureService {
             }
             item.getItemAttributes().add(new Attribute(idAttribute, valueAn));
         }
-
-        item.getItemAttributes().add(new Attribute((short) Util.getOne(AttributeConst.TANG_HP, AttributeConst.TANG_MP),
-                levelCaoCap == 6 ? 9 : levelCaoCap));
-        short idRandom = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
-                ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
-        item.getItemAttributes().add(new Attribute(idRandom, (short) Util.nextInt(10, 30)));
-        if (Util.isTrue(60.9, 100.0)) {
-            short idRandom2;
-            do {
-                idRandom2 = ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON[Util.nextInt(0,
-                        ManufactureConst.ATTRIBUTE_DEFAULT_WEAPON.length - 1)];
-            } while (idRandom2 == idRandom);
-            item.getItemAttributes()
-                    .add(new Attribute(idRandom2, (short) (Util.nextInt(5, 10))));
-        }
-        item.getItemAttributes().add(
-                new Attribute((short) Util.nextInt(AttributeConst.KY_NANG_1_CONG_THEM,
-                        item.getClassChar() == Const.PHAP_SU ? AttributeConst.KY_NANG_15_CONG_THEM
-                                : AttributeConst.KY_NANG_13_CONG_THEM),
-                        (short) 1));
-
     }
 
     public void sendManufactureArmor(@NonNull Player player) throws IOException {

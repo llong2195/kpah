@@ -107,15 +107,18 @@ public class Server implements Runnable {
                             isBaoTri = true;
                             closeServer();
                         }
-                        case "thread" -> Printer.printRed("Thread count: " + Thread.activeCount());
+
+                        case "stats" -> {
+                            SystemMonitor.printStats();
+                        }
                         case "player" -> Printer.printRed("Player in game: " + ClientManager.getPlayers().size());
                         case "session" -> Printer.printRed("Session connect: " + ClientManager.getClients().size());
                         case "help" -> {
                             Printer.printYellow("Command list:");
                             Printer.printYellow("baotri: Bảo trì server");
-                            Printer.printYellow("thread: Xem số lượng thread đang hoạt động");
                             Printer.printYellow("player: Xem số lượng người chơi đang online");
                             Printer.printYellow("session: Xem số lượng session đang kết nối");
+                            Printer.printYellow("stats: Thông tin server hiện tại");
                             Printer.printYellow("help: Xem danh sách command");
                         }
                         default -> Printer.printRed("Unknown command: " + line);
