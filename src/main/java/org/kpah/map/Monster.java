@@ -71,9 +71,15 @@ public class Monster implements Cloneable {
             throws IOException {
         if (!this.isDie()) {
             if (!isKhoangSan()) {
-                if (this.template.getLevel() - 2 > plAtt.getInfo().getLevel()) {
-                    damage /= this.template.getLevel() - plAtt.getInfo().getLevel() + 2;
+                double diff = this.template.getLevel() - plAtt.getInfo().getLevel();
+                if (diff > 20) {
+                    diff = 20;
                 }
+
+                if (diff > 2) {
+                    damage /= diff + 2;
+                }
+
                 if (!isXuyenGiap) {
                     damage -= this.template.getMaxHp() * 0.02;
                 }

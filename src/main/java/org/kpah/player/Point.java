@@ -108,9 +108,10 @@ public class Point {
             return 0;
         }
         int dameAttack = (int) (this.attack * (isAttackMob ? 2.5 : 2));
-        dameAttack += dameAttack
-                * (Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), player.getSkill().getTypeSkill(),
-                        player.getSkill().getLevelSkill()[player.getSkill().getTypeSkill()]) / 100);
+        byte clazz = player.getInfo().getClassPlayer();
+        byte skillType = player.getSkill().getTypeSkill();
+        byte skillLevel = player.getSkill().getLevelSkill()[skillType];
+        dameAttack += dameAttack * (Manager.getSkillDamPercent(clazz, skillType, skillLevel) / 100);
         if (isCrit || isBaoKich) {
             dameAttack *= 2;
         }
