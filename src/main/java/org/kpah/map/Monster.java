@@ -230,17 +230,32 @@ public class Monster implements Cloneable {
     @Synchronized
     public List<ItemMap> getItemDrop(@NonNull Player plAttack) {
         List<ItemMap> its = new ArrayList<>();
+
+        short mobLevel = this.template.getLevel();
+
         if (Util.isTrue(0.8, 100.0)) {
-            its.add(ItemService.instance.createNewItemMap((short) Util.nextInt(1, 6), (short) Util.nextInt(1, 3),
+            short potionId = 1;
+            short quantity = (short) Util.nextInt(1, 3);
+            if (mobLevel < 10) {
+                potionId = (short) Util.getOne(1, 4);
+            } else if (10 < mobLevel && mobLevel < 20) {
+                potionId = (short) Util.getOne(2, 5);
+            } else if (25 < mobLevel) {
+                potionId = (short) Util.getOne(3, 6);
+            }
+            its.add(ItemService.instance.createNewItemMap(potionId, quantity,
                     Const.CATEGORY_POTION, x, y, plAttack.getIdPlayer(), zone));
         }
-        if (Util.isTrue(1.3 + plAttack.getPoint().getPercentDropXu(), 100.0)) {
+        if (Util.isTrue(5.3 + plAttack.getPoint().getPercentDropXu(), 100.0)) {
             short quantity = (short) Util.nextInt(this.template.getLevel() * 15, (this.template.getLevel() + 10) * 15);
             its.add(ItemService.instance.createNewItemMap((short) 0, quantity, Const.CATEGORY_POTION, x, y,
                     plAttack.getIdPlayer(), zone));
         }
-        if (Util.isTrue(0.45 + plAttack.getPoint().getPercentDropEquip(), 100.0)) {
-            short idItemEquipment = Manager.randomItemEquipment((byte) this.template.getLevel(),
+        if (Util.isTrue(2.45 + plAttack.getPoint().getPercentDropEquip(), 100.0)) {
+            short idItemEquipment = -1;
+            int baseItemLevel = (int) Math.ceil(this.template.getLevel() / 5) * 5 + (Util.isTrue(10, 100) ? 1 : 0);
+
+            idItemEquipment = Manager.randomItemEquipment((byte) baseItemLevel,
                     (byte) Util.getOne(plAttack.getInfo().getGender(), 0));
             if (idItemEquipment != -1) {
                 its.add(ItemService.instance.createNewItemMap(idItemEquipment, (short) 1, Const.CATEGORY_ITEM, x, y,

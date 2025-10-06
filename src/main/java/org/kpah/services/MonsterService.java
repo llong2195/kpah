@@ -68,10 +68,12 @@ public class MonsterService {
             msg.writer().writeShort(itemMap.getX());
             msg.writer().writeShort(itemMap.getY());
         }
+        MapService.instance.sendAllPlayerInMap(monster, msg);
+
+        // auto get item drop
         for (ItemMap itemDrop : itemsDrop) {
             MapService.instance.getItemEquipmentFromGround(plAtt, itemDrop.getItemMapId());
         }
-        MapService.instance.sendAllPlayerInMap(monster, msg);
     }
 
     public void sendMonsterMove(@NonNull Monster monster) throws IOException {
