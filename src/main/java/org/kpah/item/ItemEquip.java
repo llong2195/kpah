@@ -75,6 +75,9 @@ public class ItemEquip {
             ItemEquip item = InventoryService.instance.findItemBodyAnimalByHe(player, typeKich, heKich);
             return isKichNguHanh = item != null;
         }
+        if (template.getType() == ItemEquipConst.NHAN) {
+            return isKichNguHanh = true;
+        }
         return false;
     }
 
@@ -119,11 +122,14 @@ public class ItemEquip {
         for (Attribute attribute : itemAttributes) {
             if (attribute.getTemplate().getId() == idAtt) {
                 if (attribute.getTemplate().getColorPaint() == 1 && !isKichNguHanh) {
-                    System.out.println(attribute.getInfo() + " not kich ngu hanh");
+                    System.out.println(this.template.getName() + " " + attribute.getInfo() + " not kich ngu hanh");
                     return 0;
                 }
+                if (attribute.getTemplate().getColorPaint() == 1 && isKichNguHanh) {
+                    System.out.println(this.template.getName() + " " + attribute.getInfo() + " da kich ngu hanh");
+                }
                 if (attribute.getTemplate().getIsPercent() == 2) {
-                    System.out.println(attribute.getInfo() + "attribute percent: " + attribute.getValue() / 10);
+                    System.out.println(attribute.getInfo() + " attribute percent: " + attribute.getValue() / 10);
                     return (short) (attribute.getValue() / 10);
                 }
                 System.out.println(attribute.getInfo() + " " + attribute.getValue());

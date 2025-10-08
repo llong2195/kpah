@@ -36,7 +36,7 @@ public class BuffInfluenceMonster {
         }
         isPoisoned = true;
         secondOfPoisoned = time;
-        docTo = docto;
+        docTo = (short) (docto * player.getInfo().getLevel());
         lastTimePoisoned = System.currentTimeMillis();
         playerUser = player;
         lastTimeMinusHp = System.currentTimeMillis();

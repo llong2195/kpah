@@ -33,6 +33,8 @@ public class Point {
 
     private int attack;
     private int defend, defendMagic;
+    private int percentAtk;
+    private int percentDef, percentDefMagic;
 
     private short percentPlusHp;
     private short percentPlusMp;
@@ -185,60 +187,80 @@ public class Point {
         }
         attack += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TAN_CONG);
 
-        int attackPercent = InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_CONG);
-        attackPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_TAN_CONG);
+        if (player.getHorse().getAnimalUse() != null) {
+            attack += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TAN_CONG);
+        }
+
+        attack += attack * percentAtk / 100;
+    }
+
+    private void setPercentAtk() {
+        percentAtk += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_CONG);
+        percentAtk += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_TAN_CONG);
 
         if (player.getInfo().getClassPlayer() == Const.CHIEN_BINH) {
-            attackPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+            percentAtk += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]);
         }
         if (player.getHorse().getAnimalUse() != null) {
-            attack += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TAN_CONG);
-            attackPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TAN_CONG);
-            attackPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_CONG);
+            percentAtk += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_TAN_CONG);
+            percentAtk += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_CONG);
         }
-        attack += attack * attackPercent / 100;
     }
 
     private void setDefend() {
         defend += agility + agilityAdd;
         defend += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.THU_VAT);
 
-        int defPercent = 0;
+        if (player.getHorse().getAnimalUse() != null) {
+            defend += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.THU_VAT);
+        }
+
+        defend += defend * percentDef / 100;
+    }
+
+    private void setPercentDef() {
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+            percentDef += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]);
         }
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT);
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT_TRANG_BI);
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
+        percentDef += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT);
+        percentDef += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_VAT_TRANG_BI);
+        percentDef += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
         if (player.getHorse().getAnimalUse() != null) {
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT);
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT_TRANG_BI);
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
+            percentDef += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT);
+            percentDef += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_VAT_TRANG_BI);
+            percentDef += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
         }
-        defend += defend * defPercent / 100;
     }
 
     private void setDefendMagic() {
         defendMagic += agility + agilityAdd;
         defendMagic += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.THU_MA);
 
-        int defPercent = 0;
+        if (player.getHorse().getAnimalUse() != null) {
+            defendMagic += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.THU_MA);
+        }
 
+        defendMagic += defendMagic * percentDefMagic / 100;
+    }
+
+    private void setPercentDefMagic() {
         if (player.getInfo().getClassPlayer() == Const.DAU_SI) {
-            defPercent += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
+            percentDefMagic += Manager.getSkillDamPercent(player.getInfo().getClassPlayer(), (byte) 5,
                     player.getSkill().getLevelSkill()[5]);
         }
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_MA);
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_MA_TRANG_BI);
-        defPercent += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
+        percentDefMagic += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_MA);
+        percentDefMagic += InventoryService.instance.sumAttributeValueForId(player,
+                AttributeConst.TANG_THU_MA_TRANG_BI);
+        percentDefMagic += InventoryService.instance.sumAttributeValueForId(player, AttributeConst.TANG_THU_TRANG_BI);
         if (player.getHorse().getAnimalUse() != null) {
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_MA);
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_MA_TRANG_BI);
-            defPercent += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
+            percentDefMagic += player.getHorse().getAnimalUse().sumAttributeValueForId(AttributeConst.TANG_THU_MA);
+            percentDefMagic += player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId(AttributeConst.TANG_THU_MA_TRANG_BI);
+            percentDefMagic += player.getHorse().getAnimalUse()
+                    .sumAttributeValueForId(AttributeConst.TANG_THU_TRANG_BI);
         }
-        defendMagic += defendMagic * defPercent / 100;
     }
 
     private void setAccurate() {
@@ -590,6 +612,12 @@ public class Point {
         resetPoint();
         setPercentDropXu();
         setPercentDropEquip();
+        setPercentPlusHp();
+        setPercentPlusMp();
+        setPercentAtk();
+        setPercentDef();
+        setPercentDefMagic();
+
         setHutHp();
         setHapThu();
         setXuRevive();
@@ -597,8 +625,6 @@ public class Point {
         setGiamStMa();
         setGiamStVat();
         setX2();
-        setPercentPlusHp();
-        setPercentPlusMp();
         setXuyenGiap();
         setDocTinh();
         setExpDonate();
@@ -648,6 +674,12 @@ public class Point {
         hutHp = 0;
         percentDropXu = 0;
         percentDropEquip = 0;
+        percentAtk = 0;
+        percentDef = 0;
+        percentDefMagic = 0;
+
+        // update body kich ngu hanh
+        player.getInventory().getItemBody().forEach(item -> item.isKichNguHanh(player));
     }
 
     @Override
